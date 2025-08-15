@@ -1,0 +1,470 @@
+2025-08-15 14:32:57,952 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:32:57,952 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:32:57,952 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:32:57,952 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:32:57,953 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:32:59,869 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:33:00,701 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:33:03,113 - LLMFactory - INFO - Calling google with model default
+2025-08-15 14:33:03,581 - LLMFactory - WARNING - Attempt 1 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 1s...
+2025-08-15 14:33:04,801 - LLMFactory - WARNING - Attempt 2 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 2s...
+2025-08-15 14:33:07,021 - LLMFactory - ERROR - Error with google: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]
+2025-08-15 14:33:07,022 - LLMFactory - ERROR - Error with anthropic: Provider anthropic not available or not enabled
+2025-08-15 14:33:07,041 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:33:07,042 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:33:07,043 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:33:07,043 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:33:07,043 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:33:08,572 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:33:10,580 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:33:14,013 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:33:17,013 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:33:17,988 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:33:18,868 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:33:18,868 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:33:18,869 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:33:18,869 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:33:18,869 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:33:20,011 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:33:22,241 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:33:22,927 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:33:22,927 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:33:22,927 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:33:22,927 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:33:22,927 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:33:40,690 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:33:40,690 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:33:40,694 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:47:37,460 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:47:37,460 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:47:37,460 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:47:37,460 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:47:37,460 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:47:38,532 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:47:39,129 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:47:41,870 - LLMFactory - INFO - Calling google with model default
+2025-08-15 14:47:42,322 - LLMFactory - WARNING - Attempt 1 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 1s...
+2025-08-15 14:47:43,538 - LLMFactory - WARNING - Attempt 2 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 2s...
+2025-08-15 14:47:45,763 - LLMFactory - ERROR - Error with google: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]
+2025-08-15 14:47:45,764 - LLMFactory - ERROR - Error with anthropic: Provider anthropic not available or not enabled
+2025-08-15 14:47:45,783 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:47:45,784 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:47:45,784 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:47:45,784 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:47:45,784 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:47:47,612 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:47:51,577 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:47:53,646 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:47:55,386 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:47:56,470 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:47:57,038 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:47:57,038 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:47:57,038 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:47:57,039 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:47:57,039 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:47:58,208 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:48:00,519 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:48:01,213 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:48:01,213 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:48:01,213 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:48:01,213 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:48:01,213 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:48:11,511 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:48:11,512 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:48:11,515 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:53:14,526 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:53:14,527 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:53:14,527 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:53:14,527 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:53:14,527 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:53:15,451 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:15,971 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:17,432 - LLMFactory - INFO - Calling google with model default
+2025-08-15 14:53:17,890 - LLMFactory - WARNING - Attempt 1 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 1s...
+2025-08-15 14:53:19,110 - LLMFactory - WARNING - Attempt 2 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 2s...
+2025-08-15 14:53:24,426 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:53:24,426 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:53:24,426 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:53:24,426 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:53:24,426 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:53:25,466 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:26,138 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:27,221 - LLMFactory - INFO - Calling google with model default
+2025-08-15 14:53:32,642 - LLMFactory - WARNING - Attempt 1 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 1s...
+2025-08-15 14:53:33,864 - LLMFactory - WARNING - Attempt 2 failed: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]. Retrying in 2s...
+2025-08-15 14:53:36,077 - LLMFactory - ERROR - Error with google: 403 Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry. [reason: "SERVICE_DISABLED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "serviceTitle"
+  value: "Generative Language API"
+}
+metadata {
+  key: "containerInfo"
+  value: "280614450122"
+}
+metadata {
+  key: "consumer"
+  value: "projects/280614450122"
+}
+metadata {
+  key: "activationUrl"
+  value: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+, locale: "en-US"
+message: "Generative Language API has not been used in project 280614450122 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."
+, links {
+  description: "Google developers console API activation"
+  url: "https://console.developers.google.com/apis/api/generativelanguage.googleapis.com/overview?project=280614450122"
+}
+]
+2025-08-15 14:53:36,078 - LLMFactory - ERROR - Error with anthropic: Provider anthropic not available or not enabled
+2025-08-15 14:53:36,092 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:53:36,093 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:53:36,093 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:53:36,093 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:53:36,093 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:37,438 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:39,727 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:40,453 - LLMFactory - INFO - Calling openai with model default
+2025-08-15 14:53:41,199 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:41,990 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model default
+2025-08-15 14:53:42,891 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:53:42,891 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:53:42,891 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:53:42,891 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:53:42,891 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:44,376 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:46,596 - LLMFactory - INFO - Calling openai with model gpt-3.5-turbo
+2025-08-15 14:53:47,233 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:53:47,233 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:53:47,233 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:53:47,233 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:53:47,233 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:53:54,025 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:53:54,025 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:53:54,027 - LLMFactory - INFO - Async calling openai with model default
+2025-08-15 14:55:05,446 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 14:55:05,446 - LLMFactory - INFO - Initialized google provider
+2025-08-15 14:55:05,446 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 14:55:05,446 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 14:56:55,860 - LLMFactory - INFO - Calling openai with model gpt-4o
+2025-08-15 16:05:51,579 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:05:51,579 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:05:51,579 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:05:51,579 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:06:36,671 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:06:36,671 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:06:36,671 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:06:36,671 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:06:36,673 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-5-nano
+2025-08-15 16:06:37,304 - LLMFactory - WARNING - Attempt 1 failed: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}. Retrying in 1s...
+2025-08-15 16:06:38,839 - LLMFactory - WARNING - Attempt 2 failed: Error code: 400 - {'error': {'message': "Unsupported parameter: 'max_tokens' is not supported with this model. Use 'max_completion_tokens' instead.", 'type': 'invalid_request_error', 'param': 'max_tokens', 'code': 'unsupported_parameter'}}. Retrying in 2s...
+2025-08-15 16:07:18,045 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:07:18,045 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:07:18,045 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:07:18,045 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:07:18,047 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1-nano
+2025-08-15 16:07:32,398 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:07:32,399 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:07:32,399 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:07:32,399 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:07:32,401 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1-nano
+2025-08-15 16:07:46,647 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:07:46,647 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:07:46,647 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:07:46,647 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:07:46,648 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1-nano
+2025-08-15 16:09:21,699 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:09:21,700 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:09:21,700 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:09:21,700 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:09:21,703 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1-nano
+2025-08-15 16:09:33,900 - LLMFactory - INFO - Initialized openai provider
+2025-08-15 16:09:33,900 - LLMFactory - INFO - Initialized google provider
+2025-08-15 16:09:33,900 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-15 16:09:33,900 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-15 16:09:33,902 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini

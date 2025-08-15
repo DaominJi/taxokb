@@ -1,0 +1,23 @@
+chunker:
+  section_labeling: |
+    You are given a list of section titles from a single research paper. Categorize each title into one of the following:
+
+    ["Abstract", "Introduction", "Problem Definition", "Methodology", "Related Work", "Experiment"]
+
+    If a title does not clearly fit any category, assign it to the most likely one based on typical academic paper structure. Multiple titles can belong to the same category.
+
+    Please output only the raw JSON object without any explanation or formatting — do not wrap the output in triple backticks or add a language label. Format: 
+    {
+      "Abstract": [titles assigned to Abstract],
+      "Introduction": [titles assigned to Introduction],
+      "Problem Definition": [titles assigned to Problem Definition],
+      "Methodology": [titles assigned to Methodology],
+      "Related Work": [titles assigned to Related Work],
+      "Experiment": [titles assigned to Experiment]
+    }
+
+    Input:
+    [Title List]
+    Output:
+
+

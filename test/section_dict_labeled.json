@@ -1,0 +1,36 @@
+{
+  "Abstract": [
+    "ABSTRACT"
+  ],
+  "Introduction": [
+    "1. INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "2. PROBLEM OVERVIEW"
+  ],
+  "Methodology": [
+    "3. AUTO-JOIN BY TRANSFORMATIONS",
+    "3.1 Finding Joinable Row Pairs",
+    "3.1.1 1-to-1 q-Gram Match",
+    "3.1.2 General n-to-m q-Gram Match",
+    "3.1.3 Efficient Search of $q$-Gram Matches",
+    "3.1.4 Putting it together_ Find Joinable Rows",
+    "3.2 Transformation Learning",
+    "3.3 Join with Composite Key Columns",
+    "4. SCALABLE AUTO-JOIN",
+    "5. CONSTRAINED FUZZY JOIN"
+  ],
+  "Related Work": [
+    "7. RELATED WORKS"
+  ],
+  "Experiment": [
+    "6. EXPERIMENTS",
+    "6.1 Benchmark Datasets",
+    "6.2 Methods Compared",
+    "6.3 Quality Comparison",
+    "6.3.1 Enterprise Benchmark",
+    "6.3.2 Web Benchmark",
+    "6.3.3 Synthetic Benchmark",
+    "6.4 Scalability Evaluation"
+  ]
+}
