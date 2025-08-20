@@ -21,3 +21,338 @@ chunker:
     Output:
 
 
+taxonomy_generator:
+  task_taxonomy: 
+    extract_problem_definition: |
+      You are acting as a **research assistant** tasked with analyzing a research paper to extract its **core research problem** in a **structured**, **methodology-agnostic** format.
+
+      Your objective is to **identify or infer the problem definition** and decompose it into precise components that describe **what the problem is**, **without referencing how it is solved**. Do not include any mention of algorithms, models, frameworks, training strategies, or implementation details.
+
+      If the paper uses shorthand (e.g., acronyms, variables, or mathematical notation), refer to the preliminaries or notation sections to rewrite the problem in a **clear and unambiguous** manner.
+
+      ---
+
+      ### ✅ Output Format
+
+      ```yaml
+      paper_id: "<Title of the paper or name of the proposed method>"
+
+      problem_formulation:
+        simple_description: >
+          "<One-sentence summary of the problem, or `None` if not found.>"
+
+        formal_definition:
+          input: >
+            "<Describe the input, including its type, structure, and properties. Mention hardware constraints only if they are explicitly part of the problem setting—do NOT infer hardware requirements from experimental setups.>"
+          output: >
+            "<Describe the desired output, including type, structure, and expected characteristics.>"
+      ```
+
+      ---
+
+      ### 🧭 Step-by-Step Instructions
+
+      #### 🔹 Step 1: Generate `simple_description`
+
+      Create a concise, self-contained summary of the problem using this template:
+
+      > **"Given <input>, the goal is to obtain <output> by achieving <objective>."**
+
+      Follow this order when searching for the problem statement:
+
+      1. Dedicated **Problem Definition** section
+      2. **Introduction**
+      3. **Abstract**
+      4. Relevant parts of the **Methodology** *(only for high-level task description—not implementation details)*
+      5. Any other section as necessary
+
+      > If no coherent one-sentence summary can be extracted, return:
+
+      ```yaml
+      simple_description: None
+      ```
+
+      > ✅ When a paper describes multiple related problems, prioritize the **primary** or **most general** problem formulation unless others are clearly independent.
+
+      ---
+
+      #### 🔹 Step 2: Generate `formal_definition`
+
+      Decompose the problem into the following structured components:
+
+      | Field      | What to Describe                                                                                                                                                                                                                                                                         |
+      | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | **input**  | The data or contextual information provided to the system. Include type, format, and any explicitly stated constraints (e.g., memory, disk). **Do not treat the hardware used in experimental settings as input constraints unless they are explicitly part of the problem definition.** |
+      | **output** | The expected result, product, or prediction. Include type and structure. Do not include how it is computed.                                                                                                                                                                              |
+
+      > Leave any field blank (`""`) if it cannot be inferred from the paper.
+
+      ---
+
+      ### 🚫 Do Not Include:
+
+      * Specific methods, algorithms, architectures, or procedural details
+      * Training objectives, loss functions, or optimization strategies
+      * System or model names
+      * Hardware specifications from experiments (e.g., GPUs, clusters), **unless explicitly part of the problem setting**
+
+      ---
+
+      ### ⚠️ Common Pitfalls to Avoid
+
+      | Case                                               | Guideline                                                                                                                                                  |
+      | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | **Hardware in experiments**                        | Never assume experimental hardware is part of the problem input unless **explicitly described** (e.g., “the task must run on edge devices with ≤2GB RAM”). |
+      | **Vague or entangled problem-method descriptions** | Isolate the **task definition** only. If it's mixed with solution details, extract only the input–output–goal relationship.                                |
+      | **Multiple sub-problems**                          | Focus on the **primary problem** or provide a clearly separated list if multiple are independently defined.                                                |
+      | **No clear problem statement**                     | Use context from preliminaries, task descriptions, or dataset definitions to infer a possible formulation. If still ambiguous, return `"None"` as needed.  |
+
+    aspect_classification: |
+      You are given a list of problem definitions extracted from a collection of computer science research papers. Each definition includes structured aspects such as:
+
+      - **Input**
+      - **Output**
+
+      ---
+
+      ## ✅ Task: Aspect-Wise Classification Process
+
+      Focus on the following four aspects:
+
+      - **Input**
+      - **Output**
+
+      For **each aspect**, process its corresponding content independently and repeat the following steps:
+
+      ---
+
+      ### 🔥 Step 1: Extract Key Entities
+      Iterate over each paper. From the content of the current aspect:  
+
+      - Identify the main research-related entities (key concepts) that **describe the authors’ formulation of this aspect** and are **explicitly emphasized in `problem_formulation` as central to the problem definition**.  
+      - If `problem_formulation` lacks sufficient information, refer to the corresponding structured field (**input**, **output**) for clarification.  
+
+      Focus on extracting noun phrases that match the aspect’s definition:  
+      - **Input**: Describe the input, including its type, structure, and properties. Mention hardware constraints only if they are explicitly part of the problem setting—do NOT infer hardware requirements from experimental setups.
+      - **Output**: Describe the desired output, including type, structure, and expected characteristics..  
+
+      **Output:** A list of key entities per aspect for each paper.
+
+      ---
+
+      ### 🔥 Step 2: Group Entities Within Sublists
+      Group entities within the same paper and aspect into **local entity groups**. These groups reflect strong correlations between entities (they appear together in the same problem definition). Build connections among entities in each group to capture their co-occurrence relationships, even if they are semantically different.  
+
+      **Output:** Local entity groups for each paper’s aspects.
+
+      ---
+
+      ### 🔥 Step 3: Align and Merge Entities Across Sublists
+      - **Identify Related Entities:** Compare entities across papers and merge them if they are:
+        - Exact matches (e.g., “user-item matrix” ≡ “user-item matrix”)
+        - Semantically equivalent (e.g., “interaction matrix” ≈ “user-item interaction matrix”)
+        - Containment relationships (e.g., “interaction matrix” ⊃ “user-item rating matrix”)  
+
+      - **Merge Related Entities into Unified Nodes:**  
+        Example: Entities {"user-item matrix", "rating matrix"} → Unified Node: `Interaction Matrix`  
+
+      - **Build Global Entity Groups:**  
+        Create a graph where unified nodes are connected if they co-occur across papers. Each connected component forms a global entity group, which becomes a candidate class.  
+
+      **Output:** A set of candidate classes per aspect.
+
+      ---
+
+      ### 🔥 Step 4: Refine Classes and Classify Papers 
+      1. **Provide Class Explanations:**  
+        For each resulting class, provide a 1–2 sentence explanation describing its conceptual scope and relevance to the aspect.  
+
+      2. **Drop or Merge Small Classes:**  
+        - For each aspect, check if a class contains fewer than 2 papers.  
+        - Attempt to merge the small class into the most semantically similar larger class.  
+        - If merging is not appropriate, drop the class.  
+
+      3. **Align Class Names to Formal Terminology:**  
+        If a candidate class aligns with well-known research terminology (e.g., “Approximate Nearest Neighbor Search”), update its name accordingly for clarity and consistency. 
+
+      4. **Assign Papers to Classes:**  
+        Assign each paper to one or more classes per aspect based on the entity groups their key entities belong to.  
+
+      **Output:** Refined classification tables along with class explanations.
+
+      ### 🔥 Step 5: Identify Unassigned or Misaligned Papers
+
+      Review the classification results from Step 4 for each aspect (**Input**, **Output**, etc.). Your goal is to detect potential issues in the class assignments based on the extracted key entities and global classes.
+
+      Perform the following checks for each aspect:
+
+      1. **Identify Unassigned Papers**
+
+        * For each paper, check whether it has been assigned to **at least one class** in the current aspect.
+        * If a paper has **no class assignment** despite having meaningful entities extracted in Step 1, report it as **unassigned**.
+
+      2. **Identify Misaligned Assignments**
+
+        * For each paper’s class assignment:
+
+        * Re-express the paper’s extracted entities from Step 1.
+        * Compare them against the class explanations and representative entity groups from Step 4.
+        * If a paper’s key entities show **weak or no semantic overlap** with the class it’s assigned to, mark it as a **potential misalignment**.
+        * Provide a short reason for the mismatch (e.g., “Entity 'temporal sequence' does not align with class 'Graph-based Input'”).
+
+      3. **Suggest Corrections**
+
+        * For unassigned or misaligned papers, suggest:
+
+        * The most appropriate existing class (if any), based on entity similarity.
+        * Or flag the paper as a candidate for forming a **new class** if no close match exists.
+      ---
+
+      ## 📋 Output Format
+
+      Return the results for both aspects in a single response, using the Markdown table format provided below. Replace all placeholders (e.g., Class A, Paper 1) with the corresponding simplified names of the actual papers.
+
+      Ensure that all class names are described using accurate and consistent terminology across the entire response.
+
+      ---
+
+      ### 🔹 Input Classification
+
+      ```markdown
+      | Input Class          | Class Description                                    | Papers              |
+      |----------------------|------------------------------------------------------|---------------------|
+      | User-Item Matrix     | Matrix representation of user-item interactions, commonly used in recommendation tasks. | Paper A, Paper C    |
+      | Knowledge Graph      | Graph-based structured input capturing relational facts. | Paper B, Paper F    |
+      ```
+
+      ---
+
+      ### 🔹 Output Classification
+
+      ```markdown
+      | Output Class         | Class Description                                     | Papers              |
+      |----------------------|-------------------------------------------------------|---------------------|
+      | Hash Codes           | Compact binary representations of input data used for efficient retrieval. | Paper A, Paper D    |
+      | Ranked List          | Ordered set of relevant results returned for a given query. | Paper B, Paper E    |
+      ```
+
+    taxonomy_generation: |
+      You are an expert research taxonomist. You are given two structured classification tables derived from a corpus of computer science research papers. Each classification table corresponds to one of the following **problem aspects**:
+
+      * **Input**: The nature or structure of data the research problem takes as input
+      * **Output**: The expected result, format, or structure produced by the method
+
+      Each row in the table contains:
+
+      * A **Class Name**
+      * A **Class Description**
+      * A list of **Supporting Papers**
+
+      ---
+
+      ## ✅ Goal
+
+      Construct a **single hierarchical taxonomy of meaningful research tasks**, where each task is defined by a combination of **Input** and **Output** classes.
+
+      Each node in the taxonomy must represent a **specific, expressive, and well-scoped research task**, not just a data structure or format.
+
+      ---
+
+      ### 🔥 Step 1: Normalize and Refine Class Labels
+
+      1. **Normalize Class Names**:
+        Use standard academic terminology where possible. Resolve informal, ambiguous, or overly generic names using their class descriptions and example papers.
+
+      2. **Merge Equivalent or Contained Classes**:
+        If two classes are synonyms or exhibit strict containment (e.g., “user-item matrix” ⊆ “interaction matrix”), merge them.
+
+      3. **Drop or Collapse Weak Classes**:
+        Drop classes with too few or overly vague supporting papers unless they can be merged into broader categories.
+
+      **Output:** Refined class list per aspect with updated names.
+
+      ---
+
+      ### 🔥 Step 2: Form Meaningful Task Nodes by Input–Output Pairing
+
+      1. **Pair Input and Output Classes**:
+        For every pair (Input Class, Output Class), examine whether it defines a **coherent and meaningful research task**.
+
+      2. **Only keep task nodes that meet all three criteria**:
+
+        * The pair appears in at least **2 different papers**
+        * The pairing reflects a **common and recognizable research objective**
+        * The resulting task name can be made **expressive** (not just “Matrix → Vector”)
+
+      3. **Name Each Task Meaningfully**:
+        Name each task node using the following format:
+
+        ```
+        TASK:L{level}:{CANONICAL_NAME}
+        ```
+
+        Where `CANONICAL_NAME` is an **expressive, descriptive name** that reflects the actual goal of the task, e.g.:
+
+        * `TASK:L1:KNOWLEDGE_GRAPH_COMPLETION`
+        * `TASK:L2:USER_INTERACTION_HASHING`
+        * `TASK:L2:SEQUENCE_TO_RANKED_LIST_RETRIEVAL`
+
+        Avoid structure-only names (e.g., "User-Item Matrix" or "Hash Code"). Instead, describe the **task performed over that structure**, such as *hashing*, *ranking*, *completion*, *matching*, etc.
+
+      ---
+
+      ### 🔥 Step 3: Build a Hierarchy over the Tasks
+
+      1. **Group Similar Tasks**:
+
+        * Create parent-child relationships among tasks based on **task granularity and generalization**.
+        * For example:
+
+          * Parent: `KNOWLEDGE_GRAPH_TASKS`
+
+            * Child: `KNOWLEDGE_GRAPH_EMBEDDING`
+            * Child: `KNOWLEDGE_GRAPH_COMPLETION`
+
+      2. **Hierarchy Rules**:
+
+        * Use only **IS-A** relationships.
+        * No cycles or DAGs — construct a **tree**.
+        * The root node should be: `ROOT`
+
+      **Output:** A hierarchical taxonomy of tasks, where each node has:
+
+      * A meaningful task name
+      * The input-output class it’s based on
+      * A brief explanation
+      * Associated paper IDs
+
+      ---
+
+      ### 📋 Output Format
+
+      ```markdown
+      ### 🔹 Hierarchical Task Taxonomy
+
+      - ROOT
+        - TASK:L1:KNOWLEDGE_GRAPH_COMPLETION
+          - Input: Knowledge Graph
+          - Output: Completed Triples
+          - Explanation: Predict missing edges in a relational graph based on observed triples.
+          - Papers: Paper A, Paper D
+
+        - TASK:L1:HASH_CODE_GENERATION_FOR_RETRIEVAL
+          - Input: User-Item Interaction Matrix
+          - Output: Hash Codes
+          - Explanation: Generate compact binary representations for fast retrieval in recommendation settings.
+          - Papers: Paper B, Paper F
+
+        - TASK:L1:SEQUENCE_TO_RANKED_LIST_MATCHING
+          - Input: Temporal User Interaction Sequence
+          - Output: Ranked List
+          - Explanation: Return a ranked set of items based on user behavior sequences.
+          - Papers: Paper C, Paper E
+      ```
+
+  method_taxonomy: |
+    
+

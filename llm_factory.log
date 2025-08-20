@@ -468,3 +468,8 @@ message: "Generative Language API has not been used in project 280614450122 befo
 2025-08-15 16:09:33,900 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
 2025-08-15 16:09:33,900 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
 2025-08-15 16:09:33,902 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 13:20:24,737 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 13:20:24,737 - LLMFactory - INFO - Initialized google provider
+2025-08-20 13:20:24,737 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 13:20:24,737 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 13:20:24,739 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
