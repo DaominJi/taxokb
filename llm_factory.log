@@ -473,3 +473,33 @@ message: "Generative Language API has not been used in project 280614450122 befo
 2025-08-20 13:20:24,737 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
 2025-08-20 13:20:24,737 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
 2025-08-20 13:20:24,739 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:43:59,152 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 15:43:59,153 - LLMFactory - INFO - Initialized google provider
+2025-08-20 15:43:59,153 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 15:43:59,153 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 15:43:59,160 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:44:03,018 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:46:48,167 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 15:46:48,168 - LLMFactory - INFO - Initialized google provider
+2025-08-20 15:46:48,168 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 15:46:48,168 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 15:46:48,177 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:46:52,003 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:47:04,324 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 15:47:04,324 - LLMFactory - INFO - Initialized google provider
+2025-08-20 15:47:04,324 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 15:47:04,325 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 15:47:04,331 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:47:09,420 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-20 15:50:49,963 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 15:50:49,963 - LLMFactory - INFO - Initialized google provider
+2025-08-20 15:50:49,963 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 15:50:49,963 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 15:50:49,973 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:50:54,195 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-20 15:52:42,969 - LLMFactory - INFO - Initialized openai provider
+2025-08-20 15:52:42,970 - LLMFactory - INFO - Initialized google provider
+2025-08-20 15:52:42,970 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-20 15:52:42,970 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-20 15:52:42,979 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-mini
+2025-08-20 15:52:47,849 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1

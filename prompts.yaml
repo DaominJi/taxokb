@@ -107,6 +107,9 @@ taxonomy_generator:
       | **Multiple sub-problems**                          | Focus on the **primary problem** or provide a clearly separated list if multiple are independently defined.                                                |
       | **No clear problem statement**                     | Use context from preliminaries, task descriptions, or dataset definitions to infer a possible formulation. If still ambiguous, return `"None"` as needed.  |
 
+      Below is the paper content:
+      [Paper Content]
+
     aspect_classification: |
       You are given a list of problem definitions extracted from a collection of computer science research papers. Each definition includes structured aspects such as:
 
@@ -353,6 +356,6 @@ taxonomy_generator:
           - Papers: Paper C, Paper E
       ```
 
-  method_taxonomy: |
-    
+  
+
 
