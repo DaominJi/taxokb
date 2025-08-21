@@ -1,0 +1,65 @@
+{
+  "Abstract": [],
+  "Introduction": [
+    "I. INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "II. Joinable Table Discovery Framework",
+    "V. Specifying Thresholds for Joinable Table Search"
+  ],
+  "Methodology": [
+    "A. System Overview",
+    "B. Similarity-Based Joinability",
+    "III. Indexing and Search Algorithm",
+    "A. Preliminaries on Pivot-based Filtering",
+    "B. Blocking with Hierarchical Grids",
+    "C. Verifying with an Inverted Index",
+    "D. Pivot Selection",
+    "E. Search Algorithm and Complexity _& Cost Analysis",
+    "IV. Partitioning for Large-Scale Datasets",
+    "## III. Indexing and Search Algorithm",
+    "## B. Effectiveness of Joinable Table Search",
+    "## A. Preliminaries on Pivot-based Filtering",
+    "## E. Efficiency Evaluation",
+    "## A. System Overview",
+    "## II. Joinable Table Discovery Framework",
+    "## A. Setting",
+    "## I. INTRODUCTION",
+    "## D. Pivot Selection",
+    "## C. Verifying with an Inverted Index",
+    "## B. Blocking with Hierarchical Grids",
+    "## IV. Partitioning for Large-Scale Datasets",
+    "## ACKNOWLEDGEMENT",
+    "# Efficient Joinable Table Discovery in Data Lakes_ A High-Dimensional Similarity-Based Approach",
+    "## C. Performance Gain in ML Tasks",
+    "## B. Similarity-Based Joinability",
+    "## REFERENCES",
+    "## V. Specifying Thresholds for Joinable Table Search",
+    "## VII. Related Work",
+    "## D. Parameter Tuning for Efficiency",
+    "## E. Search Algorithm and Complexity _& Cost Analysis",
+    "## VI. EXPERIMENTS",
+    "## VIII. CONCLUSION"
+  ],
+  "Related Work": [
+    "VII. Related Work"
+  ],
+  "Experiment": [
+    "VI. EXPERIMENTS",
+    "A. Setting",
+    "B. Effectiveness of Joinable Table Search",
+    "C. Performance Gain in ML Tasks",
+    "D. Parameter Tuning for Efficiency",
+    "E. Efficiency Evaluation"
+  ],
+  "Conclusion": [
+    "VIII. CONCLUSION"
+  ],
+  "References": [
+    "REFERENCES"
+  ],
+  "Acknowledgement": [
+    "ACKNOWLEDGEMENT"
+  ],
+  "Appendix": []
+}

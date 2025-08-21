@@ -25,7 +25,8 @@ class PaperChunker:
         self.llm_factory = llm_factory
         self.section_categories = [
             "Abstract", "Introduction", "Problem Definition",
-            "Methodology", "Related Work", "Experiment", "Conclusion"
+            "Methodology", "Related Work", "Experiment", "Conclusion",
+            "References", "Acknowledgement", "Appendix"
         ]
     
     def extract_sections(self, md_file_path: str) -> Dict[str, str]:
@@ -45,8 +46,12 @@ class PaperChunker:
             with open(md_file_path, 'r', encoding='utf-8') as f:
                 md_content = f.read()
             
-            # Match any heading starting with # (supports 1-6 levels)
-            pattern = r'^(#{1,6})\s+(.+)$'
+            with open('config.yaml', 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            pattern = config.get('chunker', {}).get('pattern', '')
+            if not pattern:
+                logger.error("No pattern found in config.yaml")
+                raise ValueError("Missing pattern in config.yaml")
             matches = list(re.finditer(pattern, md_content, flags=re.MULTILINE))
             
             if not matches:
@@ -137,9 +142,9 @@ class PaperChunker:
             logger.info("Categorizing sections using LLM...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-mini',
-                max_tokens=1000,
-                temperature=0
+                model='gpt-4o-2024-08-06',
+                max_tokens=10000,
+                temperature=0.7
             )
             
             # Parse response
@@ -250,54 +255,6 @@ class PaperChunker:
         return section_dict, categorization
 
 
-def extract_related_work(papers_dir: str, output_file: str, llm_factory: Optional[LLMFactory] = None):
-    """
-    Extract and combine all Related Work sections from multiple papers.
-    
-    Args:
-        papers_dir: Directory containing processed paper JSONs
-        output_file: Path to save combined related work content
-        llm_factory: Optional LLM factory for categorization
-    """
-    chunker = PaperChunker(llm_factory)
-    related_work_content = []
-    
-    papers_path = Path(papers_dir)
-    
-    # Process categorized files
-    for cat_file in papers_path.glob("*_categorized.json"):
-        # Find corresponding sections file
-        base_name = cat_file.stem.replace('_categorized', '')
-        sections_file = papers_path / f"{base_name}_sections.json"
-        
-        if not sections_file.exists():
-            logger.warning(f"Sections file not found for {cat_file}")
-            continue
-        
-        # Load both files
-        with open(cat_file, 'r', encoding='utf-8') as f:
-            categorization = json.load(f)
-        
-        with open(sections_file, 'r', encoding='utf-8') as f:
-            sections = json.load(f)
-        
-        # Extract Related Work sections
-        if 'Related Work' in categorization:
-            for section_title in categorization['Related Work']:
-                if section_title in sections:
-                    content = sections[section_title]
-                    related_work_content.append(f"## {section_title}\n\n{content}")
-                    logger.info(f"Added Related Work section: {section_title}")
-    
-    # Save combined content
-    if related_work_content:
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write('\n\n---\n\n'.join(related_work_content))
-        logger.info(f"Combined {len(related_work_content)} Related Work sections saved to {output_file}")
-    else:
-        logger.warning("No Related Work sections found")
-
-
 def main():
     """Main function for command-line usage."""
     parser = argparse.ArgumentParser(description="Process research papers for chunking and categorization")
@@ -347,9 +304,6 @@ def main():
                 logger.error(f"Error processing {md_file}: {e}")
         
         # Extract related work if requested
-        if args.extract_related:
-            related_work_file = output_path / "combined_related_work.md"
-            extract_related_work(str(output_path), str(related_work_file), llm_factory)
     
     else:
         logger.error(f"Input path does not exist: {input_path}")

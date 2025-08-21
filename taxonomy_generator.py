@@ -29,21 +29,15 @@ class TaskTaxonomyGenerator:
             
             # Get problem definition sections
             problem_sections = []
-            if 'Problem Definition' in categorization:
-                for section_title in categorization['Problem Definition']:
-                    if section_title in section_dict:
-                        problem_sections.append(section_dict[section_title])
+            with open('config.yaml', 'r', encoding='utf-8') as f:
+                config = yaml.safe_load(f)
+            task_sections = config.get('taxonomy_generator', {}).get('task_sections', [])
             
-            # If no explicit problem definition, look in introduction and abstract
-            if not problem_sections:
-                for category in ['Introduction', 'Abstract']:
-                    if category in categorization:
-                        for section_title in categorization[category]:
-                            if section_title in section_dict:
-                                problem_sections.append(section_dict[section_title])
-                                break
-                        if problem_sections:
-                            break
+            for t_section in task_sections:
+                for section in categorization[t_section]:
+                    problem_sections.append(section_dict[section])
+
+            print (len(problem_sections))
             
             # Combine relevant sections
             paper_content = '\n\n'.join(problem_sections)  # Limit to avoid token limits
@@ -56,7 +50,7 @@ class TaskTaxonomyGenerator:
             response = self.llm_factory.generate(
                 prompt,
                 model='gpt-4.1',
-                max_tokens=1000,
+                max_tokens=10000,
                 temperature=0
             )
             
@@ -88,13 +82,13 @@ class TaskTaxonomyGenerator:
             logger.info("Classifying problem aspects...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-mini',
-                max_tokens=3000,
+                model='gpt-4.1',
+                max_tokens=10000,
                 temperature=0
             )
             
             # Parse the markdown tables from response
-            classification = self._parse_classification_tables(response.content)
+            classification = response.content.strip('```json').strip('```')
             return classification
             
         except Exception as e:
@@ -105,21 +99,20 @@ class TaskTaxonomyGenerator:
         """Generate hierarchical taxonomy from classifications."""
         try:
             # Format classification for prompt
-            classification_text = self._format_classification_for_prompt(classification)
             
             prompt = self.prompts['taxonomy_generator']['task_taxonomy']['taxonomy_generation']
-            prompt = prompt.replace('[Classification Tables]', classification_text)
+            prompt = prompt.replace('[Classification Result]', classification)
             
             logger.info("Generating hierarchical taxonomy...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-mini',
-                max_tokens=3000,
+                model='gpt-4.1',
+                max_tokens=10000,
                 temperature=0
             )
             
             # Parse the hierarchical structure
-            taxonomy = self._parse_hierarchy(response.content)
+            taxonomy = response.content.strip('```json').strip('```')
             return taxonomy
             
         except Exception as e:
@@ -154,6 +147,7 @@ class TaskTaxonomyGenerator:
             logger.error("Failed to classify aspects")
             return None
         
+        self.classification = classification
         # Generate hierarchy
         taxonomy = self.generate_hierarchy(classification)
         if not taxonomy:
@@ -177,80 +171,13 @@ class TaskTaxonomyGenerator:
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(result, f, ensure_ascii=False, indent=2)
             logger.info(f"Taxonomy saved to {output_path}")
-        
+         
         return result
     
-    def _parse_classification_tables(self, content: str) -> Dict[str, List[Dict[str, Any]]]:
-        """Parse markdown tables from classification response."""
-        classification = {
-            "input_classification": [],
-            "output_classification": []
-        }
+    def _parse_classification_result(self, content: str) -> Dict[str, List[Dict[str, Any]]]:
+        """Parse results from classification response."""
+        return content.strip('```json').strip('```')
         
-        import re
-        
-        # Find Input Classification table
-        input_match = re.search(r'Input Classification.*?\n\n(.*?)\n\n', content, re.DOTALL)
-        if input_match:
-            input_table = input_match.group(1)
-            classification["input_classification"] = self._parse_markdown_table(input_table)
-        
-        # Find Output Classification table
-        output_match = re.search(r'Output Classification.*?\n\n(.*?)(?:\n\n|$)', content, re.DOTALL)
-        if output_match:
-            output_table = output_match.group(1)
-            classification["output_classification"] = self._parse_markdown_table(output_table)
-        
-        return classification
-    
-    def _parse_markdown_table(self, table_text: str) -> List[Dict[str, Any]]:
-        """Parse a markdown table into list of dictionaries."""
-        lines = table_text.strip().split('\n')
-        if len(lines) < 3:  # Need header, separator, and at least one data row
-            return []
-        
-        # Parse header
-        headers = [h.strip() for h in lines[0].split('|')[1:-1]]
-        
-        # Parse data rows (skip separator line)
-        rows = []
-        for line in lines[2:]:
-            if line.strip():
-                values = [v.strip() for v in line.split('|')[1:-1]]
-                if len(values) == len(headers):
-                    row = dict(zip(headers, values))
-                    # Parse papers list
-                    if 'Papers' in row:
-                        row['Papers'] = [p.strip() for p in row['Papers'].split(',')]
-                    rows.append(row)
-        
-        return rows
-    
-    def _format_classification_for_prompt(self, classification: Dict[str, Any]) -> str:
-        """Format classification back to markdown for prompt."""
-        result = []
-        
-        # Format Input Classification
-        if classification.get("input_classification"):
-            result.append("### Input Classification\n")
-            result.append("| Input Class | Class Description | Papers |")
-            result.append("|-------------|-------------------|--------|")
-            for item in classification["input_classification"]:
-                papers = ", ".join(item.get('Papers', []))
-                result.append(f"| {item.get('Input Class', '')} | {item.get('Class Description', '')} | {papers} |")
-        
-        result.append("")
-        
-        # Format Output Classification
-        if classification.get("output_classification"):
-            result.append("### Output Classification\n")
-            result.append("| Output Class | Class Description | Papers |")
-            result.append("|--------------|-------------------|--------|")
-            for item in classification["output_classification"]:
-                papers = ", ".join(item.get('Papers', []))
-                result.append(f"| {item.get('Output Class', '')} | {item.get('Class Description', '')} | {papers} |")
-        
-        return "\n".join(result)
     
     def _parse_hierarchy(self, content: str) -> Dict[str, Any]:
         """Parse hierarchical taxonomy from response."""

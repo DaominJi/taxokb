@@ -4,7 +4,7 @@ from llm_factory import LLMFactory
 if __name__ == "__main__":
     llm_factory = LLMFactory()
     chunker = PaperChunker(llm_factory)
-    section_dict, categorization = chunker.process_paper('test/Auto-Join.md', 'test/')
-    print(section_dict)
-    print(categorization)
+    section_dict, categorization = chunker.process_paper('test/PEXESO.md', 'test/')
+    #print(section_dict)
+    #print(categorization)
     

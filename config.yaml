@@ -6,8 +6,11 @@ llm_providers:
     enabled: true
     api_key: ${OPENAI_API_KEY}  # Use environment variable
     base_url: "https://api.openai.com/v1"
-    default_model: "gpt-4o-2024-08-06"
+    default_model: "gpt-4.1"
     models:
+      - name: "gpt-5"
+        max_completion_tokens: 10000
+        temperature: 0.3
       - name: "gpt-4-turbo-preview"
         max_tokens: 4096
         temperature: 0.3
@@ -16,13 +19,13 @@ llm_providers:
         presence_penalty: 0
       - name: "gpt-4.1"
         max_tokens: 4096
-        temperature: 0.3
+        temperature: 0.7
         top_p: 1.0
         frequency_penalty: 0
         presence_penalty: 0
       - name: "gpt-4"
         max_tokens: 8192
-        temperature: 0.3
+        temperature: 0.7
       - name: "gpt-3.5-turbo"
         max_tokens: 4096
         temperature: 0.3
@@ -114,3 +117,39 @@ logging:
   log_to_console: true
   log_api_calls: true
   log_responses: false  # Set to true to log full responses (careful with sensitive data)
+
+
+chunker:
+  pattern: '^(#{1,6})\s+(.+)$'
+  #r'^#+\s+(\d+|[IVXL]+)(\.\s|\s)(.+)$' 
+  #pattern: r'^#+\s+(\d+|[IVXL]+)(\.\s|\s)(.+)$'
+  LLM:
+    model: "gpt-4.1"
+    max_tokens: 10000
+    temperature: 0.7
+    top_p: 1.0
+    frequency_penalty: 0
+    presence_penalty: 0
+    timeout: 60
+
+taxonomy_generator:
+  LLM:
+    model: "gpt-4.1"
+    max_tokens: 10000
+    temperature: 0.3
+    top_p: 1.0
+    frequency_penalty: 0
+  task_sections:
+    - Problem Definition
+    - Introduction
+    - Abstract
+    - Related Work
+  methodology_sections:
+    - Methodology
+    - Introduction
+    - Abstract
+    - Related Work
+
+
+
+

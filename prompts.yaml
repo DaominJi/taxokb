@@ -4,7 +4,7 @@ chunker:
 
     ["Abstract", "Introduction", "Problem Definition", "Methodology", "Related Work", "Experiment"]
 
-    If a title does not clearly fit any category, assign it to the most likely one based on typical academic paper structure. Multiple titles can belong to the same category.
+    If a title does not clearly fit any category, assign it to the most likely one based on typical academic paper structure. Multiple titles can belong to the same category. But one title should not belong to multiple categories.
 
     Please output only the raw JSON object without any explanation or formatting — do not wrap the output in triple backticks or add a language label. Format: 
     {
@@ -13,7 +13,11 @@ chunker:
       "Problem Definition": [titles assigned to Problem Definition],
       "Methodology": [titles assigned to Methodology],
       "Related Work": [titles assigned to Related Work],
-      "Experiment": [titles assigned to Experiment]
+      "Experiment": [titles assigned to Experiment],
+      "Conclusion": [titles assigned to Conclusion],
+      "References": [titles assigned to References],
+      "Acknowledgement": [titles assigned to Acknowledgement],
+      "Appendix": [titles assigned to Appendix]
     }
 
     Input:
@@ -113,143 +117,143 @@ taxonomy_generator:
     aspect_classification: |
       You are given a list of problem definitions extracted from a collection of computer science research papers. Each definition includes structured aspects such as:
 
-      - **Input**
-      - **Output**
+      * **Input**
+      * **Output**
 
       ---
 
       ## ✅ Task: Aspect-Wise Classification Process
 
-      Focus on the following four aspects:
+      Focus on the following two aspects:
 
-      - **Input**
-      - **Output**
+      * **Input**
+      * **Output**
 
       For **each aspect**, process its corresponding content independently and repeat the following steps:
 
       ---
 
       ### 🔥 Step 1: Extract Key Entities
-      Iterate over each paper. From the content of the current aspect:  
 
-      - Identify the main research-related entities (key concepts) that **describe the authors’ formulation of this aspect** and are **explicitly emphasized in `problem_formulation` as central to the problem definition**.  
-      - If `problem_formulation` lacks sufficient information, refer to the corresponding structured field (**input**, **output**) for clarification.  
+      Iterate over each paper. From the content of the current aspect:
 
-      Focus on extracting noun phrases that match the aspect’s definition:  
-      - **Input**: Describe the input, including its type, structure, and properties. Mention hardware constraints only if they are explicitly part of the problem setting—do NOT infer hardware requirements from experimental setups.
-      - **Output**: Describe the desired output, including type, structure, and expected characteristics..  
+      * Identify the main research-related entities (key concepts) that **describe the authors’ formulation of this aspect** and are **explicitly emphasized in `problem_formulation` as central to the problem definition**.
+      * If `problem_formulation` lacks sufficient information, refer to the corresponding structured field (**input**, **output**) for clarification.
 
-      **Output:** A list of key entities per aspect for each paper.
+      Focus on extracting noun phrases that match the aspect’s definition:
+
+      * **Input**: Describe the input, including its type, structure, and properties. Mention hardware constraints only if they are explicitly part of the problem setting—do NOT infer hardware requirements from experimental setups.
+      * **Output**: Describe the desired output, including type, structure, and expected characteristics.
 
       ---
 
       ### 🔥 Step 2: Group Entities Within Sublists
-      Group entities within the same paper and aspect into **local entity groups**. These groups reflect strong correlations between entities (they appear together in the same problem definition). Build connections among entities in each group to capture their co-occurrence relationships, even if they are semantically different.  
 
-      **Output:** Local entity groups for each paper’s aspects.
+      Group entities within the same paper and aspect into **local entity groups**. These groups reflect strong correlations between entities (they appear together in the same problem definition). Build connections among entities in each group to capture their co-occurrence relationships.
 
       ---
 
       ### 🔥 Step 3: Align and Merge Entities Across Sublists
-      - **Identify Related Entities:** Compare entities across papers and merge them if they are:
-        - Exact matches (e.g., “user-item matrix” ≡ “user-item matrix”)
-        - Semantically equivalent (e.g., “interaction matrix” ≈ “user-item interaction matrix”)
-        - Containment relationships (e.g., “interaction matrix” ⊃ “user-item rating matrix”)  
 
-      - **Merge Related Entities into Unified Nodes:**  
-        Example: Entities {"user-item matrix", "rating matrix"} → Unified Node: `Interaction Matrix`  
-
-      - **Build Global Entity Groups:**  
-        Create a graph where unified nodes are connected if they co-occur across papers. Each connected component forms a global entity group, which becomes a candidate class.  
-
-      **Output:** A set of candidate classes per aspect.
+      * **Identify Related Entities:** Merge entities across papers if they are exact matches, semantically equivalent, or containment relationships.
+      * **Merge into Unified Nodes:** Example: {"user-item matrix", "rating matrix"} → `Interaction Matrix`.
+      * **Build Global Entity Groups:** Connected components of unified nodes form candidate classes.
 
       ---
 
-      ### 🔥 Step 4: Refine Classes and Classify Papers 
-      1. **Provide Class Explanations:**  
-        For each resulting class, provide a 1–2 sentence explanation describing its conceptual scope and relevance to the aspect.  
+      ### 🔥 Step 4: Refine Classes and Classify Papers
 
-      2. **Drop or Merge Small Classes:**  
-        - For each aspect, check if a class contains fewer than 2 papers.  
-        - Attempt to merge the small class into the most semantically similar larger class.  
-        - If merging is not appropriate, drop the class.  
+      1. **Provide Class Explanations:** For each resulting class, provide a short description of its scope and relevance.
+      2. **Drop or Merge Small Classes:** Merge or drop classes with <2 papers.
+      3. **Align Class Names:** Use formal research terminology.
+      4. **Assign Papers:** Assign each paper to one or more classes per aspect.
 
-      3. **Align Class Names to Formal Terminology:**  
-        If a candidate class aligns with well-known research terminology (e.g., “Approximate Nearest Neighbor Search”), update its name accordingly for clarity and consistency. 
-
-      4. **Assign Papers to Classes:**  
-        Assign each paper to one or more classes per aspect based on the entity groups their key entities belong to.  
-
-      **Output:** Refined classification tables along with class explanations.
+      ---
 
       ### 🔥 Step 5: Identify Unassigned or Misaligned Papers
 
-      Review the classification results from Step 4 for each aspect (**Input**, **Output**, etc.). Your goal is to detect potential issues in the class assignments based on the extracted key entities and global classes.
+      * Detect **unassigned papers** (entities extracted but no class assignment).
+      * Detect **misalignments** (entities poorly matched to class descriptions).
+      * Suggest corrections (reassignment or new class).
 
-      Perform the following checks for each aspect:
+      ---
 
-      1. **Identify Unassigned Papers**
+      ### 🔥 Step 6: Implement Corrections
 
-        * For each paper, check whether it has been assigned to **at least one class** in the current aspect.
-        * If a paper has **no class assignment** despite having meaningful entities extracted in Step 1, report it as **unassigned**.
+      * For each **unassigned or misaligned paper** identified in Step 5, update the classification by:
 
-      2. **Identify Misaligned Assignments**
+        * Assigning it to the most appropriate existing class if suggested.
+        * Or creating a new class if no suitable class exists.
+      * Ensure that the **final classification output incorporates these corrections directly**, so that all papers have appropriate assignments.
 
-        * For each paper’s class assignment:
-
-        * Re-express the paper’s extracted entities from Step 1.
-        * Compare them against the class explanations and representative entity groups from Step 4.
-        * If a paper’s key entities show **weak or no semantic overlap** with the class it’s assigned to, mark it as a **potential misalignment**.
-        * Provide a short reason for the mismatch (e.g., “Entity 'temporal sequence' does not align with class 'Graph-based Input'”).
-
-      3. **Suggest Corrections**
-
-        * For unassigned or misaligned papers, suggest:
-
-        * The most appropriate existing class (if any), based on entity similarity.
-        * Or flag the paper as a candidate for forming a **new class** if no close match exists.
       ---
 
       ## 📋 Output Format
 
-      Return the results for both aspects in a single response, using the Markdown table format provided below. Replace all placeholders (e.g., Class A, Paper 1) with the corresponding simplified names of the actual papers.
+      Return the results **strictly in valid JSON format** with the following structure:
 
-      Ensure that all class names are described using accurate and consistent terminology across the entire response.
-
-      ---
-
-      ### 🔹 Input Classification
-
-      ```markdown
-      | Input Class          | Class Description                                    | Papers              |
-      |----------------------|------------------------------------------------------|---------------------|
-      | User-Item Matrix     | Matrix representation of user-item interactions, commonly used in recommendation tasks. | Paper A, Paper C    |
-      | Knowledge Graph      | Graph-based structured input capturing relational facts. | Paper B, Paper F    |
+      ```json
+      {
+        "input_classification": {
+          "classes": [
+            {
+              "class_name": "User-Item Matrix",
+              "class_description": "Matrix representation of user-item interactions, commonly used in recommendation tasks.",
+              "papers": ["Paper A", "Paper C"]
+            },
+            {
+              "class_name": "Knowledge Graph",
+              "class_description": "Graph-based structured input capturing relational facts.",
+              "papers": ["Paper B", "Paper F"]
+            },
+            {
+              "class_name": "Temporal Sequence Data",
+              "class_description": "Sequential data used for modeling time-dependent behaviors.",
+              "papers": ["Paper G"]   // Correction applied here
+            }
+          ]
+        },
+        "output_classification": {
+          "classes": [
+            {
+              "class_name": "Hash Codes",
+              "class_description": "Compact binary representations of input data used for efficient retrieval.",
+              "papers": ["Paper A", "Paper D"]
+            },
+            {
+              "class_name": "Ranked List",
+              "class_description": "Ordered set of relevant results returned for a given query.",
+              "papers": ["Paper B", "Paper E"]
+            }
+          ]
+        }
+      }
       ```
-
-      ---
-
-      ### 🔹 Output Classification
-
-      ```markdown
-      | Output Class         | Class Description                                     | Papers              |
-      |----------------------|-------------------------------------------------------|---------------------|
-      | Hash Codes           | Compact binary representations of input data used for efficient retrieval. | Paper A, Paper D    |
-      | Ranked List          | Ordered set of relevant results returned for a given query. | Paper B, Paper E    |
-      ```
+      Below is the problem definition list:
+      [Problem Definitions]
 
     taxonomy_generation: |
-      You are an expert research taxonomist. You are given two structured classification tables derived from a corpus of computer science research papers. Each classification table corresponds to one of the following **problem aspects**:
+      You are an expert research taxonomist. You are given one **JSON object**, containing the classification result of the problem aspects:
 
       * **Input**: The nature or structure of data the research problem takes as input
-      * **Output**: The expected result, format, or structure produced by the method
+      * **Output**: The expected result, format, or structure produced by the method.
 
-      Each row in the table contains:
+      ---
 
-      * A **Class Name**
-      * A **Class Description**
-      * A list of **Supporting Papers**
+      ### 📥 Input Format
+
+      Each JSON object contains an array of class entries. Each entry has the following fields:
+
+      ```json
+      {
+        "class_name": "string",
+        "class_description": "string",
+        "supporting_papers": ["PaperA", "PaperB", ...]
+      }
+      ```
+
+      Below is the classification result:
+      [Classification Result]
 
       ---
 
@@ -263,99 +267,100 @@ taxonomy_generator:
 
       ### 🔥 Step 1: Normalize and Refine Class Labels
 
-      1. **Normalize Class Names**:
-        Use standard academic terminology where possible. Resolve informal, ambiguous, or overly generic names using their class descriptions and example papers.
+      1. **Normalize Class Names:** Use standard academic terminology where possible. Resolve informal, ambiguous, or overly generic names using their class descriptions and example papers.
+      2. **Merge Equivalent or Contained Classes:** If two classes are synonyms or exhibit strict containment (e.g., “user-item matrix” ⊆ “interaction matrix”), merge them.
+      3. **Drop or Collapse Weak Classes:** Drop classes with too few or overly vague supporting papers unless they can be merged into broader categories.
 
-      2. **Merge Equivalent or Contained Classes**:
-        If two classes are synonyms or exhibit strict containment (e.g., “user-item matrix” ⊆ “interaction matrix”), merge them.
-
-      3. **Drop or Collapse Weak Classes**:
-        Drop classes with too few or overly vague supporting papers unless they can be merged into broader categories.
-
-      **Output:** Refined class list per aspect with updated names.
+      **Output:** Refined JSON list of input and output classes.
 
       ---
 
       ### 🔥 Step 2: Form Meaningful Task Nodes by Input–Output Pairing
 
-      1. **Pair Input and Output Classes**:
-        For every pair (Input Class, Output Class), examine whether it defines a **coherent and meaningful research task**.
-
-      2. **Only keep task nodes that meet all three criteria**:
+      1. **Pair Input and Output Classes:** For every (Input, Output) pair, check if it defines a **coherent, meaningful research task**.
+      2. **Keep only valid task nodes** that meet all three criteria:
 
         * The pair appears in at least **2 different papers**
         * The pairing reflects a **common and recognizable research objective**
-        * The resulting task name can be made **expressive** (not just “Matrix → Vector”)
-
-      3. **Name Each Task Meaningfully**:
-        Name each task node using the following format:
+        * The task name can be made **expressive** (not just “Matrix → Vector”).
+      3. **Name Each Task:**
+        Use the format:
 
         ```
         TASK:L{level}:{CANONICAL_NAME}
         ```
 
-        Where `CANONICAL_NAME` is an **expressive, descriptive name** that reflects the actual goal of the task, e.g.:
-
-        * `TASK:L1:KNOWLEDGE_GRAPH_COMPLETION`
-        * `TASK:L2:USER_INTERACTION_HASHING`
-        * `TASK:L2:SEQUENCE_TO_RANKED_LIST_RETRIEVAL`
-
-        Avoid structure-only names (e.g., "User-Item Matrix" or "Hash Code"). Instead, describe the **task performed over that structure**, such as *hashing*, *ranking*, *completion*, *matching*, etc.
-
       ---
 
       ### 🔥 Step 3: Build a Hierarchy over the Tasks
 
-      1. **Group Similar Tasks**:
+      1. **Group Similar Tasks:**
 
-        * Create parent-child relationships among tasks based on **task granularity and generalization**.
-        * For example:
+        * Parent-child relationships based on task granularity and generalization.
+        * Example:
 
           * Parent: `KNOWLEDGE_GRAPH_TASKS`
 
             * Child: `KNOWLEDGE_GRAPH_EMBEDDING`
             * Child: `KNOWLEDGE_GRAPH_COMPLETION`
 
-      2. **Hierarchy Rules**:
+      2. **Hierarchy Rules:**
 
         * Use only **IS-A** relationships.
-        * No cycles or DAGs — construct a **tree**.
-        * The root node should be: `ROOT`
-
-      **Output:** A hierarchical taxonomy of tasks, where each node has:
-
-      * A meaningful task name
-      * The input-output class it’s based on
-      * A brief explanation
-      * Associated paper IDs
+        * Construct a **tree** (no DAGs or cycles).
+        * Root node: `ROOT`.
 
       ---
 
-      ### 📋 Output Format
+      ## 📋 Output Format (JSON Only)
 
-      ```markdown
-      ### 🔹 Hierarchical Task Taxonomy
+      Return the taxonomy strictly as **valid JSON**. Each node must have:
 
-      - ROOT
-        - TASK:L1:KNOWLEDGE_GRAPH_COMPLETION
-          - Input: Knowledge Graph
-          - Output: Completed Triples
-          - Explanation: Predict missing edges in a relational graph based on observed triples.
-          - Papers: Paper A, Paper D
+      * `task_id`: Unique ID in the format `TASK:L{level}:{CANONICAL_NAME}`
+      * `task_name`: Expressive descriptive name
+      * `input_class`: Input class name
+      * `output_class`: Output class name
+      * `explanation`: 1–2 sentence explanation of the task
+      * `papers`: List of supporting papers
+      * `children`: Array of child task nodes
 
-        - TASK:L1:HASH_CODE_GENERATION_FOR_RETRIEVAL
-          - Input: User-Item Interaction Matrix
-          - Output: Hash Codes
-          - Explanation: Generate compact binary representations for fast retrieval in recommendation settings.
-          - Papers: Paper B, Paper F
+      Example:
 
-        - TASK:L1:SEQUENCE_TO_RANKED_LIST_MATCHING
-          - Input: Temporal User Interaction Sequence
-          - Output: Ranked List
-          - Explanation: Return a ranked set of items based on user behavior sequences.
-          - Papers: Paper C, Paper E
+      ```json
+      {
+        "taxonomy": {
+          "task_id": "ROOT",
+          "task_name": "ROOT",
+          "children": [
+            {
+              "task_id": "TASK:L1:KNOWLEDGE_GRAPH_COMPLETION",
+              "task_name": "Knowledge Graph Completion",
+              "input_class": "Knowledge Graph",
+              "output_class": "Completed Triples",
+              "explanation": "Predict missing edges in a relational graph based on observed triples.",
+              "papers": ["PaperA", "PaperD"],
+              "children": []
+            },
+            {
+              "task_id": "TASK:L1:HASH_CODE_GENERATION_FOR_RETRIEVAL",
+              "task_name": "Hash Code Generation for Retrieval",
+              "input_class": "User-Item Interaction Matrix",
+              "output_class": "Hash Codes",
+              "explanation": "Generate compact binary representations for fast retrieval in recommendation settings.",
+              "papers": ["PaperB", "PaperF"],
+              "children": []
+            }
+          ]
+        }
+      }
       ```
 
+      * Ensure the JSON is **syntactically valid**.
+      * Do not output Markdown, tables, or text outside the JSON block.
+
+      ---
+
+      
   
 
 
