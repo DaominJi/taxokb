@@ -26,7 +26,7 @@ chunker:
 
 
 taxonomy_generator:
-  task_taxonomy: 
+  task_taxonomy:
     extract_problem_definition: |
       You are acting as a **research assistant** tasked with analyzing a research paper to extract its **core research problem** in a **structured**, **methodology-agnostic** format.
 
@@ -360,12 +360,553 @@ taxonomy_generator:
 
       ---
   method_taxonomy:
-    extract_method_summary: ...
-    extract_pros_and_cons: ...
-    taxonomy_generation: ...
-    
-    
-      
-  
+    extract_method_summary: |
+      [ROLE]
+      You are an AI research methodology analyst specializing in decomposing scientific methods. You interpret textual descriptions and HTML table data associated with figures.
+
+      [TASK]
+      Analyze `{section_text}` containing methodology descriptions and potential HTML tables. Generate an integrated Markdown summary using this workflow:
+
+      1. **Method Decomposition**  
+      - Extract core components, workflow sequence, and objectives
+      - Represent components in a Markdown table with columns:  
+          `Component | Function | Inputs | Outputs`
+      - Map workflow steps in a numbered list showing transitions
+
+      2. **Figure Analysis**  
+      - Identify referenced figures (e.g., "Figure 1 shows...")
+      - For each figure:  
+          • Locate descriptive text  
+          • Parse associated HTML tables if present  
+          • Create analysis table with columns:  
+          `Figure Ref | Element Type | Key Relationships | Data Insights`
+
+      3. **Integration**  
+      - Cross-reference figures with method components using bold tags (e.g., **ComponentX**)
+      - Embed figure insights directly in workflow steps
+      - Fuse objectives with supporting evidence from tables
+
+      [OUTPUT RULES]
+      ```markdown
+      ### Core Components
+      | Component | Function | Inputs | Outputs |
+      |-----------|----------|--------|---------|
+      | ...       | ...      | ...    | ...     |
+
+      ### Workflow Sequence
+      1. [Step 1] → **(Figure X)**  
+      - [Action] using [Component]  
+      - *Table insight: [Value] from Table Y*
+
+      ### Objectives
+      - [Goal 1] achieved through [Component/Step]  
+      *(Supported by Figure Z: [Observation])*
+
+      ### Figure Analysis
+      | Fig Ref | Element Type | Key Relationships | Data Insights |
+      |---------|--------------|-------------------|---------------|
+      | Fig 1   | [Type]       | [Connection]      | [Table Data]  |
+      ```
+      **Critical Constraints**  
+      - Use ONLY standard Markdown (no LaTeX, HTML, or images)  
+      - Represent mathematical concepts verbally (e.g., "loss minimization")  
+      - Maximum 2 sentences per table cell  
+      - Omit redundant explanations already covered in tables  
+      - Bold method elements when linked to figures (**ComponentA**)  
+      - Prioritize table representations over paragraphs  
+    extract_pros_and_cons: |
+      [ROLE DESCRIPTION]
+      You are an expert research analyst specializing in cross-study methodology comparison. You excel at synthesizing structured data to identify shared patterns and distinctive features across research papers.
+
+      [TASK DESCRIPTION]
+      Analyze methodology analyses from multiple research papers. Identify common/unique advantages and limitations, then synthesize findings into a structured Markdown comparison table. Prioritize visual clarity and information density.
+
+      [INPUT]
+      - **Methodology Data (MD Format):** Contains one or more methodology analyses in flexible markdown format.  
+      **Each analysis corresponds to a single paper's methodology**.
+      input: `{method_summaries}`
+
+      [PROCESSING INSTRUCTIONS]
+      1. **Data Extraction:**
+        - Extract JSON from Markdown code blocks (prioritize ```json tagged blocks)
+        - Parse into array of paper objects: `papers = [{{paper_id, methodology: {{name, description, pros, cons}}}}, ...]`
+
+      2. **Cross-Analysis:**
+        ```python
+        # Aggregate metrics
+        all_pros = flatten(paper.methodology.pros for paper in papers)
+        all_cons = flatten(paper.methodology.cons for paper in papers)
+        
+        # Identify common elements (appearing in ≥2 papers)
+        common_pros = [p for p in set(all_pros) if count_occurrences(p) >= 2]
+        common_cons = [c for c in set(all_cons) if count_occurrences(c) >= 2]
+        
+        # Map unique elements per paper
+        for paper in papers:
+            paper["unique_pros"] = [p for p in paper.methodology.pros if p not in common_pros]
+            paper["unique_cons"] = [c for c in paper.methodology.cons if c not in common_cons]
+        ```
+
+      3. **Output Structure:**
+        ```markdown
+        # Methodology Comparison Report
+
+        ## Key Commonalities
+        | Aspect       | Shared Findings                          |
+        |--------------|------------------------------------------|
+        | **Pros** | {{bullet_list(common_pros)}}               |
+        | **Cons** | {{bullet_list(common_cons)}}               |
+        *Note: Appear in ≥2 papers*
+
+        ## Paper-Level Analysis
+        | Paper ID | Method Name     | Description | Common Pros | Unique Pros | Common Cons | Unique Cons |
+        |----------|-----------------|-------------|-------------|-------------|-------------|-------------|
+        {{generate_table_rows}}
+        ```
+
+      4. **Table Generation Rules:**
+        - **Header:** Use exact column names above
+        - **Cell Formatting:**
+          - `Description`: First 50 words + "..." if truncated
+          - Pros/Cons columns: Bullet lists with line breaks (`<br>• `)
+          - Empty cells: "—" when no items
+        - **Sorting:** Order papers by method name alphabetically
+        - **Special Cases:**
+          - Single paper input: Omit "Key Commonalities" section
+          - Empty lists: Display "—" in table cells
+
+      [OUTPUT REQUIREMENTS]
+      1. Strict Markdown format within ```markdown code fence
+      2. Table must contain all papers from input
+      3. Preserve original text annotations in all pros/cons
+      4. Escape Markdown special characters in source text
+      5. Include footer note: "*Unique aspects highlight methodological distinctions*"
+    taxonomy_generation: "[ROLE DESCRIPTION]\nYou are an expert research methodology
+      taxonomist. Your task is to synthesize information from multiple sources about
+      a set of research papers and generate a single, hierarchical classification
+      tree in a strict JSON format.\n\n[TASK DESCRIPTION]\nAnalyze the provided data
+      blocks to build a multi-layered taxonomy of research methodologies. Use the
+      detailed methodology summaries and the pros/cons report as the primary basis
+      for fine-grained technical classification. Use the introductions and related
+      work sections (if provided) for broader, high-level contextual grouping. The
+      final output must be a valid JSON object representing the classification tree.\n
+      \n[INPUTS]\nYou will be provided with the following data blocks. Some blocks
+      (like introductions and related works) are optional and may be empty.\n\n1.\
+      \  **Methodology Summaries (`{method_summaries}`):** A JSON object mapping paper
+      filenames to their detailed, structured methodology summaries. This is your
+      primary source for technical details.\n2.  **Pros & Cons Report (`{pros_cons_summary}`):**
+      A Markdown report containing a comparative analysis of the advantages and limitations
+      found across the methods. Use this to identify key trade-offs and distinguishing
+      features.\n3.  **Introductions (`{introductions}`):** (Optional) A JSON object
+      mapping paper filenames to their introduction sections. Use this to understand
+      the core problem, motivation, and high-level claims of each paper, which can
+      help in forming top-level categories.\n4.  **Related Works (`{related_works}`):**
+      (Optional) A JSON object mapping paper filenames to their related work sections.
+      Use this to understand how each paper positions itself against others, which
+      aids in determining its methodological paradigm.\n\n[CORE INSTRUCTIONS FOR TAXONOMY
+      GENERATION]\n\n1.  **Identify Papers:** The paper filenames (e.g., \"paper1.md\"\
+      ) are the keys in the `{method_summaries}` and other JSON objects. Use these
+      filenames as the unique identifiers for each paper. For the `index` field in
+      the output, convert these filenames to a \"P\" format (e.g., extract the number
+      from \"paperX.md\" to create \"PX\").\n\n2.  **Build Taxonomy Tree (Hierarchical
+      Classification):**\n    * **Root Node:** The top-level node must be named \"\
+      Methodology Taxonomy\" and contain all papers in its index.\n    * **Layer 1
+      (Fundamental Paradigm):** First, partition all papers into **mutually exclusive**
+      high-level categories based on their fundamental research goal or paradigm.
+      Examples of such high-level categories include **\"Predictive Modeling\", \"\
+      Causal Inference\", \"Generative Methods\", \"System Architecture & Design\"\
+      , or \"Theoretical Analysis\"**.\n    * **Layer 2 (Core Technique Family):**
+      Subdivide each high-level group based on the core family of techniques employed.
+      Examples: **\"Neural Network Architectures\", \"Statistical & Probabilistic
+      Methods\", \"Optimization Algorithms\", \"Novel System Components\"**.\n   \
+      \ * **Layer 3+ (Distinctive Features):** If necessary, create deeper layers
+      to refine the classification based on unique characteristics. Examples: **\"\
+      Supervised vs. Unsupervised Learning\", \"Adaptive Components\", \"Scalability
+      Enhancements\"**. The `{pros_cons_summary}` is very useful here.\n    * **Leaf
+      Nodes:** The final nodes of the tree must be the individual papers.\n\n3.  **Node
+      Schema Requirements:**\n    * **Intermediate Nodes (Categories):**\n       \
+      \ ```json\n        {{\n          \"name\": \"<Classification Label>\",\n   \
+      \       \"content\": \"1) Grouping feature: [Explicit shared characteristic]<br>2)
+      Child differences: [Distinguishing aspects between subgroups]\",\n         \
+      \ \"index\": [\"P1\", \"P4\"],\n          \"children\": [ ...subnodes... ]\n\
+      \        }}\n        ```\n    * **Leaf Nodes (Papers):**\n        ```json\n\
+      \        {{\n          \"name\": \"<Exact Paper Filename>\",\n          \"content\"\
+      : \"<Provide a 2-3 sentence, concise summary of the paper's specific methodology,
+      derived from the input summaries.>\",\n          \"index\": \"<Single PaperID,
+      e.g., P3>\",\n          \"children\": []\n        }}\n        ```\n\n[VALIDATION
+      RULES & CONSTRAINTS]\n* **Completeness:** Every paper from the input must appear
+      as a leaf node exactly once.\n* **Strict Partitioning:** A paper cannot appear
+      in more than one branch of the tree. The classification must be **mutually exclusive
+      at all levels.**\n* **Hierarchy:** Children must be strict semantic subsets
+      of their parents.\n* **Specificity:** Each new layer must introduce a more specific,
+      distinguishing dimension.\n* **Fidelity:** Preserve original technical terms.
+      Do not generalize or rename concepts.\n* **No Generic Bins:** Do not create
+      vague categories like \"Other\", \"Miscellaneous\", or \"General Approaches\"\
+      . Every group must have a clear, defining characteristic.\n* **Node Collapsing:**
+      If an intermediate node has only one child, it must be merged to prevent redundant
+      layers. **Create a new, semantically meaningful name for the merged node that
+      accurately represents the more specific category.** For example, if a **'Learning-based
+      Approaches'** node has only one child **'Supervised Methods'**, the new merged
+      node could be named **'Supervised Learning Approaches'**. The new node adopts
+      the children of the original child.\n\n[OUTPUT REQUIREMENTS]\n- Provide ONLY
+      the final JSON object enclosed in a ```json code fence.\n- Do not include any
+      additional text, notes, or explanations before or after the JSON block.\n- Ensure
+      the output is a single, syntactically valid JSON object."
+
+experiment_setting_extractor:
+  extract_experiment_summary: |
+    You are a highly precise information extractor for scientific papers.
+
+    ## 🎯 Task
+    Given the **experiment-related sections** of a research paper, extract a structured JSON summary containing:
+
+    1. **Paper Metadata**  
+    2. **Used Datasets**  
+    3. **Used Evaluation Metrics**  
+    4. **Baselines Compared Against** (including citation numbers)  
+    5. **Performance of the Proposed Method** on each dataset using each metric
+
+    The goal is to document what **datasets** the paper uses, what **metrics** it evaluates with, what **baselines** it compares against (and how they are cited), and how well its **proposed method** performs — including numeric values and supporting context.
+
+    ---
+
+    ## 🧾 Input Format
+
+    You will receive:
+    - The **text from the experiment section(s)** of a single paper
+    - The **paper title** and **paper_id** (or filename)
+
+    The text may include:
+    - Performance tables
+    - Descriptions of datasets and baselines
+    - Metric definitions
+    - Numeric results (in sentences or tables)
+
+    ---
+
+    ## 📦 Output Format (strict JSON only)
+
+    ```json
+    {
+      "paper_id": "unique_id",
+      "paper_title": "Full Paper Title",
+      "proposed_method_name": "MethodXYZ",
+
+      "datasets": [
+        {
+          "name": "DatasetName",
+          "description": "Short description if available",
+          "task_type": ["classification", "recommendation"],
+        }
+      ],
+
+      "metrics": [
+        {
+          "name": "Accuracy",
+          "description": "What the metric measures (if stated)",
+          "formulation": "Optional LaTeX if present",
+        }
+      ],
+
+      "baselines": [
+        {
+          "name": "BaselineModel",
+          "description": "Short description if available",
+          "category": "deep learning",   // optional (e.g., heuristic, classical ML, deep, graph, LLM)
+          "citation_number": "[5]",      // e.g., citation reference [5] or [Smith et al., 2021]
+        }
+      ],
+
+      "results": [
+        {
+          "dataset_name": "DatasetName",
+          "metric_name": "Accuracy",
+          "value": 0.942,
+          "processing": "Details of how the dataset was processed",  // optional
+        }
+      ]
+    }
+    ```
+
+    ---
+
+    ## ✅ Extraction Instructions
+
+    - **Only include information that is explicitly stated** in the text provided.
+    - You must fill in `"name"` for datasets, metrics, and baselines. Other fields are optional but encouraged.
+    - The `proposed_method_name` is often referred to as "our method", "we", "proposed model", or bolded in tables. Use your best judgment from the context.
+    - For each dataset and metric, list only once — avoid duplicates.
+
+    ### Datasets
+    - Extract datasets that are used in main experiments.
+    - Include descriptions or task types if stated.
+    - If the dataset was preprocessed (e.g., resized, filtered, sampled), include the information in the `processing` field.
+
+    ### Metrics
+    - Extract the names of evaluation metrics used.
+    - If the paper provides a definition or mathematical formulation, include it.
+
+    ### Baselines
+    - Extract all models or methods that the proposed method is compared against in experiments.
+    - Use the full name of the baseline method if available.
+    - Add a short description or category (e.g., graph-based, deep learning, LLM) if stated.
+    - **Include the in-text citation number or reference tag** (e.g., “[5]” or “[Smith et al., 2021]”) if it appears near the baseline mention.
+
+    ### Results
+    - Include **only the main experiment results**.  
+      ❗ **Do not include results from ablation studies, hyperparameter tuning, robustness tests, or other analysis sections.**
+    - Include one entry per (dataset, metric) pair for the proposed method.
+    - Normalize all metric values to the range **[0, 1]**.  
+      ❗ If the paper reports values as percentages (e.g., 94.2%), convert to decimal (e.g., 0.942).
+    - Remove any field referring to units, split types, or model variants.
+    - If values appear as “we achieve 94.2% accuracy...”, extract the value and quote the phrase as provenance.
+    - Use numeric types when possible.
+
+    ---
+
+    ## 🔒 Output Rules
+
+    - Return strictly valid UTF-8 JSON.
+    - Do not include explanations or reasoning.
+    - Do not add content that is not grounded in the input text.
+    - Omit fields if no reliable information is available.
+    - Include a `"confidence"` field (between 0 and 1) for each dataset, metric, baseline, and result item.
+    - Do not hallucinate URLs, references, or method names.
+
+    ---
+
+    ## 🧠 Controlled Vocabulary (optional)
+
+    - `task_type` options (for datasets):  
+      `"classification"`, `"regression"`, `"ranking"`, `"recommendation"`, `"entity matching"`, `"clustering"`, `"generation"`, `"qa"`, `"segmentation"`, `"summarization"`
+
+    - Use metric names as-is if known (e.g., `"Accuracy"`, `"RMSE"`, `"NDCG@10"`)
+
+    ---
+
+    ## 🧪 Example (abbreviated)
+
+    **Input Text (snippet):**
+    > We evaluate our model on CIFAR-10 and TinyImageNet. Our model achieves 94.2% accuracy on CIFAR-10 and 64.1% on TinyImageNet. We compare against ResNet-50 [5] and DeiT-Small [7].
+
+    **Expected JSON Output:**
+    ```json
+    {
+      "paper_id": "paper_001",
+      "paper_title": "Image Classification via Self-Distillation",
+      "proposed_method_name": "OurModel",
+
+      "datasets": [
+        {"name": "CIFAR-10", "processing": "images resized to 32x32", "confidence": 0.95},
+        {"name": "TinyImageNet", "confidence": 0.92}
+      ],
+
+      "metrics": [
+        {"name": "Accuracy", "description": "percentage of correct predictions", "confidence": 0.9}
+      ],
+
+      "baselines": [
+        {"name": "ResNet-50", "category": "deep learning", "citation_number": "[5]", "confidence": 0.9},
+        {"name": "DeiT-Small", "category": "transformer", "citation_number": "[7]", "confidence": 0.85}
+      ],
+
+      "results": [
+        {
+          "dataset_name": "CIFAR-10",
+          "metric_name": "Accuracy",
+          "value": 0.942,
+          "provenance": {"quote": "achieves 94.2% accuracy on CIFAR-10", "source": "text"},
+          "confidence": 0.95
+        },
+        {
+          "dataset_name": "TinyImageNet",
+          "metric_name": "Accuracy",
+          "value": 0.641,
+          "provenance": {"quote": "64.1% on TinyImageNet", "source": "text"},
+          "confidence": 0.9
+        }
+      ]
+    }
+    ```
+
+    ---
+
+    ## 📥 Now process the following:
+
+    **paper_id**: `{paper_id}`  
+    **paper_title**: `{paper_title}`
+
+    **Experiment Sections**:
+    ```
+    {experiment_text}
+    ```
+  merge_baselines: |
+    You are given a list of baseline method entries extracted from multiple research papers. Merge them into a unified list of canonical baseline methods.
+
+    ## 🎯 Goal
+    Create a unified entry for each baseline method, with:
+    - Canonical name
+    - Collected aliases
+    - Merged metadata (category, description, paper)
+    - Merged `supporting_papers` and usage statistics
+
+    ## 🧾 Input Format
+
+    ```json
+    {
+      "baselines": [ baseline_entry_1, baseline_entry_2, ... ]
+    }
+    ```
+
+    ## 📦 Output Format
+
+    ```json
+    {
+      "baselines": [
+        {
+          "canonical_name": "xgboost",
+          "aliases": ["XGBoost", "XGB", "xgb"],
+          "description": "...",
+          "original_paper": { ... },
+          "category": "classical ML",
+          "supporting_papers": [ ... ],
+        },
+        ...
+      ]
+    }
+    ```
+
+    ## ✅ Instructions
+
+    - Canonicalize using lowercase + normalization rules.
+    - Merge `supporting_papers` across mentions.
+    - Count unique `paper_id`s for `usage_frequency`.
+    - Preserve different aliases and include them in the list.
+    - If descriptions or categories differ, prefer the one with more support.
+
+    Return JSON:
+    ```json
+    {"baselines": [ ... ]}
+    ```
+  merge_datasets: |
+    You are given a list of dataset entries extracted from multiple research papers. Your task is to merge these entries into a **single unified list** of datasets.
+
+    ## 🎯 Goal
+    For each dataset, generate a single canonical entry by:
+    - Unifying different surface names into one `canonical_name`
+    - Collecting all observed `aliases`
+    - Merging non-conflicting fields
+    - Preserving provenance via `supporting_papers`
+    - Computing `usage_frequency` as the number of distinct papers referencing it
+
+    ## 🧾 Input Format
+
+    ```json
+    {
+      "datasets": [ dataset_entry_1, dataset_entry_2, ... ]
+    }
+    ```
+
+    Each dataset_entry has at least a `name` and may contain:
+    - `description`
+    - `profile` (e.g., `num_instances`, `num_classes`, etc.)
+    - `task_type`
+    - `original_paper`
+    - `url`
+    - `supporting_papers`
+    - `confidence`
+
+    ## 📦 Output Format
+
+    ```json
+    {
+      "datasets": [
+        {
+          "canonical_name": "cifar10",
+          "aliases": ["CIFAR-10", "CIFAR10", "cifar_10"],
+          "description": "...",
+          "profile": { ... },
+          "task_type": ["classification"],
+          "original_paper": { ... },
+          "url": "...",
+          "supporting_papers": [ ... ],
+        },
+        ...
+      ]
+    }
+    ```
+
+    ## ✅ Instructions
+
+    - Normalize names to create `canonical_name`: lowercase, remove punctuation, collapse whitespace, unify hyphen/underscore.
+    - Merge entries with the same `canonical_name`.
+    - For conflicting descriptions, keep the one supported by more papers.
+    - Merge `supporting_papers` and count unique `paper_id`s for `usage_frequency`.
+    - Preserve all observed surface forms in `aliases`.
+
+    Only return valid JSON:
+    ```json
+    {"datasets": [ ... ]}
+    ```
+  merge_metrics: |
+    You are given a list of metric definitions extracted from multiple research papers. Your task is to merge them into a unified list of metrics.
+
+    ## 🎯 Goal
+    For each metric:
+    - Normalize to a canonical name
+    - Merge alternate names into `aliases`
+    - Combine fields like `description`, `formulation`, and `task_scope`
+    - Merge all `supporting_papers`
+    - Calculate `usage_frequency`
+
+    ## 🧾 Input Format
+
+    ```json
+    {
+      "metrics": [ metric_entry_1, metric_entry_2, ... ]
+    }
+    ```
+
+    ## 📦 Output Format
+
+    ```json
+    {
+      "metrics": [
+        {
+          "canonical_name": "rmse",
+          "aliases": ["RMSE", "Root Mean Square Error"],
+          "description": "...",
+          "formulation": "...",
+          "task_scope": ["regression", "recommendation"],
+          "supporting_papers": [ ... ],
+          "usage_frequency": 10,
+          "confidence": 0.92
+        },
+        ...
+      ]
+    }
+    ```
+
+    ## ✅ Instructions
+
+    - Normalize names to canonical form (lowercase, trim, remove punctuation).
+    - Merge entries with the same canonical name.
+    - Prefer descriptions/formulations that appear most frequently.
+    - Count distinct `paper_id`s in `supporting_papers` for usage stats.
+    - Preserve all surface forms in `aliases`.
+
+    Return only valid JSON:
+    ```json
+    {"metrics": [ ... ]}
+    ```
+
+
+
+              
+
+
+
+
+
 
 
