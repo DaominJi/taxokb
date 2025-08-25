@@ -1,0 +1,60 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 4 PROBLEM_ IN-CONTEXT CLUSTERING",
+    "### 4.1 Record Set and Key Factors",
+    "### 4.2 Empirical Evaluations for the Key Factors",
+    "### 4.3 Problem Statements for End-to-end ER"
+  ],
+  "Methodology": [
+    "## 5 SOLUTION_ END-TO-END ER",
+    "### 5.1 Filtering and Blocking",
+    "### 5.2 In-context Clustering of a Record Set",
+    "### 5.3 Hierarchical Cluster Merging",
+    "### 5.4 End-to-End ER Solution",
+    "## Algorithm 4 End-to-end ER",
+    "### 3.1 Entity Resolution",
+    "### 3.2 LLM_ Adaptation Techniques",
+    "## 3 PRELIMINARIES",
+    "# In-context Clustering-based Entity Resolution with Large Language Models_ A Design Space Exploration"
+  ],
+  "Related Work": [
+    "## 2 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 6 EXPERIMENTAL RESULTS",
+    "### 6.1 Experimental Setup",
+    "### 6.2 Performance on End-to-End ER",
+    "### 6.3 Impact of Dataset Characteristics",
+    "### 6.4 Impact of LLM Guardrails",
+    "### 6.5 Scalability Test"
+  ],
+  "Conclusion": [
+    "# 7 CONCLUSION"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [
+    "## ACKNOWLEDGMENTS"
+  ],
+  "Appendix": [
+    "## 8 APPENDIX",
+    "## A. 1 Impact of Different LLMs on Optimal Key Factor Values and End-to-end ER Performance",
+    "## A. 2 Impact of Entity Dispersion on Optimal Key Factor Values and End-to-end ER Performance",
+    "## A. 3 Impact of Blocking and Filtering Techniques",
+    "## A. 4 LLM Guardrails on Misclustering Detection and Record Set Regeneration_ MRI and ARI",
+    "## A. 5 Comparisons with PLM-based ER Methods",
+    "## A. 6 Evaluating LLM In-context Clustering Stability in ER",
+    "## A. 7 Few-shot Learning_ Out-of-Domain Situation Exploration",
+    "## A. 8 Advantages of Merging Similar Clusters",
+    "## A. 9 Qualitative Analysis of our In-context Clustering-based Method with Other Baselines",
+    "## A. 10 Integrating Batch Processing within Our Framework",
+    "## A. 11 Key Factors Evaluations under ACC Metric"
+  ]
+}

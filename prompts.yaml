@@ -1,12 +1,20 @@
 chunker:
   section_labeling: |
-    You are given a list of section titles from a single research paper. Categorize each title into one of the following:
+    You are given a list of section titles from a single research paper. Your task is to categorize each title into one of the following categories:
 
-    ["Abstract", "Introduction", "Problem Definition", "Methodology", "Related Work", "Experiment"]
+    `["Abstract", "Introduction", "Problem Definition", "Methodology", "Related Work", "Experiment", "Conclusion", "References", "Acknowledgement", "Appendix"]`
 
-    If a title does not clearly fit any category, assign it to the most likely one based on typical academic paper structure. Multiple titles can belong to the same category. But one title should not belong to multiple categories.
+    **Instructions:**
 
-    Please output only the raw JSON object without any explanation or formatting — do not wrap the output in triple backticks or add a language label. Format: 
+    * Assign each title to exactly one category.
+    * If a title does not clearly fit any category, assign it to the most likely one based on typical academic paper structure.
+    * Consecutive sections in the input list are highly likely to belong to the same category — use this as an additional cue when making assignments.
+    * Multiple titles may belong to the same category, but no title should appear in more than one category.
+    * Output only the raw JSON object without any explanation, commentary, or extra formatting. Do not wrap the output in triple backticks or add a language label.
+
+    **Output format:**
+
+    ```
     {
       "Abstract": [titles assigned to Abstract],
       "Introduction": [titles assigned to Introduction],
@@ -19,10 +27,12 @@ chunker:
       "Acknowledgement": [titles assigned to Acknowledgement],
       "Appendix": [titles assigned to Appendix]
     }
+    ```
 
-    Input:
+    **Input:**
     [Title List]
-    Output:
+
+    **Output:**
 
 
 taxonomy_generator:
@@ -39,7 +49,8 @@ taxonomy_generator:
       ### ✅ Output Format
 
       ```yaml
-      paper_id: "<Title of the paper or name of the proposed method>"
+      paper_id: "<Paper ID>"
+      paper_title: "<Title of the paper>"
 
       problem_formulation:
         simple_description: >
@@ -111,8 +122,10 @@ taxonomy_generator:
       | **Multiple sub-problems**                          | Focus on the **primary problem** or provide a clearly separated list if multiple are independently defined.                                                |
       | **No clear problem statement**                     | Use context from preliminaries, task descriptions, or dataset definitions to infer a possible formulation. If still ambiguous, return `"None"` as needed.  |
 
-      Below is the paper content:
-      [Paper Content]
+      Below is the paper information:
+      Paper ID: [Paper ID]
+      Paper Title: [Paper Title]
+      Paper Content:[Paper Content]
 
     aspect_classification: |
       You are given a list of problem definitions extracted from a collection of computer science research papers. Each definition includes structured aspects such as:
@@ -166,7 +179,7 @@ taxonomy_generator:
       1. **Provide Class Explanations:** For each resulting class, provide a short description of its scope and relevance.
       2. **Drop or Merge Small Classes:** Merge or drop classes with <2 papers.
       3. **Align Class Names:** Use formal research terminology.
-      4. **Assign Papers:** Assign each paper to one or more classes per aspect.
+      4. **Assign Papers:** Assign each paper to one or more classes per aspect. Use the paper ID to denote the paper.
 
       ---
 
@@ -365,7 +378,7 @@ taxonomy_generator:
       You are an AI research methodology analyst specializing in decomposing scientific methods. You interpret textual descriptions and HTML table data associated with figures.
 
       [TASK]
-      Analyze `{section_text}` containing methodology descriptions and potential HTML tables. Generate an integrated Markdown summary using this workflow:
+      Analyze `{section_text}` (Paper ID: `{paper_id}`, Paper Title: `{paper_title}`) containing methodology descriptions and potential HTML tables. Generate an integrated Markdown summary using this workflow:
 
       1. **Method Decomposition**  
       - Extract core components, workflow sequence, and objectives
@@ -413,7 +426,9 @@ taxonomy_generator:
       - Maximum 2 sentences per table cell  
       - Omit redundant explanations already covered in tables  
       - Bold method elements when linked to figures (**ComponentA**)  
-      - Prioritize table representations over paragraphs  
+      - Prioritize table representations over paragraphs
+      - Use the paper ID to denote the paper in the summary
+
     extract_pros_and_cons: |
       [ROLE DESCRIPTION]
       You are an expert research analyst specializing in cross-study methodology comparison. You excel at synthesizing structured data to identify shared patterns and distinctive features across research papers.
@@ -532,8 +547,7 @@ taxonomy_generator:
       \        }}\n        ```\n    * **Leaf Nodes (Papers):**\n        ```json\n\
       \        {{\n          \"name\": \"<Exact Paper Filename>\",\n          \"content\"\
       : \"<Provide a 2-3 sentence, concise summary of the paper's specific methodology,
-      derived from the input summaries.>\",\n          \"index\": \"<Single PaperID,
-      e.g., P3>\",\n          \"children\": []\n        }}\n        ```\n\n[VALIDATION
+      derived from the input summaries.>\",\n          \"index\": \"<PaperID>\",\n          \"children\": []\n        }}\n        ```\n\n[VALIDATION
       RULES & CONSTRAINTS]\n* **Completeness:** Every paper from the input must appear
       as a leaf node exactly once.\n* **Strict Partitioning:** A paper cannot appear
       in more than one branch of the tree. The classification must be **mutually exclusive
@@ -903,6 +917,22 @@ experiment_setting_extractor:
 
 
               
+summary_generator: |
+  You are given the full content of a single section from a research paper. Your task is to **summarize the content of this section only**.
+
+  **Instructions:**
+
+  * Write a concise summary (2–4 sentences) that captures the main purpose, arguments, methods, or findings in this section.
+  * If the section has subsections, integrate their content into one coherent summary.
+  * Do not copy sentences verbatim; rephrase in clear academic language.
+  * **Only output the summary text. Do not include labels, JSON, formatting, or any additional commentary.**
+
+  **Input:**
+  [Section Content]
+
+  **Output:**
+  [Summary of that section only]
+
 
 
 

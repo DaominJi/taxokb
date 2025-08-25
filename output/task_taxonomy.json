@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "num_papers": 12,
+    "papers_processed": [
+      "f32a10ff",
+      "79bc4b32",
+      "baa3b0fc",
+      "54593c94",
+      "b24a912c",
+      "d6c37522",
+      "9f0c2daf",
+      "3e96d15e",
+      "6ab21388",
+      "ec4709c1",
+      "256e52ab",
+      "07e4e216"
+    ],
+    "generator": "TaskTaxonomyGenerator"
+  },
+  "problem_definitions": [
+    {
+      "paper_id": "f32a10ff",
+      "paper_title": "Low-resource Deep Entity Resolution with Transfer and Active Learning",
+      "problem_formulation": {
+        "simple_description": "\"Given two collections of entity records with the same schema, the goal is to identify and classify pairs of records that refer to the same real-world entity, especially in scenarios where labeled data is limited.\"\n",
+        "formal_definition": {
+          "input": "\"Two collections of entity records, D₁ and D₂, where each record consists of a set of attributes (with each attribute value being a sequence of words), and both collections share the same schema. The available labeled data for record pairs may be limited.\"\n",
+          "output": "\"For each candidate pair of records (e₁, e₂), where e₁ ∈ D₁ and e₂ ∈ D₂, a binary classification indicating whether the pair refers to the same real-world entity (match) or not (non-match).\""
+        }
+      }
+    },
+    {
+      "paper_id": "79bc4b32",
+      "paper_title": "Analyzing How BERT Performs Entity Matching",
+      "problem_formulation": {
+        "simple_description": "\"Given pairs of entity descriptions, the goal is to determine whether each pair refers to the same real-world entity.\"\n",
+        "formal_definition": {
+          "input": "\"A collection of pairs, where each pair consists of two entity descriptions. Each entity description is typically a structured or semi-structured textual record representing an entity.\"\n",
+          "output": "\"For each input pair, a binary decision indicating whether the two entity descriptions refer to the same real-world entity (match or non-match).\""
+        }
+      }
+    },
+    {
+      "paper_id": "baa3b0fc",
+      "paper_title": "CollaborER: A Self-supervised Entity Resolution Framework Using Multi-features Collaboration",
+      "problem_formulation": {
+        "simple_description": "\"Given two relational datasets, the goal is to identify pairs of tuples—one from each dataset—that refer to the same real-world entity.\"\n",
+        "formal_definition": {
+          "input": "\"Two relational datasets, each consisting of multiple tuples. Each tuple is defined by a set of attribute values corresponding to a fixed set of attributes. The datasets may contain heterogeneous and potentially noisy or erroneous data.\"\n",
+          "output": "\"A set of matched tuple pairs, where each pair consists of one tuple from the first dataset and one tuple from the second dataset, and both tuples refer to the same real-world entity.\""
+        }
+      }
+    },
+    {
+      "paper_id": "54593c94",
+      "paper_title": "Blocker and Matcher Can Mutually Benefit: A Co-Learning Framework for Low-Resource Entity Resolution",
+      "problem_formulation": {
+        "simple_description": "\"Given two collections of data entries and a limited annotation budget, the goal is to identify all pairs of entries that refer to the same real-world entity by utilizing at most the allowed number of labeled pairs.\"\n",
+        "formal_definition": {
+          "input": "\"Two collections of data entries, D and D', each entry represented as a set of attribute–value pairs with identical schema across both collections; and an annotation budget B specifying the maximum number of entry pairs that can be labeled (as matches or non-matches).\"\n",
+          "output": "\"A set of pairs (e, e'), where e ∈ D and e' ∈ D', such that each pair refers to the same real-world entity (i.e., the set of true matches between D and D'), identified using no more than B labeled pairs.\""
+        }
+      }
+    },
+    {
+      "paper_id": "b24a912c",
+      "paper_title": "In-context Clustering-based Entity Resolution with Large Language Models: A Design Space Exploration",
+      "problem_formulation": {
+        "simple_description": "\"Given a collection of records, the goal is to partition the records into clusters such that each cluster corresponds to a unique real-world entity, by leveraging in-context clustering over subsets of records while minimizing the number of clustering operations (e.g., API calls) and ensuring high clustering quality.\"\n",
+        "formal_definition": {
+          "input": "A set of records, where each record represents a data instance with one or more attributes (which may be numerical, categorical, or textual). The input may be a single collection (for deduplication) or the union of two collections (for record linkage), and may be partitioned into subsets (record sets) for clustering. Each record set is characterized by its size (number of records), diversity (number of distinct entities represented), and variation (distribution of records across entities), with possible constraints on these factors.\n",
+          "output": "A partitioning (clustering) of the input records, where each cluster contains all records referring to the same real-world entity, such that the clustering aligns with the true entity assignments. The output should minimize the number of clustering operations required and maintain high accuracy in entity resolution."
+        }
+      }
+    },
+    {
+      "paper_id": "d6c37522",
+      "paper_title": "PromptEM: Prompt-tuning for Low-resource Generalized Entity Matching",
+      "problem_formulation": {
+        "simple_description": "\"Given two collections of entity records in structured, semi-structured, or unstructured formats, the goal is to determine for each candidate pair whether they refer to the same real-world entity, especially in scenarios where only a small number of labeled examples are available.\"\n",
+        "formal_definition": {
+          "input": "\"Two entity tables, E_A and E_B, each containing entity records that may be structured, semi-structured, or unstructured, and may have homogeneous or heterogeneous schemas. A small set of labeled examples indicating matches or non-matches may be available.\"\n",
+          "output": "\"For each candidate pair (e_a, e_b) where e_a ∈ E_A and e_b ∈ E_B, a binary label y ∈ {0,1} indicating whether the pair refers to the same real-world entity (y=1) or not (y=0).\""
+        }
+      }
+    },
+    {
+      "paper_id": "9f0c2daf",
+      "paper_title": "Sparkly: A Simple yet Surprisingly Strong TF/IDF Blocker for Entity Matching",
+      "problem_formulation": {
+        "simple_description": "\"Given two tables with the same schema, the goal is to efficiently identify pairs of tuples that are likely to refer to the same real-world entity by removing unlikely pairs, while maximizing the fraction of true matches retained and minimizing the number of candidate pairs and runtime.\"\n",
+        "formal_definition": {
+          "input": "\"Two tables, A and B, each consisting of tuples and sharing the same schema. The tables may be large, potentially containing millions of tuples.\"\n",
+          "output": "\"A set of tuple pairs (a, b), where a is from table A and b is from table B, that are judged likely to refer to the same real-world entity (i.e., candidate matches) and are retained for further matching.\""
+        }
+      }
+    },
+    {
+      "paper_id": "3e96d15e",
+      "paper_title": "Deep Indexed Active Learning for Matching Heterogeneous Entity Representations",
+      "problem_formulation": {
+        "simple_description": "\"Given two large lists of entities with potentially heterogeneous and unaligned textual attributes, the goal is to identify all pairs of entities across the lists that refer to the same real-world entity (i.e., are duplicates), using limited labeled data and a restricted labeling budget.\"\n",
+        "formal_definition": {
+          "input": "\"Two large lists of entities, R and S, where each entity is described by one or more predominantly textual attributes; the attributes may not be aligned or directly comparable across the lists (e.g., different languages or schemas). Additionally, a small seed labeled dataset T of duplicate and non-duplicate pairs, and a labeling budget B for obtaining further human labels on selected pairs from R × S are provided.\"\n",
+          "output": "\"A subset DuPs of the Cartesian product R × S, consisting of all pairs (r, s) such that r ∈ R and s ∈ S, where each pair is classified as either a duplicate (referring to the same real-world entity) or not.\""
+        }
+      }
+    },
+    {
+      "paper_id": "6ab21388",
+      "paper_title": "MinoanER: Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities",
+      "problem_formulation": {
+        "simple_description": "\"Given two duplicate-free knowledge bases containing entity descriptions, the goal is to identify pairs of descriptions from the two knowledge bases that refer to the same real-world entity by effectively measuring and leveraging similarities between their values and relationships, despite high schema heterogeneity and data variety.\"\n",
+        "formal_definition": {
+          "input": "\"Two knowledge bases, each consisting of a set of entity descriptions. Each entity description is identified by a URI and is represented as a set of attribute-value pairs, where values may include references to other entities (relations). The knowledge bases are assumed to be duplicate-free (i.e., each entity is described only once per knowledge base). No shared schema or attribute alignment is assumed between the knowledge bases.\"\n",
+          "output": "\"A set of pairs of entity descriptions, one from each knowledge base, such that each pair is determined to refer to the same real-world entity. Each pair consists of the identifiers (URIs) of the matching entity descriptions.\""
+        }
+      }
+    },
+    {
+      "paper_id": "ec4709c1",
+      "paper_title": "Deep Learning for Blocking in Entity Matching: A Design Space Exploration",
+      "problem_formulation": {
+        "simple_description": "\"Given two tables with the same schema, the goal is to efficiently identify pairs of tuples that are likely to refer to the same real-world entity (i.e., potential matches), by maximizing the recall of true matches while minimizing the number of candidate pairs and the time required for blocking.\"\n",
+        "formal_definition": {
+          "input": "\"Two tables, A and B, each consisting of tuples with the same schema (i.e., the same set of attributes). No labeled training data is assumed to be available. The attributes may be structured, textual, or contain dirty (noisy) values.\"\n",
+          "output": "\"A set C of tuple pairs (a, b), where a is from table A and b is from table B, such that C contains as many true matching pairs as possible (high recall), while keeping the size of C and the time to compute C as small as possible.\""
+        }
+      }
+    },
+    {
+      "paper_id": "256e52ab",
+      "paper_title": "ZeroEA: A Zero-Training Entity Alignment Framework via Pre-Trained Language Model",
+      "problem_formulation": {
+        "simple_description": "\"Given two knowledge graphs, the goal is to identify and link entities in one graph to their equivalent entities in the other graph by determining which entities refer to the same real-world object.\"\n",
+        "formal_definition": {
+          "input": "\"Two knowledge graphs, each defined as a set of entities, a set of relations, and a set of triples (head entity, relation, tail entity):  - Source knowledge graph: 𝒢ₛ = {𝔈ₛ, ℛₛ, 𝒯ₛ} - Target knowledge graph: 𝒢ₜ = {𝔈ₜ, ℛₜ, 𝒯ₜ} where 𝔈ₛ and 𝔈ₜ are the sets of entities, ℛₛ and ℛₜ are the sets of relations, and 𝒯ₛ and 𝒯ₜ are the sets of triples in the source and target graphs, respectively.\"\n",
+          "output": "\"An alignment set 𝒮ₛₜ consisting of pairs of entities (eᵢ, eⱼ), where eᵢ ∈ 𝔈ₛ and eⱼ ∈ 𝔈ₜ, such that each pair represents entities that are equivalent in the real world.\""
+        }
+      }
+    },
+    {
+      "paper_id": "07e4e216",
+      "paper_title": "Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching",
+      "problem_formulation": {
+        "simple_description": "\"Given two strings that may contain acronyms, abbreviations, and typos, the goal is to determine whether they refer to the same entity by accurately assessing their similarity.\"\n",
+        "formal_definition": {
+          "input": "\"A pair of strings, each potentially containing acronyms, abbreviations, and typographical errors; the strings may represent entity names or titles from real-world datasets.\"\n",
+          "output": "\"A similarity score or a binary match/non-match decision indicating whether the two input strings refer to the same entity, based on their similarity.\""
+        }
+      }
+    }
+  ],
+  "aspect_classification": "\n{\n  \"input_classification\": {\n    \"classes\": [\n      {\n        \"class_name\": \"Paired Entity Records with Attributes\",\n        \"class_description\": \"Two collections, tables, or datasets of entity records, tuples, or data entries, each record described by a set of attributes (structured, semi-structured, or unstructured), possibly with schema alignment or heterogeneity. May include annotation or labeling budget constraints.\",\n        \"papers\": [\n          \"f32a10ff\",\n          \"79bc4b32\",\n          \"baa3b0fc\",\n          \"54593c94\",\n          \"d6c37522\",\n          \"9f0c2daf\",\n          \"3e96d15e\",\n          \"ec4709c1\"\n        ]\n      },\n      {\n        \"class_name\": \"Knowledge Graphs / Knowledge Bases\",\n        \"class_description\": \"Two knowledge graphs or knowledge bases, each consisting of entities, relations, and triples or entity descriptions, possibly with no shared schema or attribute alignment.\",\n        \"papers\": [\n          \"6ab21388\",\n          \"256e52ab\"\n        ]\n      },\n      {\n        \"class_name\": \"String Pairs\",\n        \"class_description\": \"A pair of strings, typically representing entity names or titles, possibly containing acronyms, abbreviations, or typographical errors.\",\n        \"papers\": [\n          \"07e4e216\"\n        ]\n      },\n      {\n        \"class_name\": \"Record Set for Clustering\",\n        \"class_description\": \"A set or collection of records (data instances) with one or more attributes, possibly partitioned into subsets for clustering, used for deduplication or record linkage.\",\n        \"papers\": [\n          \"b24a912c\"\n        ]\n      }\n    ]\n  },\n  \"output_classification\": {\n    \"classes\": [\n      {\n        \"class_name\": \"Binary Match/Non-Match Decision for Entity Pairs\",\n        \"class_description\": \"For each candidate or input pair of entity records, tuples, or descriptions, a binary classification or label indicating whether the pair refers to the same real-world entity (match) or not (non-match).\",\n        \"papers\": [\n          \"f32a10ff\",\n          \"79bc4b32\",\n          \"d6c37522\",\n          \"3e96d15e\"\n        ]\n      },\n      {\n        \"class_name\": \"Set of Matched Entity Pairs\",\n        \"class_description\": \"A set of pairs (or subset of the Cartesian product) of records, tuples, or entity descriptions, where each pair is determined to refer to the same real-world entity.\",\n        \"papers\": [\n          \"baa3b0fc\",\n          \"54593c94\",\n          \"6ab21388\",\n          \"256e52ab\"\n        ]\n      },\n      {\n        \"class_name\": \"Candidate Pair Set for Blocking\",\n        \"class_description\": \"A set of tuple or record pairs (candidate matches) identified as likely to refer to the same real-world entity, to be retained for further matching or downstream processing.\",\n        \"papers\": [\n          \"9f0c2daf\",\n          \"ec4709c1\"\n        ]\n      },\n      {\n        \"class_name\": \"Clustering/Partitioning of Records\",\n        \"class_description\": \"A partitioning (clustering) of input records such that each cluster contains all records referring to the same real-world entity, aligning with true entity assignments.\",\n        \"papers\": [\n          \"b24a912c\"\n        ]\n      },\n      {\n        \"class_name\": \"Similarity Score or Binary Decision for String Pairs\",\n        \"class_description\": \"A similarity score or a binary match/non-match decision indicating whether two input strings refer to the same entity.\",\n        \"papers\": [\n          \"07e4e216\"\n        ]\n      }\n    ]\n  }\n}\n",
+  "taxonomy": "\n{\n  \"taxonomy\": {\n    \"task_id\": \"ROOT\",\n    \"task_name\": \"ROOT\",\n    \"children\": [\n      {\n        \"task_id\": \"TASK:L1:ENTITY_RESOLUTION_ON_STRUCTURED_RECORDS\",\n        \"task_name\": \"Entity Resolution on Structured Records\",\n        \"input_class\": \"Paired Entity Tables or Record Sets\",\n        \"output_class\": \"Binary Match/Non-Match Decisions for Record Pairs\",\n        \"explanation\": \"Given two datasets of entity records with attributes, determine for each candidate pair whether they refer to the same real-world entity (i.e., perform pairwise entity matching).\",\n        \"papers\": [\n          \"f32a10ff\",\n          \"79bc4b32\",\n          \"d6c37522\",\n          \"3e96d15e\"\n        ],\n        \"children\": [\n          {\n            \"task_id\": \"TASK:L2:ENTITY_MATCHING_PAIR_EXTRACTION\",\n            \"task_name\": \"Entity Matching: Extraction of Matched Record Pairs\",\n            \"input_class\": \"Paired Entity Tables or Record Sets\",\n            \"output_class\": \"Set of Matched Entity Pairs\",\n            \"explanation\": \"Identify and extract all pairs of records from two datasets that refer to the same real-world entity, producing a set of matched pairs.\",\n            \"papers\": [\n              \"baa3b0fc\",\n              \"54593c94\"\n            ],\n            \"children\": []\n          },\n          {\n            \"task_id\": \"TASK:L2:BLOCKING_FOR_ENTITY_RESOLUTION\",\n            \"task_name\": \"Blocking for Entity Resolution\",\n            \"input_class\": \"Paired Entity Tables or Record Sets\",\n            \"output_class\": \"Candidate Pair Set for Blocking\",\n            \"explanation\": \"Efficiently generate a reduced set of candidate record pairs from two datasets that are likely to match, to be used for downstream entity resolution.\",\n            \"papers\": [\n              \"9f0c2daf\",\n              \"ec4709c1\"\n            ],\n            \"children\": []\n          }\n        ]\n      },\n      {\n        \"task_id\": \"TASK:L1:ENTITY_RESOLUTION_ON_KNOWLEDGE_GRAPHS\",\n        \"task_name\": \"Entity Resolution on Knowledge Graphs\",\n        \"input_class\": \"Knowledge Graphs or Knowledge Bases\",\n        \"output_class\": \"Set of Matched Entity Pairs\",\n        \"explanation\": \"Given two knowledge graphs or knowledge bases, identify pairs of entities that refer to the same real-world entity (i.e., perform entity alignment or ontology matching).\",\n        \"papers\": [\n          \"6ab21388\",\n          \"256e52ab\"\n        ],\n        \"children\": []\n      },\n      {\n        \"task_id\": \"TASK:L1:DEDUPLICATION_VIA_CLUSTERING\",\n        \"task_name\": \"Deduplication via Record Clustering\",\n        \"input_class\": \"Record Set for Clustering\",\n        \"output_class\": \"Clustering/Partitioning of Records\",\n        \"explanation\": \"Cluster a set of records so that each cluster contains all records referring to the same real-world entity, thus deduplicating the dataset.\",\n        \"papers\": [\n          \"b24a912c\"\n        ],\n        \"children\": []\n      },\n      {\n        \"task_id\": \"TASK:L1:STRING_BASED_ENTITY_MATCHING\",\n        \"task_name\": \"String-based Entity Matching\",\n        \"input_class\": \"String Pairs\",\n        \"output_class\": \"Similarity Score or Binary Decision for String Pairs\",\n        \"explanation\": \"Given a pair of strings (e.g., entity names), compute a similarity score or binary decision indicating whether they refer to the same entity.\",\n        \"papers\": [\n          \"07e4e216\"\n        ],\n        \"children\": []\n      }\n    ]\n  }\n}\n"
+}

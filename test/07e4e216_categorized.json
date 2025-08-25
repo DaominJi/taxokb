@@ -1,0 +1,45 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 3 OUR STRING SIMILARITY MEASURE",
+    "## 4 COMPUTING SMASH",
+    "### 4.1 Optimal Substructure",
+    "### 4.2 Dynamic Programming Algorithm",
+    "### 4.3 Constructing the Optimal Partition"
+  ],
+  "Methodology": [
+    "## 5 OPTIMIZATIONS AND APPLICABILITY",
+    "## 6 IMPLEMENTATION",
+    "# Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching"
+  ],
+  "Related Work": [
+    "## 2 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 7 EXPERIMENTS",
+    "### 7.1 Datasets, Baselines, and Configurations",
+    "### 7.2 Precision, Recall, and F-Score",
+    "### 7.3 Execution Time of String Matching",
+    "### 7.4 Effectiveness of Considering Skipping Stop Words and Short Words",
+    "### 7.5 Performance Impact of Refinement Rules for pkduck",
+    "### 7.6 Performance of ChatGPT"
+  ],
+  "Conclusion": [
+    "## 8 CONCLUSION"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [
+    "## ACKNOWLEDGMENTS"
+  ],
+  "Appendix": [
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
+  ]
+}

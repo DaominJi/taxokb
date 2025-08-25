@@ -1,0 +1,507 @@
+# Cost-Effective In-Context Learning for Entity Resolution: A Design Space Exploration
+
+Meihao Fan^{†}, Xiaoyue Han^{†}, Ju Fan^{†}, Chengliang Chai^{‡}, Nan Tang^{§}, Guoliang Li^{∗}, Xiaoyong Du^{†}
+^{†}Renmin University of China, ^{‡}Beijing Institute of Technology,^{§}HKUST (GZ), ^{‡}Tsinghua University
+{fmh1art, cloverhxy, fanj, duyong}@ruc.edu.cn, ccl@bit.edu.cn, nantang@hkust-gz.edu.cn, liguoliang@tsinghua.edu.cn
+
+Abstract—Entity resolution (ER) is an important data integration task with a wide spectrum of applications. The state-of-the-art solutions on ER rely on pre-trained language models (PLMs), which require fine-tuning on a lot of labeled matching/non-matching entity pairs. Recently, large languages models (LLMs), such as GPT-4, have shown the ability to perform many tasks without tuning model parameters, which is known as in-context learning (ICL) that facilitates effective learning from a few labeled input context demonstrations. However, existing ICL approaches to ER typically necessitate providing a task description and a set of demonstrations for each entity pair and thus have limitations on the monetary cost of interfacing LLMs. To address the problem, in this paper, we provide a comprehensive study to investigate how to develop a cost-effective batch prompting approach to ER. We introduce a framework BATCHER consisting of demonstration selection and question batching and explore different design choices that support batch prompting for ER. We also devise a covering-based demonstration selection strategy that achieves an effective balance between matching accuracy and monetary cost. We conduct a thorough evaluation to explore the design space and evaluate our proposed strategies. Through extensive experiments, we find that batch prompting is very cost-effective for ER, compared with not only PLM-based methods fine-tuned with extensive labeled data but also LLM-based methods with manually designed prompting. We also provide guidance for selecting appropriate design choices for batch prompting.
+
+## I. INTRODUCTION
+
+Entity resolution (ER), which finds entities that refer to the same real-world object, is a crucial task for data cleaning and data integration. Its applications span across various domains, with particular significance in healthcare, finance, customer relationship management, law enforcement, and many others.
+
+The state-of-the-art (SOTA) results in ER are achieved through the application of deep learning methodologies. These methods [1]–[5] involve the utilization of Transformer-based models, which are trained on extensive datasets comprising numerous (e.g., hundreds or thousands) labeled entity pairs.
+
+Standard Prompting and Batch Prompting. Meanwhile, large-scale pre-trained language models (LLMs), such as GPT models [6], have adopted an emerging learning paradigm called in-context learning (ICL), which does not require to update the model parameters of LLMs [7]–[10]. It facilitates effective learning from a restricted set of labeled input context demonstrations, referred to as demonstrations.
+
+Next, we use an example to illustrate the typical way of in-context learning, referred to as standard prompting.
+
+Example 1: [Standard Prompting] Figure 1(a) shows standard prompting for ER. The user needs to provide a task description, several demonstrations (i.e., the ER pairs with known matching or non-matching labels), and one question (i.e., the ER pair whose label is unknown). An LLM (e.g., GPT-4) can then answer whether the two entities in the question match or not.
+
+Recent studies have shown that standard prompting for ER is effective on matching accuracy [11], [12]. However, a key limitation of this approach is its monetary cost of calling APIs of LLMs, as it necessitates providing a task description and a set of demonstrations for each question, as explained in the following example. For instance, consider a table with 1,000 records that require about 500,000 predictions for ER. Suppose that each pair has $\sim 60$ words or $\sim 90$ tokens. Then, querying GPT-4 with standard prompting consisting of 3 demonstrations and 1 question will cost $500,000\times(90\times(3+1))\times(0.01/1000)=\$1,800$, where the pricing of GPT-4 API services is $\$ 0.01$ per 1K tokens (https://openai.com/pricing).
+
+To be cost-effective, a natural alternative is to use a set, or a batch of questions when prompting the LLMs, which is known as batch prompting.
+
+Example 2: [Batch Prompting] As shown in Figure 1(b), the user needs to provide a task description, a set of demonstrations, and a set of questions. Subsequently, the underlying LLM can answer whether each question (i.e., entity pair) in this batch matches or not.
+
+However, despite some very recent attempts of batch prompting for general natural language tasks [13]–[16], as far as we know, exploring the effectiveness of batch prompting for
+
+ER under different design choices is not addressed. To bridge the gaps, we provide a comprehensive study to investigate how to develop a cost-effective batch prompting approach to ER. To achieve this, we introduce a batch prompting framework called BATCHER that consists of two main modules, demonstration selection and question batching. Based on the framework, we conduct extensive experiments on well-known ER benchmarks to systemically investigate the following two key questions.
+A Design Space Exploration on Both Accuracy and Cost. Due to the importance of ER and the increasing ability of in-context learning, it is highly desired to systemically study batching prompting for ER, under different design choices, on both matching accuracy and monetary cost. To this end, we categorize different choices in question batching and demonstration selection. For question batching, we categorize existing methods as similarity-based, diversity-based and random question. For demonstration selection, we classify existing methods as fixed, topk-batch, and topk-quesion.
+A Novel Covering-based Selection Strategy. While empirically exploring the above design space, we find that existing solutions only consider selecting top- $k$ demonstrations after a batch of questions is determined, without considering whether the selected demonstrations can well cover all questions in a batch. Thus, we further study the problem:"how to select a batch of questions and how to select a set of demonstrations collectively, such that the demonstrations can well cover all questions which can best guide LLMs to provide answers"? We model the problem as a set cover problem, which is known as NP-hard. We solve the problem by devising a covering-based selection strategy, which selects demonstrations by considering relevance and coverage. The covering-based strategy aims to generate a labeled demonstration set by selecting the minimum number of demonstrations to cover all questions and then labeling them, and thus can effectively balance the trade-off between matching accuracy and monetary cost.
+A Summary of Experiments. We conduct a thorough evaluation to explore the design space and evaluate our proposed strategies. Our experimental findings reveal insights into accuracy and cost of different batch prompting strategies. (1) Batch prompting can bring 4x-7x cost saving and achieve higher and more stable accuracy than standard prompting. (2) The design choice that combines diversity-based question batching and our proposed covering-based demonstration selection is the most favorable, i.e., achieving the highest accuracy while incurring the lowest cost. (3) Our BATCHER framework is the most cost-effective, compared with not only PLM-based methods [1]-[3] fine-tuned with extensive labeled data, but also LLM-based methods with manually designed prompting [11].
+Contributions. We make the following notable contributions.
+
+1) We investigate the design space of batch prompting for ER, by introducing a framework BATCHER and systematically categorizing existing methods for question batching and demonstration selection in Section II.
+2) We introduce specific question batching strategies (Section III) and demonstration selection methods for ER (Section IV). We devise a novel covering-based selection strategy to connect the process of question batching and demonstration selecting in Section V.
+3) We empirically evaluate our batch prompting framework BATCHER (Section VI). We make all codes and datasets in our experiments public at Github. Based on the evaluation, we provide insights on the strengths and limitations of various strategies, which guides designing cost-effective ICL approaches to ER.
+
+## II. Batch Prompting for Entity Resolution: A Design Space Exploration
+
+## A. Entity Resolution
+
+Let $T_{A}$ and $T_{B}$ be relational tables with $m$ attributes. Each tuple refers to an entity consisting of $m$ properties, i.e., for a tuple $a \in T_{A}, a=\left\{\right.$ attr $\left._{i}, \mathrm{val}_{i}\right\}_{i=1}^{m}$ where attr $_{i}$ and val $_{i}$ denote the $i$-th attribute name and value respectively. The problem of entity resolution (ER) is to identify all the entity pairs $(a, b) \in T_{A} \times T_{B}$ that refer to the same object in the real world based on the corresponding attributes.
+
+An end-to-end ER system consists of a blocker and a matcher. The blocker's goal is to identify a subset of $T_{A} \times T_{B}$ containing candidate pairs with a high probability of being matched [1], [17], [18] while the matcher's objective is to determine whether each entity pair $(a, b)$ in the above candidate set refers to the same real-world entity (i.e., matching) or not (i.e., non-matching). While the design of an effective blocking strategy is beyond the scope of this paper, we employ a widely accepted blocking method [1], [18], [19] to produce the aforementioned pairwise candidate set.
+
+## B. In-Context Learning
+
+In-context learning (ICL). It refers to the capability of LLMs to learn from a few demonstrations in the input context without any parameters updating [6].
+
+ICL for ER. Given any entity pair $\left(a_{i}, b_{i}\right)$, we utilize a serialization function to serialize it into a text by concatenating all attribute names and values within the entity pair:
+
+$$
+\begin{aligned}
+\mathcal{S}\left(\left(a_{i}, b_{i}\right)\right) & =\mathcal{S}\left(a_{i}\right)[\mathrm{SEP}] \mathcal{S}\left(b_{i}\right) \\
+\mathcal{S}(e) & =\mathrm{attr}_{1}: \mathrm{val}_{1} \ldots \mathrm{attr}_{m}: \mathrm{val}_{m}
+\end{aligned}
+$$
+
+where [SEP] is used to separate entities of a pair and $\mathcal{S}(\cdot)$ denotes the serialization function of each data entity $e$.
+
+Then, we construct a prompt consisting of a task description Desc, several serialized pairs with golden labels Demos (denoted as demonstrations in this paper) and a serialized pair Question to be queried (denoted as question). By feeding them to an LLM $G$, we generate the target $y$ with the next token prediction, which can be regarded as a conditional text generation problem:
+
+$$
+y=\arg \max _{y \in Y} P_{G}(y \mid \overbrace{\text { Desc } \oplus \text { Demos }}^{\text {supervision of ER task }} \oplus \text { Question })
+$$
+
+where $Y=\{$ matching, non-matching $\}$ is the label space.
+${ }^{1}$ https://github.com/fmh1art/BatchER
+
+![img-0.jpeg](img-0.jpeg)\begin{overpic}[trim=0.0pt 0.0pt 0.0pt 0.0pt,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,clip,trim=0.0pt,clip,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,ofib,trim=0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0pt,0.0.0pt,0.0pt,0.0pt,0.0pt,0.0.0pt,0.0pt,0.0pt,0.0pt,0.0.0pt,0.0pt,0.0pt,0.0pt,0.0.0pt,0.0pt,0.0.0pt,0.0pt,0.0.0pt,0.0.0.0.0.0pt,0.0.0.0.0pt,0.0.0.0.0.0pt,0.0.0.0.0pt,0.0.0.0.0pt,0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.
+
+![img-1.jpeg](img-1.jpeg)
+
+Fig. 3: Question Batching Framework
+
+framework of question batching, as illustrated in Figure 3. Specifically, given a Question Set M of entity pairs, the framework produces batches of questions in three steps.
+
+- **Feature Extraction.** We first use a Feature Extractor to cast the questions into feature vectors.
+- **Question Clustering.** We then adopt an unsupervised clustering algorithm such as DBSCAN or K-Means to group the questions into clusters.
+- **Question Batching.** We finally group questions into batches based on the clusters using various strategies.
+
+In the remaining of this section, we mainly introduce three representative batching strategies, including random question batching, similarity-based question batching, and diversity-based question batching, which have been adopted by previous studies [23], [26] (Section III-A). Next, as feature extraction and distance measurement (for clustering) are involved in the batching process, we then discuss two feature extraction methods in Section III-B. Note that, for question clustering, we adopt DBSCAN [27], as the algorithm achieves the best performance. Due to the space limit, this section does not discuss various clustering algorithms, which are not the focus of this paper.
+
+### A. Batching Strategies
+
+Given clustered questions, BATCHER generates batches based on the following three representative strategies, random question batching, similarity-based question batching, and diversity-based question batching, which have been adopted by previous studies [23], [26].
+
+**Similarity-based Question Batching.** The intuition of this strategy is to group similar questions within the same clusters into the same batch. To this end, we iteratively select b (i.e., batch size) questions from the same cluster to form a batch, to ensure that questions in the same batch have similar feature vectors to each other. In particular, during the final stage of batch generation, some clusters may contain questions fewer than the required batch size b. In such case, we select the largest remaining cluster, denoted as C<sub>max</sub>. We then seek to pair it with another cluster whose size exactly matches b – |C<sub>max</sub>|, to form a complete batch. If no such cluster exists, we opt for the next largest cluster, randomly selecting b – |C<sub>max</sub>| elements from them to form a batch in conjunction with C<sub>max</sub>.
+
+**Diversity-based Question Batching.** The intuition of this strategy is to group questions that are from diversified clusters into a batch. In this batching strategy, batches are also generated in two stages. Firstly, we ensure batch diversity by selecting one question from each of b different clusters, such that the questions in different batches have obvious differences in feature vectors from each other. Then, when the batching process nears completion, we may encounter scenarios where the number of available clusters is less than b. In such instance, we simply ensure the diversity of batches generated from a limited number of clusters by selecting questions from remaining clusters in a round-robin manner.
+
+*Example 4:* [Question Batching] Consider the questions in Figure 3. We denote the three clusters as C<sup>a</sup> = {q<sup>a</sup><sub>1</sub>}<sup>2</sup><sub>i=1</sub>, C<sup>b</sup> = {q<sup>b</sup><sub>i</sub>}<sup>3</sup><sub>i=1</sub>, and C<sup>c</sup> = {q<sup>c</sup><sub>i</sub>}<sup>4</sup><sub>i=1</sub>, respectively.
+
+(1) For similarity-based question batching, we sequentially select C<sup>b</sup> and C<sup>c</sup>, forming batches B<sub>1</sub> = {q<sup>b</sup><sub>1</sub>, q<sup>b</sup><sub>2</sub>, q<sup>b</sup><sub>3</sub>} and B<sub>2</sub> = {q<sup>c</sup><sub>1</sub>, q<sup>c</sup><sub>2</sub>, q<sup>c</sup><sub>3</sub>}. Subsequently, from the remaining clusters C<sup>a</sup> = {q<sup>a</sup><sub>1</sub>, q<sup>a</sup><sub>2</sub>} and C<sup>c</sup> = {q<sup>c</sup><sub>4</sub>}, we choose the larger cluster C<sup>a</sup> and combine it with C<sup>c</sup> to create B<sub>3</sub> = {q<sup>a</sup><sub>1</sub>, q<sup>a</sup><sub>2</sub>, q<sup>c</sup><sub>4</sub>}.
+
+(2) For diversity-based question batching, we can generate diverse batches B<sub>1</sub> = {q<sup>a</sup><sub>1</sub>, q<sup>b</sup><sub>1</sub>, q<sup>c</sup><sub>1</sub>} and B<sub>2</sub> = {q<sup>a</sup><sub>2</sub>, q<sup>b</sup><sub>2</sub>, q<sup>c</sup><sub>2</sub>} in the initial stages by iteratively selecting one question from C<sup>a</sup>, C<sup>b</sup> and C<sup>c</sup>. Then with remaining clusters C<sup>b</sup> = {q<sup>b</sup><sub>3</sub>} and C<sup>c</sup> = {q<sup>c</sup><sub>3</sub>, q<sup>c</sup><sub>4</sub>}, we sequentially select questions from C<sup>c</sup>, C<sup>b</sup> and C<sup>c</sup> to generate the final batch B<sub>3</sub> = {q<sup>c</sup><sub>3</sub>, q<sup>b</sup><sub>3</sub>, q<sup>c</sup><sub>4</sub>}.
+
+**Random Question Batching.** We also consider a straightforward random question batching strategy, which is commonly adopted in the existing works [23], [26]. In this approach, each batch is formed by randomly selecting questions from the remaining question set. Due to this randomness, the generated batches may contain a mix of both similar and dissimilar questions. This implies that a random batch, to some extent, represents a middle ground between a similar batch and a diverse batch.
+
+### B. Feature Extractor
+
+The process of batching questions in the previous section relies on the utilization of a feature extractor to convert questions into corresponding feature vectors. Subsequently, these feature vectors are used to calculate distances between questions and then serve as the basis for the clustering procedure. Formally, given a set of questions M, we need to define a feature extractor f and a distance function dist, and thus the distance of any two questions q<sup>i</sup> and q<sup>j</sup> can be calculated via dist(v<sup>i</sup>, v<sup>j</sup>) between the two feature vectors, i.e., v<sup>i</sup> and v<sup>j</sup>. We notice that the distance function can be further defined by a variety of ways, such as Euclidean distance or cosine similarity (distance). In our experiments, we define the distance function based on the Euclidean distance, which achieves the best performance among others.
+
+Next, we introduce two types of feature extractors, one based on semantics and the other being structure-aware.
+
+**Semantics-based Feature Extractor.** Semantics-based feature
+
+| title | album | genre | title | album | genre |
+| --- | --- | --- | --- | --- | --- |
+| Rashi | Here Comes the Fuzz | Dance,Music | $S_{i}$ | Rashi | Here Comes The Fuzz [Explicit] | Music |
+| Act My | | Hip-Hop | | | | |
+| Age | FOUR | Pop, Music | $S_{i}$ | Change My Mind | Take Me Home | Pop |
+
+Fig. 4: An example instance of Entity Resolution.
+
+extractor utilizes a pre-trained language model (PLM) to encode each serialized question. For ER task, as all questions are structural pairs, i.e., with multiple attributes, we first use the serialization function defined in Eq.(1) to generate serialized questions and pass it to a PLM, such as SBERT *[28]* and RoBerta *[29]* to generate embedding-based representations. Formally, given a question $q$, the feature vector $\mathbf{v}$ can be generated as follow:
+
+$\mathbf{v}=\operatorname{Encoder}(\mathcal{S}(q))$ (3)
+
+where Encoder denotes the encoding function of a PLM. Although the above feature extractor formulates the relevance as semantic distance, it may have the limitation of ignoring the structural information. This inspires us to introduce another feature extraction method, which can capture structural similarity to model relevance.
+
+Structure-aware Feature Extractor. Structure-aware feature extractor employs a string similarity function to map attributematching signals of two entities of a question into a low-dimensional space, which enables the generated feature vectors to capture structural information and task-related knowledge. Formally, given a structural pair $(a,b)$, we derive the feature vector by calculating the similarities of attributes between $a$ and $b$. Since attribute values typically take a string format, we can compute similarity $s_{i}$ on attribute $\operatorname{attr}_{i}$ with string similarity function, e.g., Levenshtein ratio and Jaccard.
+
+Using the Jaccard similarity, we tokenize $\operatorname{val}_{i}^{a}$ and $\operatorname{val}_{i}^{b}$ into sets and compute the similarity as:
+
+$s_{i}=\operatorname{JAC}(\operatorname{val}_{i}^{a},\operatorname{val}_{i}^{b})=\frac{|\operatorname{val}_{i}^{a}\cap\operatorname{val}_{i}^{b}|}{|\operatorname{val}_{i}^{a}\cup\operatorname{val}_{i}^{b}|}$ (4)
+
+where $\operatorname{val}_{i}^{a}$ represents the tokenized set of attribute value $\operatorname{val}_{i}$ of entity $a$ and $|\operatorname{val}_{i}^{a}|$ represents corresponding token-set size.
+
+The Levenshtein ration (LR) derives from the Levenshtein edit distance (LED) *[30]*, representing the minimum number of edits needed to transform one string into another, as:
+
+$s_{i}=\operatorname{LR}(\operatorname{val}_{i}^{a},\operatorname{val}_{i}^{b})=1-\frac{\operatorname{LED}(\operatorname{val}_{i}^{a},\operatorname{val}_{i}^{b})}{s}$ (5)
+
+where LED is the Levenshtein edit distance function and $s$ represents the sum of string length of $\operatorname{val}_{i}^{a}$ and $\operatorname{val}_{i}^{b}$.
+
+Thus, given a question $q$ with entity pair $(a,b)$, the feature vector $\mathbf{v}$ can be generated by concatenating the similarities of all attributes make $\mathbf{v}=\{s_{i}\}_{i=1}^{m}$.
+
+Example 5: [Feature Extraction] Figure 4 shows an example instance of entity resolution.
+
+(1) For semantics-based feature extractor, we first serialize $q_{1}$ with Eq. 1 and obtain $S(q_{1})=$“title:Rashi, album:Here…, genre:Dance… [SEP] title:Rashi, album:Here…, genre:Music”. Then we utilize a pre-trained language model such as SBERT to encode the embedding as feature vector $\mathbf{v}_{1}$.
+![img-2.jpeg](img-2.jpeg)Fig. 5: Demonstration Selection Framework, where blue circles and yellow circles represent demonstrations and questions respectively, and values on edges represent distances.
+
+(2) For structure-aware feature extractor, to generate $\mathbf{v}_{1}$ for $q_{1}$, we first compute the string similarities of “Rashi” and “Rashi”, “Here Comes the Fuzz” and “Here Comes The Fuzz [Explicit]”, and “Dance,Music,Hip-Hop” and “Music”. Suppose we utilize LR function, the similarities of title, album, and genre can be computed as 1, 0.73, and 0.42. Second, the similarities are concatenated to make up the feature vector $\mathbf{v}_{1}=[1,0.73,0.42]$. Similarly, the feature vector of $q_{2}$ can be computed as $\mathbf{v}_{2}=[0.33,0,0.46]$.
+
+## IV. DEMONSTRATION SELECTION
+
+Figure 5 illustrates the framework of demonstration selection and describes four demonstration selection methods. Given an Unlabeled Demonstration Pool $D_{u}$ and a set of generated question batches $B$, demonstration selection aims to select beneficial in-context demonstrations $D_{i}$ for each batch $B_{i}\in B$, which will be then manually labeled. To further specify the concept of four demonstration selection methods, we give an illustration for each method. For simplicity, we only consider two closest demonstrations for each question.
+
+### A. Fixed Demonstration Selection
+
+A basic idea is to sample fixed $K$ demonstrations and then allocate them to every batch. In Figure 5, we generate two fixed demonstrations by randomly sampling from the unlabeled demonstration pool and allocate these two demonstrations to each batch. This method brings a fixed annotation cost. However, existing studies show that random demonstrations may incur unstable performance of ICL *[20, 21]*.
+
+### B. Topk-batch Demonstration Selection
+
+Similar to the strategy in Standard Prompting of recommending top $k$ most relevant demonstrations *[31]*, this strategy selects the $k$ most relevant demonstrations for each batch. Since a batch $B_{i}$ and a demonstration $d$ are not in the same dimension, we first define the relevance between $B_{i}$ and $d$ based on the distance function dist defined in Section III-B:
+
+$\operatorname{dist}^{*}(B_{i},d)=\min_{q_{j}\in B_{i}}\operatorname{dist}(q_{j},d)$ (6)
+
+which shows that we define the relevance between $B_{i}$ and $d$ as the minimum distance between $d$ and all questions in the batch. Based on this, we can use the $k$NN algorithm to generate $k$ in-context demonstrations for $B_{i}$ by $D_{i}=k\text{NN}(B_{i},D_{u})$. In Figure 5, we set $k$ as batch size $|B_{i}|$, and thus Topk-batch sequentially selects $k$ demonstrations (bold blue circles) based on the $k$ shortest edges (red dotted lines).
+
+However, this method may not be able to assign relevant demonstrations for some particular questions in a batch. Thus, for such questions, the LLM may fail in finding relevant demonstrations for reference to provide the correct answers.
+
+### IV-C Topk-question Demonstration Selection
+
+To address the above issue, we investigate a demonstration selection method that select the $k$ most relevant demonstrations for each question in the batch. This is based on the assumption that, since relevant demonstrations are beneficial when querying the individual question, the set of relevant demonstrations will also benefit when querying the whole batch. Formally, considering a batch $B_{i}=\left\{q_{i}\right\}_{i=1}^{k}$, the in-context demonstration set $D_{i}$ can be generated as $D_{i}=$ $\bigcup_{q_{i}\in B_{i}}k\mathfrak{NN}\left(q_{j},D_{u}\right)$. Figure 5 illustrates the basic idea of the Top$k$-question method where we set $k=1$ and select the most relevant demonstration for each question in the batch.
+
+Although this method is likely to improve the accuracy of ICL, it may have a limitation of incurring large monetary cost. Also, it may generate long prompts which could lead to long text comprehension issue and input length overrun.
+
+### IV-D Covering-based Demonstration Selection
+
+A key limitation of Top$k$-question and Top$k$-batch is that they may incur substantial labeling cost, which is caused by labeling the selected demonstrations. To mitigate this, we introduce a new approach based on the idea of using demonstrations to “cover” all questions in the batch $B_{i}$ where “cover” means that the distance between question $p$ and demonstration $d$ is smaller than a threshold $t$. This is based on the assumption that the beneficial demonstrations are a set of relevant data points and all beneficial to a given question. In Figure 5, we assume that demonstrations with a shorter distance than 5 can be regarded as a beneficial reference when answering the question. Thus, we first select the top demonstration to cover the left two questions. Then, to cover the last question, the rightest demonstration is selected.
+
+It is important to recognize that for the given batches, multiple selection choices that fulfill the aforementioned covering-based criteria exist. Thus, in Section V, we will formally formulate this the covering-based problem and propose an efficient algorithm to solve the problem.
+
+## V. Covering-based Demonstration Selection
+
+The covering-based method aims to address two main problems. First, we need to select a minimal subset of demonstrations from an unlabeled demonstration pool to cover all the questions of all batches. Then, for each batch, we need to further select some demonstrations from this subset, ensuring the covering of each question in the batch while minimizing the total number of tokens. Below, we name these two problems as the Demonstration Set Generation and Batch Covering problems and provide their detailed definitions.
+
+Algorithm 1 Demonstration Set Generation/Batch Covering
+Input: Set of questions $Q$, set of demonstrations $D$, nondecreasing value function $f$, weight function $w$.
+Output: set of selected demonstrations $D_{s}$.
+
+1: $D_{s} \leftarrow D$
+2: while $f_{Q}\left(D_{s}\right) \neq f_{Q}(D)$ do
+3: $d \leftarrow \underset{d \in D}{\arg \max } \frac{f_{Q}\left(D_{s} \cup\{d\}\right)-f_{Q}\left(D_{s}\right)}{w(d)}$
+4: $D_{s} \leftarrow D_{s} \cup\{d\}$
+5: end while
+
+### A. Demonstration Set Generation
+
+Definition. Given a Question Set $M$ containing all questions to be queried, an unlabeled demonstration pool $D_{u}$ and a nonnegative distance threshold $t$, we need to select a subset of demonstrations $D_{s} \subset D_{u}$, satisfying $\forall q \in M$, exists at least one $d \in D_{s}, \operatorname{dist}(q, d)<t$. The goal is to minimize the size of selected Demonstration Set $\left|D_{s}\right|$.
+NP-hard Proof Sketch. We can prove the Demonstration Set Generation Problem to be NP-hard by a reduction from the Set Cover Problem, which is proven to be NP-hard [32].
+
+An instance of Set Cover Problem (SCP) encompasses a universe of items $U$, a collection $V=\left\{S_{1}, S_{2}, S_{3}, \ldots, S_{m}\right\}$ of subsets of $U$, we need to find a subset-collection $V^{*} \subset V$ such that each element in $U$ is covered by at least one subset in $V^{*}$. The goal is to minimize the number of selected subsets $\left|V^{*}\right|$.
+
+We reduce SCP to our problem. We show that for any instance $(U, V)$ of SCP, we can create a corresponding instance of our problem based on $(U, V)$ in polynomial time. First, We translate the set $U$ of universal items into the set $M$ of questions. Then, Given items $u_{j} \in U$, if $u_{j} \in S_{i}$, we add a demonstration $d_{j}$ to the unlabeled demonstration pool $D_{u}$ and set the distance between $d_{j}$ and $q_{i}$ to be 0 (less than $t$ ). Finally, given the above reduction, we can deduce that the objective of finding the minimum number of subsets in $V$ that cover all items in $U$ in SCP is equivalent to the objective of our problem, which is to find the minimum number of demonstrations in $D_{u}$ that cover all questions in $M$.
+Greedy Algorithm. To efficiently address the Demonstration Set Generation Problem, we propose a greedy-based algorithm. To start with, we define a non-decreasing value function $f_{Q}\left(D_{s}\right)=\sum_{i=1}^{|M|} z_{i}$ to measure the value of intermediate demonstration set $D_{s}$, where for $q_{i} \in Q, z_{i}=1$ if $\min _{d_{j} \in D_{s}} \operatorname{dist}\left(q_{i}, d_{j}\right)<t$, otherwise, $z_{i}=0$. Generally, the value function calculates the number of covered questions by $D_{s}$. Then, taking the value function $f$, set of questions $M$, and an unlabeled demonstration set $D_{u}$ as input, we iteratively select the most efficient demonstration. Efficiency is defined by the ratio of the incremental value a demonstration contributes to the intermediate Demonstration Set $D_{s}$ relative to its weight. For the Demonstration Set Generation Problem, we set the weights of all demonstrations to be 1 , since selecting any demonstration brings us equivalent cost. The pseudo-code is shown in Algorithm 1.
+
+TABLE II: Statistics of Datasets.
+
+| Dataset | Domain | # Attr. | # Pairs | # Matches |
+| --- | --- | --- | --- | --- |
+| Walmart-Amazon (WA) | Electronics | 5 | 10, 242 | 962 |
+| Abt-Buy (AB) | Product | 3 | 9575 | 1028 |
+| Amazon-Google (AG) | Software | 3 | 11, 460 | 1, 167 |
+| DBLP-Scholar (DS) | Citation | 4 | 28, 707 | 5, 347 |
+| DBLP-ACM (DA) | Citation | 4 | 12, 363 | 2, 220 |
+| Fodors-Zagats (FZ) | Restaurant | 6 | 946 | 110 |
+| iTunes-Amazon (IA) | Music | 8 | 532 | 132 |
+| Beer | Beer | 4 | 450 | 68 |
+
+We first initialize the demonstration set $D_{s}$ to an empty set (line 1). Then we determine whether the value of intermediate set $D_{s}$ meets the value of full unlabeled demonstration pool $D_{u}$ (line 2) which is probably equaled to $|M|$ with a large enough pool size. If not, we will iteratively select the most efficient demonstration and add it to the intermediate demonstration set (lines 3$\sim$4). Otherwise, the algorithm ends and outputs the selected demonstration set $D_{s}$ (line 5).
+
+Assuming that the optimal sum of Demonstration Set Generation Problem is $OPT$ and the final sum of our greedy algorithm is $a n s^{*}$, we have $a n s^{*} \leq H_{k} \cdot O P T$, where $H_{k}=\sum_{i=1}^{k} \frac{1}{i}, k=\max _{d_{i} \in D_{s}} f_{Q}\left(\left\{d_{i}\right\}\right)$. A complete proof can be found in [33].
+
+For Demonstration Set Generation problem, by setting a target function and designing a greedy algorithm to optimize it, we can generate an effective solution, that is, selecting a small number of demonstrations to cover all the questions to be queried, thereby greatly reducing the labeling cost.
+
+## B. Batch Covering
+
+Next, based on the generated Demonstration Set, we will allocate relevant demonstrations to each batch, so as to covering all the questions in the batch. At this stage, we ask a question: Is there further optimization space when allocating demonstrations? To answer this question, we consider an example of a Question Set $M=\left\{q_{1}, q_{2}, q_{3}, q_{4}\right\}$ and a labeled Demonstration Set $\left\{d_{1}, d_{2}\right\}$. We have $d_{1}$ covers $q_{1}, q_{2}, q_{3}$ and $d_{2}$ covers $q_{2}, q_{3}, q_{4}$. Given a batch $B_{i}=\left\{q_{2}, q_{3}\right\}$, we need to allocate demonstrations to cover all questions in $B_{i}$. It can be seen that, at this time, whether allocating $d_{1}$ or $d_{2}$ can cover all questions in the batch. Therefore, although we only consider covering each question once when generating the Demonstration Set, there is still room for choice when allocating demonstrations for each batch.
+Definition. Given a batch $B_{i}$ of questions $B_{i}=\{q\}$, a generated demonstration set $D_{s}$ and a non-negative distance threshold $t$, we need to select a set of demonstrations $D_{i} \subset D$, satisfying $\forall q \in B_{i}$, exists at least one $d \in D_{i}$ such that $\operatorname{dist}(q, d)<t$. The goal is to minimize the weight of selected demonstrations $\sum_{d \in D_{i}} w(d)$.
+
+We define the weights of demonstrations as token numbers, and the goal of our problem is to find a demonstration set to cover the batch with minimum token assumption.
+NP-hard Proof Sketch. The batch covering problem is obviously a special case of the set cover problem when we set the weight of all demonstrations to be 1. Following the proof in
+section V-A, we can create a corresponding instance of batch covering problem based on any instance of SCP. Besides, since we set all the weights to be 1 , the objective of our problem becomes $\sum_{d \in D_{i}} 1=\left|D_{i}\right|$, which is equivalent to that of SCP. Thus, we can prove the batch covering problem as an NP-hard problem by reducing it from the NP-hard set cover problem.
+Greedy Algorithm. We again use Algorithm 1 to address the Batch Covering Problem. We use the same value function defined in section V-A and define the weights of demonstrations as token numbers. Taking the value function $f$, batch $B_{i}$ of questions, the generated Demonstration Set $D_{s}$, and weight function $w$ as input, the algorithm will output the allocated demonstration set $D_{i}$ for batch $B_{i}$.
+
+This greedy algorithm yields an approximation ratio of $\ln \left|B_{i}\right|-\ln \ln \left|B_{i}\right|+\Omega(1)$. A complete proof can be found in [33].
+
+For Batch Covering Problem, by defining the weights of demonstrations as token numbers and formulating it as Weighted Set Cover Problem, we can generate an effective solution with the minimum sum of tokens of batch prompts, thereby reducing the interfacing API cost.
+
+## VI. EXPERIMENTS
+
+This section evaluates our batch prompting framework BATCHER investigated in this paper. Specifically, we first present the experimental setup in Section VI-A, and then conduct experiments to answer the following key questions:
+Exp-1: How does Batch Prompting compare with Standard Prompting? (Section VI-B)
+Exp-2: What are effective strategies in our design space of question batching and demonstration selection? (Section VI-C)
+Exp-3: How does our proposed BATCHER framework compare with PLM-based approaches to ER? (Section VI-D)
+Exp-4: How does our proposed BATCHER framework compare with LLM-based approaches to ER? (Section VI-E)
+Exp-5: What is performance of our BATCHER framework given various underlying LLMs? (Section VI-F)
+Exp-6: What is performance of our BATCHER framework given different feature extractors? (Section VI-G)
+
+## A. Experimental Setup
+
+Datasets. We evaluate our proposed batch prompting framework BATCHER using well-adopted benchmarking datasets from Magellan benchmark [34], which range from a variety of domains, such as product, software, and citation. Table II provides detailed statistics of the datasets. Specifically, each dataset contains entities from two relational tables with multiple attributes, and a set of labeled matching/non-matching entity pairs. Take the Amazon-Google (AG) dataset as an example: it contains software products from Amazon and Google with three attributes (title, manufacturer, price), and has 11,460 entity pairs where 1,167 pairs are matches. For fair comparison, the set of labeled entity pairs is split into train, validation and test sets with a ratio of 3:1:1, which is consistent with existing ER studies [1], [5], [35].
+
+Evaluation Metrics. In this paper, we evaluate the performance of ER approaches on both Accuracy and Cost.
+(1) Matching Accuracy. Following existing ER studies [1][3], [35], we use F1 score to measure the matching accuracy of an ER approach. Specifically, let TP, FP, FN denote the number of true positives (i.e., matching pairs correctly identified), false positives (non-matching pairs incorrectly identified) and false negatives (matching-pairs incorrectly omitted) respectively. Then, we can respectively compute Precision and Recall as $\mathrm{P}=\mathrm{TP} /(\mathrm{TP}+\mathrm{FP})$ and $\mathrm{R}=\mathrm{TP} /(\mathrm{TP}+\mathrm{FN})$, and derive F1 score as harmonic mean of Precision and Recall, i.e., $\mathrm{F} 1=2 \cdot \mathrm{P} \cdot \mathrm{R} /(\mathrm{P}+\mathrm{R})$.
+(2) Monetary Cost. We evaluate an approach by considering its incurred monetary cost, which consists of two parts.
+
+- API Cost measures how much an approach pays for calling the API of a proprietary LLMs (e.g., GPT-3.5 and GPT-4). In particular, the API is priced per token. For example, according to the pricing of GPT API services ${ }^{2}$, GPT-4 incurs $\$ 0.01 / 1 \mathrm{~K}$ tokens for input texts.
+- Labeling Cost measures how much an approach pays for labeling entity pairs to prepare demonstrations. To calculate the cost, we refer to the latest rates on the crowdsourcing platform, Amazon Mechanical Turk (AMT) ${ }^{3}$ for text data labeling, which is $\$ 0.08$ per labeling task. Following the existing crowdsourcing approach to ER [36], we group ten entity pairs into one labeling task and ask the crowd to label them in batch. Based on this, we estimate the cost of labeling one entity pair as $\$ 0.008$.
+Baselines. We consider two types of baselines. The first type is the SOTA PLM-based approaches to ER, including Ditto [1], JointBert [2] and RobEM [3]. The other type is the LLM-based approaches [11] to ER via in-context learning, equipped with manually designed prompts. We briefly describe the methods.
+(1) Ditto [1] is a well-recognized PLM-based approach to ER, which utilizes pre-trained language model RoBerta [29] and employs labeled entity pairs for fine-tuning. We use the code and default setting of Ditto in its original paper [1].
+(2) JointBert [2] is a dual-objective training method for BERT that combines binary matching and multi-class classification for entity matching. We use the code provided from [37]. We select the uncased base versions of BERT for JointBert and set all the hyper-parameters as default as in the original paper.
+(3) RobEM [3] is a recent work that investigates the robustness of PLM-based ER methods with varying data distributions and identifies data imbalance as a critical issue. To solve this, it proposes simple yet effective modifications to enhance PLMs and achieves superior performance on ER. We run its original code from [38] and keep all the setting as default.
+(4) ManualPrompt [11] is a pioneering initiative that uses LLMs (GPT-3) for ER as well as other data wrangling tasks. Similar to our work, it also employs in-context learning to
+
+[^0]answer ER questions. However, the key difference is that ManualPrompt utilizes standard prompting (i.e., asking questions one by one) and manually designed demonstrations. We reproduce the results of ManualPrompt by using the prompts published by its original paper [11].
+Implementation Details. We briefly present the implementation details of our proposed framework as follows.
+(1) Batch Prompting. We implement the design choices in Table I for question batching and demonstration selection, and compare them on both matching accuracy and monetary cost. For question batching, we set the batch size to 8 , which ensures that none of the design choices exceeds the maximum token limit of LLMs' text input, and employ the DBSCAN algorithm [27] for question clustering. For fair comparison of demonstration selection strategies (i.e., fixed, Top $k$-batch and Top $k$-question), we choose 8 demonstrations for each batch. For our covering-based strategy, we calculate the threshold $t$ by first computing the distances between all questions and then taking the 8 -th percentile as $t$ since 8 -th percentile can achieve great balance between cost and accuracy: with smaller $t$, the labeling cost will become larger while larger $t$ will degrade the matching accuracy.
+(2) Large Language Models. In our experiments, we use GPT-3.5-turbo-0301, or GPT-3.5-03 for short, as the default LLM, where 0301 means that the model version was finalized on March 1st. In particular, according to the guideline of OpenAI ${ }^{4}$, we set the temperature parameter of GPT-3.5-03 as 0.01 . Moreover, we also investigate other proprietary LLMs, GPT-3.5-turbo-0613 (or GPT-3.5-06 for short) and GPT-4-1106-preview (or GPT-4 for short), as well as a very recent open-source LLM, LLama2-chat-70B [39].
+
+## B. Comparing Batch Prompting with Standard Prompting
+
+Exp-1: How does Batch Prompting compare with Standard Prompting? We conduct experiments to compare batch prompting with standard prompting on matching accuracy and monetary cost. For fair comparison, we use the same 8 fixed demonstrations, which are selected randomly, for both approaches. In this case, we only need to consider the API cost, as labeling costs of both approaches are the same. Moreover, we run the experiments for three times, and compute mean and standard variance of the obtained F1 scores.
+
+The experimental results are reported in Table III. We can see that, batch prompting significantly outperforms standard prompting on both accuracy and cost. First, batch prompting improves F1 score by $\mathbf{1 . 3 \%}$-30.6\% on all datasets except Beer. The reason that batch prompting performs worse than standard prompting on the Beer dataset is that the dataset is very small (with only 91 pairs for testing), and the two methods actually output very similar matching results. Moreover, we can also observe that batch prompting is more stable than standard prompting, i.e., achieving much smaller standard variance. Second, compared with standard prompting, batch prompting can achieve $4 \mathbf{x}-7 \mathbf{x}$ cost saving on API callings.
+
+[^1]
+[^0]:    ${ }^{2}$ https://openai.com/pricing
+    ${ }^{3}$ https://www.mturk.com/
+
+[^1]:    ${ }^{4}$ https://platform.openai.com/docs/api-reference/completions
+
+TABLE III: Comparing Batching Promting with Standard Prompting on Matching Accuracy and API Cost (The best results are bolded).
+
+| Dataset | Metric | Standard Prompting | Batch Prompting |
+| --- | --- | --- | --- |
+| WA | F1 | $67.54_{\pm 8.08}$ | $\mathbf{78.92}_{\pm 0.32}$ |
+| | API ($) | 1.43 | $\mathbf{0.33}$ |
+| AB | F1 | $65.70_{\pm 10.81}$ | $\mathbf{85.79}_{\pm 1.01}$ |
+| | API ($) | 1.10 | $\mathbf{0.24}$ |
+| AG | F1 | $53.72_{\pm 3.88}$ | $\mathbf{61.07}_{\pm 0.83}$ |
+| | API ($) | 1.29 | $\mathbf{0.29}$ |
+| DS | F1 | $75.08_{\pm 6.03}$ | $\mathbf{80.79}_{\pm 1.72}$ |
+| | API ($) | 5.31 | $\mathbf{1.22}$ |
+| DA | F1 | $85.96_{\pm 4.45}$ | $\mathbf{92.10}_{\pm 0.88}$ |
+| | API ($) | 2.93 | $\mathbf{0.63}$ |
+| FZ | F1 | $89.95_{\pm 3.67}$ | $\mathbf{94.13}_{\pm 1.11}$ |
+| | API ($) | 0.19 | $\mathbf{0.04}$ |
+| IA | F1 | $90.59_{\pm 0.94}$ | $\mathbf{91.75}_{\pm 0.84}$ |
+| | API ($) | 0.06 | $\mathbf{0.01}$ |
+| Beer | F1 | $\mathbf{9 1 . 1 1}_{\pm 2.22}$ | $88.31_{\pm 2.60}$ |
+| | API ($) | 0.07 | $\mathbf{0.01}$ |
+
+![img-3.jpeg](img-3.jpeg)
+
+Fig. 6: Comparing Batch Prompting and Standard Prompting on Recall, Precision and F1, where the two methods are denoted as “Standard” and “Batch” respectively.
+
+While it is intuitive that batch prompting can save cost, it is somewhat surprising that it can also significantly improve the accuracy. Thus, we conduct a detailed analysis to report Precision and Recall on WA and AB datasets, as shown in Figure 6. We can see batch prompting achieves much higher Precision than standard prompting, while their Recall scores are comparable. This is mainly attributed to the batching mechanism, where the LLM can refer to not only the provided demonstrations, but also the answers generated for previous questions within the same batch. This may help the LLM to identify some key characteristics that are useful to differentiate the entities. For example, on the WA dataset, batch prompting can help the LLM to focus on a critical attribute “modelno”, and enable the LLM to understand entities with different “modelno” tend to be non-matching pairs.
+
+Finding 1: Batch prompting can not only bring 4x-7x cost saving, but also achieve higher and more stable matching accuracy than standard prompting.
+
+### V-C Exploring Design Space of Batch Prompting for ER
+
+Exp-2: What are effective strategies in our design space of question batching and demonstration selection? We explore the design space shown in Table I by comparing the 12 combinations of three question batching methods and four demonstration selection methods. From the experimental results reported in Table IV, we have the following observations.
+
+Evaluation on question batching. As reported in Table IV, the diversity-based question batching achieves the highest overall F1 scores. Moreover, it is interesting to see that the similarity-based question batching performs the worst on matching accuracy, even achieving lower F1 scores than the random question batching. This is because the questions within a batch is very similar, thus making the LLM difficult to differentiate entities by comparing different questions. Consequently, the LLM tends to produce identical answers for various questions, leading to degradation of matching accuracy. On the other hand, we can see that different question batching strategies have similar results on API cost and labeling cost, given varying demonstration selection methods. The reason is straightforward since prompts of different question batching strategies have similar amounts of tokens.
+
+Evaluation on demonstration selection. Observing Table IV again, we can see that Topk-question and our covering-based strategy (denoted as Cover) outperform other strategies on accuracy, while the F1 scores of these two strategies are comparable. For example, under diversity-based batching, Topk-question yields the highest F1 score on 2 datasets, while Cover is the best on the remaining 6 datasets. This is because both Topk-question and Cover aim to select relevant demonstrations for each individual question within a batch, which is helpful for the LLM to understand varying cases of ER.
+
+On the other hand, Cover is much more cost-effective than Topk-question on demonstration labeling, e.g., brings 10x-100x labeling cost savings on the former five large datasets and 5x savings on the latter three small datasets. The results validate the effectiveness of our covering-based mechanism: by selecting a minimal set of demonstrations that cover all questions in a batch, we can significantly reduce the number of required demonstrations, and thus save the labeling cost.
+
+Finding 2: The design choice that combines Diversity-based Question Batching and our Covering-based Demonstration Selection is the most favorable, i.e., achieving the highest accuracy while incurring the lowest cost.
+
+### V-D Comparing with PLM-based Approaches to ER
+
+Exp-3: How does our BATCHER framework compare with PLM-based approaches to ER? We compare our framework with the PLM-based approaches mentioned in Section VI-A, by varying the size of training set for these approaches. Note that we use the best design choices shown in Table IV, i.e., Diversity-based Question Batching and Covering-based Demonstration Selection, as the default setting.
+
+TABLE IV: Exploring the Design Space of Three Question Batching Methods and Four Demonstration Selection Methods (The best results are bolded and the second best results are underlined).
+
+| Dataset | Metric | Random Question Batching | | | | Similarity-based Question Batching | | | | Diversity-based Question Batching | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| | | Fix | Top/--batch | Top/--question | Cover | Fix | Top/--batch | Top/--question | Cover | Fix | Top/--batch | Top/--question | Cover |
+| WA | F1 | 78.92 | 79.15 | 79.06 | 78.64 | 73.50 | 77.43 | 78.30 | 76.43 | 79.24 | 78.87 | 80.18 | 80.66 |
+| | API ($) | 0.33 | 0.34 | 0.35 | 0.30 | 0.34 | 0.34 | 0.35 | 0.24 | 0.35 | 0.34 | 0.34 | 0.28 |
+| | Label ($) | 0.06 | 11.53 | 12.63 | 0.34 | 0.06 | 14.15 | 12.63 | 0.34 | 0.06 | 13.30 | 12.63 | 0.34 |
+| AB | F1 | 85.79 | 86.24 | 86.79 | 85.71 | 85.19 | 85.65 | 87.02 | 87.16 | 85.03 | 86.38 | 87.91 | 88.38 |
+| | API ($) | 0.24 | 0.23 | 0.24 | 0.21 | 0.24 | 0.23 | 0.24 | 0.20 | 0.24 | 0.23 | 0.24 | 0.20 |
+| | Label ($) | 0.06 | 10.86 | 6.07 | 0.28 | 0.06 | 10.86 | 6.07 | 0.28 | 0.06 | 11.21 | 6.07 | 0.28 |
+| AG | F1 | 61.07 | 61.82 | 61.90 | 60.69 | 58.90 | 60.74 | 60.96 | 60.62 | 60.24 | 57.85 | 64.57 | 62.16 |
+| | API ($) | 0.29 | 0.30 | 0.30 | 0.25 | 0.30 | 0.30 | 0.30 | 0.25 | 0.29 | 0.30 | 0.30 | 0.25 |
+| | Label ($) | 0.06 | 14.20 | 9.70 | 0.23 | 0.06 | 14.09 | 9.70 | 0.23 | 0.06 | 13.84 | 9.69 | 0.23 |
+| DS | F1 | 80.79 | 82.49 | 83.55 | 82.36 | 76.44 | 73.78 | 77.09 | 75.59 | 79.07 | 79.80 | 83.46 | 83.70 |
+| | API ($) | 1.22 | 1.27 | 1.28 | 1.13 | 1.31 | 1.27 | 1.29 | 1.04 | 1.27 | 1.15 | 1.28 | 1.12 |
+| | Label ($) | 0.06 | 35.38 | 27.94 | 0.31 | 0.06 | 35.92 | 28.24 | 0.31 | 0.06 | 35.96 | 28.24 | 0.31 |
+| DA | F1 | 92.10 | 93.00 | 93.62 | 92.32 | 91.59 | 92.42 | 92.44 | 92.06 | 92.27 | 94.21 | 94.28 | 94.96 |
+| | API ($) | 0.63 | 0.62 | 0.63 | 0.54 | 0.62 | 0.62 | 0.63 | 0.50 | 0.62 | 0.62 | 0.63 | 0.53 |
+| | Label ($) | 0.06 | 15.50 | 14.61 | 0.32 | 0.06 | 15.50 | 14.61 | 0.32 | 0.06 | 15.09 | 14.61 | 0.32 |
+| FZ | F1 | 94.13 | 93.33 | 95.24 | 93.33 | 95.24 | 90.48 | 93.02 | 92.68 | 93.02 | 88.37 | 95.24 | 100.00 |
+| | API ($) | 0.04 | 0.04 | 0.03 | 0.03 | 0.04 | 0.04 | 0.04 | 0.03 | 0.04 | 0.04 | 0.04 | 0.03 |
+| | Label ($) | 0.06 | 1.18 | 1.27 | 0.30 | 0.06 | 1.25 | 1.32 | 0.30 | 0.06 | 1.18 | 1.27 | 0.30 |
+| IA | F1 | 91.75 | 94.74 | 94.55 | 92.59 | 92.59 | 94.34 | 96.30 | 92.86 | 88.00 | 94.55 | 98.17 | 96.43 |
+| | API ($) | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 |
+| | Label ($) | 0.06 | 0.60 | 0.56 | 0.16 | 0.06 | 0.69 | 0.56 | 0.16 | 0.06 | 0.42 | 0.56 | 0.16 |
+| Beer | F1 | 88.31 | 76.92 | 81.48 | 89.66 | 85.71 | 84.62 | 81.48 | 88.89 | 92.86 | 89.66 | 89.66 | 96.55 |
+| | API ($) | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 | 0.01 |
+| | Label ($) | 0.06 | 0.65 | 0.66 | 0.14 | 0.06 | 0.68 | 0.66 | 0.14 | 0.06 | 0.64 | 0.62 | 0.14 |
+
+![img-4.jpeg](img-4.jpeg)
+
+Fig. 7: Comparing our Batching Prompting framework BATCHER with existing PLM-based approaches to ER.
+
+Figure 7 shows the experimental results on the eight datasets, where the results of our framework are represented as red solid lines. Not surprisingly, our framework is *much more cost-effective* than Ditto [1], JointBert [2] and RobEM [3]. For example, on the WA, AB and AG datasets, the three PLM-based methods require at least 2000 training samples to achieve a similar F1 score of our framework. In contrast, our framework requires no more than 50 labeled samples on all the datasets. According to our cost calculation method in Section VI-A, the monetary cost incurred by these PLM-based approaches is about 300x-400x larger than our overall cost (*i.e.,* API cost plus labeling cost). Furthermore, we also observe that once models like RobEM catching up with the F1 score of our framework, additional training samples do not substantially increase the performance; on some datasets (*e.g.,* FA, IA and Beer), even the entire training set is insufficient
+
+TABLE V: Comparing Batching Prompting with Manual Prompting (The best results are bolded).
+
+| Dataset | Metric | Manual Prompting | Batch Prompting |
+| --- | --- | --- | --- |
+| WA | F1 | 82.63 | 80.66 |
+| | API ($) | 1.40 | 0.28 |
+| AG | F1 | 65.40 | 62.16 |
+| | API ($) | 1.65 | 0.25 |
+| DS | F1 | 70.44 | 83.70 |
+| | API ($) | 5.87 | 1.12 |
+| DA | F1 | 94.90 | 94.96 |
+| | API ($) | 2.65 | 0.53 |
+| FZ | F1 | 97.67 | 100 |
+| | API ($) | 0.14 | 0.03 |
+| IA | F1 | 98.11 | 96.43 |
+| | API ($) | 0.05 | 0.01 |
+| Beer | F1 | 92.23 | 96.55 |
+| | API ($) | 0.05 | 0.01 |
+
+TABLE VI: Evaluating Different Underlying LLMs on Matching Accuracy and API Cost (The best results are bolded and the second best results are underlined).
+
+| Dataset | Metric | GPT-3.5-03 | GPT-3.5-06 | GPT-4 |
+| --- | --- | --- | --- | --- |
+| WA | F1 | 80.66 | 80.32 | 81.22 |
+| | API ($) | 0.28 | 0.28 | 2.81 |
+| AB | F1 | 88.38 | 69.08 | 85.22 |
+| | API ($) | 0.20 | 0.20 | 2.02 |
+| AG | F1 | 62.16 | 52.40 | 64.06 |
+| | API ($) | 0.25 | 0.25 | 2.52 |
+| DS | F1 | 83.70 | 65.94 | 89.48 |
+| | API ($) | 1.12 | 1.12 | 11.24 |
+| DA | F1 | 94.96 | 91.29 | 96.04 |
+| | API ($) | 0.53 | 0.53 | 5.27 |
+| FZ | F1 | 100.00 | 92.68 | 100.00 |
+| | API ($) | 0.03 | 0.03 | 0.32 |
+| IA | F1 | 96.43 | 92.31 | 94.34 |
+| | API ($) | 0.01 | 0.01 | 0.09 |
+| Beer | F1 | 96.55 | 92.31 | 96.30 |
+| | API ($) | 0.01 | 0.01 | 0.11 |
+
+TABLE VII: Evaluating Different Feature Extractors on Matching Accuracy (The best results are bolded).
+
+| Dataset | Structure-aware | Semantics-based |
+| --- | --- | --- |
+| BATCHER-LR | BATCHER-JAC | BATCHER-SEM |
+| WA | 80.66 | 78.05 | 78.66 |
+| AB | 88.38 | 84.23 | 87.06 |
+| AG | 62.16 | 59.90 | 59.20 |
+| DS | 83.70 | 81.27 | 80.91 |
+| DA | 94.96 | 92.70 | 90.36 |
+| FZ | 100.00 | 93.62 | 95.24 |
+| IA | 96.43 | 90.57 | 90.91 |
+| Beer | 96.55 | 89.66 | 91.67 |
+
+for the baselines to reach the F1 score of our framework.
+
+Finding 3: With much less labeled data, our batch prompting framework achieves competitive performance with PLM-based method trained with hundreds of or even thousands of labeled matching/non-matching entity pairs.
+
+### V-E Comparing with Manual Prompting for ER
+
+Exp-4: How does our BATCHER framework compare with LLM-based approaches to ER? We compare our framework with the existing LLM-based approach [11], equipped with manually designed prompts, including hand-picked demonstrations. The results are reported in Table V. The reason for the absence of a comparison for the Abt-Buy dataset in the Table V is that ManualPrompt approach [11] is not tested on this dataset. We can see that, with only 20% of the API cost, our batch prompting framework can achieve comparable F1 score, compared with the ManualPrompt approach. In particular, on four datasets (DS, DA, FZ, Beer), our framework even outperforms ManualPrompt. The results implies that batch prompting, despite requiring cost of labeling selected demonstrations, may still be more practical than ManualPrompt, which requires domain experts for prompt designing.
+
+Finding 4: Our automatic batch prompting framework achieves comparable or even better F1 scores with manual prompting methods for LLMs, with much less API cost.
+
+### V-F Evaluation on Different Underlying LLMs
+
+Exp-5: What is performance of our approaches given various underlying LLMs? We evaluate the performance of BATCHER on various underlying LLMs, including two versions of GPT-3.5 and GPT-4, which are mentioned in Section VI-A. Note that we also evaluate the well-known opensource LLM, LlamA2 [40]. However, we find that LlamA2 is not suitable for batch prompting: When prompted to answer multiple questions, LlamA2 fails to produce any output in most cases. Thus, we omit the results of LlamA2.
+
+TABLE VII: Evaluating Different Feature Extractors on Matching Accuracy (The best results are bolded).
+
+The experimental results are shown in Table VI. First, considering matching accuracy, GPT-4 achieves the best results on five datasets, demonstrating its superior capability on text comprehension and task solving. Moreover, we also find GPT-3.5-03 is comparable to GPT-4. Specifically, GPT-3.5-03 achieves the second highest F1 overall and the largest F1 difference from GPT-4 is less than 6.4%. Second, as per the latest pricing, the token pricing of GPT-4 is 10x higher than GPT-3.5, leads to considerably high API costs. To summarize, the results show that GPT-3.5-03 achieves the best trade-off between matching accuracy and monetary cost, making it a more favorable choice for practical applications.
+
+Finding 5: As the underlying LLM of BATCHER, GPT3.5-03 achieves the best trade-off between matching accuracy and monetary cost.
+
+### V-G Evaluation on Different Feature Extractors
+
+Exp-6: What is performance of our approaches given different feature extractors? We examine the performance of BATCHER using different Feature Extractors described in Section III-B, namely BATCHER-LR, BATCHER-JAC, and BATCHER-SEM. The former two feature extractor use
+
+Structure-aware Feature Extractor based on Levenshtein Ratio (LR) and Jaccard Similarity (JAC). The latter uses Semanticsbased Feature Extractor based on SBERT embedding. Since their monetary cost is close, we only compare these three variants on F1 scores on the eight datasets.
+
+As shown in Table VII, BATCHER-LR achieves the best performance on all the datasets while BATCHER-JAC and BATCHER-SEM achieve comparative results. This results validates that stucture-aware feature extractor can better capture the relevance between entity pairs in the ER scenario. Moreover, compared with BATCHER-JAC, BATCHER-LR is more sensitivity to string order and its superior precision in quantifying the similarity between two strings. For instance, considering two strings "listen" and "silent", the similarity score calculated using LR is 0.5, whereas with JAC, it is 0.89. This clearly demonstrates the former is better effectiveness in quantifying the similarity between the two strings, thus is more effective to generate feature vectors for entity pairs.
+
+Finding 6: The structure-aware feature extractor is preferred for measuring distances among entity pairs in ER.
+
+## VII. Related Work
+
+PLM-based Methods for Entity Resolution. Entity resolution is a popular data integration task that has been widely studied for decades. With the rise of deep learning, some approaches [41] leverage pre-trained word embeddings to improve the ER performance. However, these methods mainly use the non-contextual embeddings without considering the downstream tasks. Therefore, recent studies [1], [2], [4], [5] have focused on using Transformer-based PLMs to produce contextualized embeddings based on fine-tuning over downstream tasks. To be specific, Ditto [1] regards ER as a sequence-pair classification problem via Transformer, where domain knowledge is injected to further improve the performance. JointBERT [2] adopts a dual-objective training paradigm for BERT. Specifically, besides predicting matching/non-matching pairs, JointBERT also incorporates a multi-class classification task to predict the entity identifier for each entity description of a pair. DADER [5] focuses on leveraging the domain adaptation technique: given a labeled source dataset, it trains an ER model for another target dataset by aligning features of both datasets based on PLMs. Based on PLMs, Unicorn [4] focuses on building a unified framework for data matching tasks, including ER. Unicorn uses a unified encoder for any pair of data to be predicted, and a mixture-of-experts module to align the semantics of multiple tasks. Although the above PLMs-based approaches can achieve a relatively good performance, they need plenty of labeled pairs for supervision, which are often expensive to acquire.
+LLM-based Methods for Entity Resolution. With the size of pre-training data and model parameters scales, large-scale language models (LLMs) have gained an emergent capability called In-Context Learning (ICL) to learn from a few demonstrations without explicit model update [6], [42]. Recent studies [11], [12], [26] have focused on utilizing LLMs to tackle
+
+ER with less labeled pairs for supervision. Narayan et al. [11] are among the first to explore the capability of GPT3 [6] for ER with manually designed demonstrations, which achieves remarkable performance compared with PLM-based methods. Since manual demonstrations require professional prompting engineering knowledge, Peeters et al. [12] propose to select relevant demonstrations based on KNN retrieval algorithm, where Jaccard similarity is utilized to measure the relevance. Moreover, Zhang et al. [26] consider batch prompting for ER, which employs a straightforward random batching strategy with manually designed demonstrations. Although question batching and demonstration selection have been considered in existing studies, these studies mainly rely on domain experts or develop heuristics for these two problem, and have not explored the combination of different demonstration selection and batching strategies. Compared to them, we utilize the power of ICL and propose a comprehensive framework BATCHER. We explore a design space to evaluate the performance of different design choices, and propose a coveringbased demonstration selection strategy that effectively balances the trade-off between accuracy and cost.
+In-Context Learning for Data Management. LLMs are capable to capture rich linguistic patterns and generate coherent text [6], [39], [43], which have shown great success in a wide range of NLP tasks [15], [16], [22]. ICL is an emergent capability of LLMs that enables the model to learn from few demonstrations without explicit gradient update [42]. Recently, researchers have studied to leverage ICL to solve data management tasks, such as data discovery [44], data cleaning and integration [11], and data labeling [45], and also study how to batch questions and select demonstrations. BatchPrompt [23] proposes to group multiple questions into one batch and query LLMs to answer one batch in an interface. In addition, both relevance-based [31], [46] and diversitybased [47], [48] strategies are proposed for demonstration selection. Compared with these studies, as far as we know, we are the first to develop the batch prompting technique tailored to the ER task, and design new methods, such as covering-based demonstration selection and structure-aware feature extraction, which are shown to be effective for ER.
+
+## VIII. CONCLUSION
+
+In this paper we have introduced a cost-effective batch prompting framework BATCHER for entity resolution, and explored the effectiveness of BATCHER under different design choices. We also devised a covering-based demonstration selection strategy that achieves effective balance between accuracy and cost. We have conducted extensive experiments to evaluate different combinations of the choices in the design space with insightful empirical findings, as summarized using the six findings in Section VI. These findings imply that our BATCHER framework is very cost-effective for ER, compared with not only PLM-based methods fine-tuned with extensive labeled data, but also LLM-based methods with manually designed prompting. We also provided guidance for selecting appropriate design choices for batch prompting.
+
+## REFERENCES
+
+[1] Y. Li, J. Li, Y. Suhara, A. Doan, and W. Tan, "Deep entity matching with pre-trained language models," Proc. VLDB Endow., vol. 14, no. 1, pp. 50-60, 2020.
+[2] R. Peeters and C. Bizer, "Dual-objective fine-tuning of bert for entity matching," Proc. VLDB Endow., vol. 14, no. 10, p. 1913-1921, 2021.
+[3] M. Akbarian Rastaghi, E. Kamalloo, and D. Rafei, "Probing the robustness of pre-trained language models for entity matching," in Proceedings of the 31st ACM International Conference on Information \& Knowledge Management, 2022, p. 3786-3790.
+[4] J. Tu, J. Fan, N. Tang, P. Wang, G. Li, X. Du, X. Jia, and S. Gao, "Unicorn: A unified multi-tasking model for supporting matching tasks in data integration," Proceedings of the ACM on Management of Data, vol. 1, no. 1, pp. 1-26, 2023.
+[5] J. Tu, J. Fan, N. Tang, P. Wang, C. Chai, G. Li, R. Fan, and X. Du, "Domain adaptation for deep entity resolution," in Proceedings of the 2022 International Conference on Management of Data, 2022, pp. 443457.
+[6] T. B. Brown, B. Mann, N. Ryder, M. Subbiah, J. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, S. Agarwal, A. HerbertVoss, G. Krueger, T. Henighan, R. Child, A. Ramesh, D. M. Ziegler, J. Wu, C. Winter, G. Hesse, M. Chen, E. Sigler, M. Litwin, S. Gray, B. Chess, J. Clark, C. Berner, S. McCandlish, A. Radford, I. Sutskever, and D. Amodei, "Language models are few-shot learners," in NeurIPS 2020, H. Larochelle, M. Ranzato, R. Hadsell, M. Balcan, and H. Lin, Eds., 2020.
+[7] S. Min, X. Lyu, A. Holtzman, M. Artetxe, M. Lewis, H. Hajishirzi, and L. Zettlemoyer, "Rethinking the role of demonstrations: What makes in-context learning work?" arXiv preprint arXiv:2202.12837, 2022.
+[8] J. Chen, L. Chen, and T. Zhou, "It takes one to tango but more make trouble? in-context training with different number of demonstrations," arXiv preprint arXiv:2303.08119, 2023.
+[9] L. Gao, A. Chaudhary, K. Srinivasan, K. Hashimoto, K. Raman, and M. Bendersky, "Ambiguity-aware in-context learning with large language models," arXiv preprint arXiv:2309.07900, 2023.
+[10] X. Wang, Y. Wang, C. Xu, X. Geng, B. Zhang, C. Tao, F. Rudzicz, R. E. Mercer, and D. Jiang, "Investigating the learning behaviour of incontext learning: A comparison with supervised learning," arXiv preprint arXiv:2307.15411, 2023.
+[11] A. Narayan, I. Chami, L. J. Orr, and C. Ré, "Can foundation models wrangle your data?" Proc. VLDB Endow., vol. 16, no. 4, pp. 738-746, 2022. [Online]. Available: https://www.vldb.org/pvldb/vol16/ p738-narayan.pdf
+[12] R. Peeters and C. Bizer, "Entity matching using large language models," CoRR, vol. abs/2310.11244, 2023. [Online]. Available: https://doi.org/10.48550/arXiv. 2310.11244
+[13] O. Rubin, J. Herzig, and J. Berant, "Learning to retrieve prompts for in-context learning," in Proceedings of the 2022 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, NAACL 2022, Seattle, WA, United States, July 10-15, 2022. Association for Computational Linguistics, 2022, pp. 2655-2671. [Online]. Available: https://doi.org/ 10.18653/v1/2022.naacl-main. 191
+[14] Y. Zhang, K. Zhou, and Z. Liu, "What makes good examples for visual in-context learning?" arXiv preprint arXiv:2301.13670, 2023.
+[15] X. Li, K. Lv, H. Yan, T. Lin, W. Zhu, Y. Ni, G. Xie, X. Wang, and X. Qiu, "Unified demonstration retriever for in-context learning," arXiv preprint arXiv:2305.04320, 2023.
+[16] S. Agrawal, C. Zhou, M. Lewis, L. Zettlemoyer, and M. Ghazvininejad, "In-context examples selection for machine translation," in ACL, A. Rogers, J. L. Boyd-Graber, and N. Okazaki, Eds. Association for Computational Linguistics, 2023, pp. 8857-8873. [Online]. Available: https://doi.org/10.18653/v1/2023.findings-acl. 564
+[17] G. Papadakis, D. Skoutas, E. Thanos, and T. Palpanas, "Blocking and filtering techniques for entity resolution: A survey," ACM Computing Surveys (CSUR), vol. 53, no. 2, pp. 1-42, 2020.
+[18] S. Thirumuruganathan, H. Li, N. Tang, M. Ouzzani, Y. Govind, D. Paulsen, G. Fung, and A. Doan, "Deep learning for blocking in entity matching: a design space exploration," Proceedings of the VLDB Endowment, vol. 14, no. 11, pp. 2459-2472, 2021.
+[19] C. Ge, P. Wang, L. Chen, X. Liu, B. Zheng, and Y. Gao, "Collaborem: a self-supervised entity matching framework using multi-features col-
+laboration," IEEE Transactions on Knowledge and Data Engineering, 2021.
+[20] Y. Lu, M. Bartolo, A. Moore, S. Riedel, and P. Stenetorp, "Fantastically ordered prompts and where to find them: Overcoming few-shot prompt order sensitivity," arXiv preprint arXiv:2104.08786, 2021.
+[21] Y. Chen, C. Zhao, Z. Yu, K. McKeown, and H. He, "On the relation between sensitivity and accuracy in in-context learning," arXiv preprint arXiv:2209.07661, 2022.
+[22] Z. Wan, F. Cheng, Z. Mao, Q. Liu, H. Song, J. Li, and S. Kurohashi, "Gpt-re: In-context learning for relation extraction using large language models," arXiv preprint arXiv:2305.02105, 2023.
+[23] Z. Cheng, J. Kasai, and T. Yu, "Batch prompting: Efficient inference with large language model apis," arXiv preprint arXiv:2301.08721, 2023.
+[24] M. Luo, X. Xu, Z. Dai, P. Pasupat, M. Kazemi, C. Baral, V. Imbrasaité, and V. Y. Zhao, "Dr. icl: Demonstration-retrieved in-context learning," arXiv preprint arXiv:2305.14128, 2023.
+[25] K. Margatina, T. Schick, N. Aletras, and J. Dwivedi-Yu, "Active learning principles for in-context learning with large language models," arXiv preprint arXiv:2305.14264, 2023.
+[26] H. Zhang, Y. Dong, C. Xiao, and M. Oyamada, "Large language models as data preprocessors," arXiv preprint arXiv:2308.16361, 2023.
+[27] M. Ester, H. Kriegel, J. Sander, and X. Xu, "A density-based algorithm for discovering clusters in large spatial databases with noise," in $K D D$, E. Simoudis, J. Han, and U. M. Fayyad, Eds., 1996, pp. 226-231.
+[28] N. Reimers and I. Gurevych, "Sentence-bert: Sentence embeddings using siamese bert-networks," arXiv preprint arXiv:1908.10084, 2019.
+[29] Y. Liu, M. Ott, N. Goyal, J. Du, M. Joshi, D. Chen, O. Levy, M. Lewis, L. Zettlemoyer, and V. Stoyanov, "Roberta: A robustly optimized bert pretraining approach," arXiv preprint arXiv:1907.11692, 2019.
+[30] V. I. Levenshtein et al., "Binary codes capable of correcting deletions, insertions, and reversals," in Soviet physics doklady, vol. 10, no. 8. Soviet Union, 1966, pp. 707-710.
+[31] J. Liu, D. Shen, Y. Zhang, B. Dolan, L. Carin, and W. Chen, "What makes good in-context examples for gpt-3?" in Proceedings of Deep Learning Inside Out: The 3rd Workshop on Knowledge Extraction and Integration for Deep Learning Architectures, DeeLIO@ACL 2022, Dublin, Ireland and Online, May 27, 2022. Association for Computational Linguistics, 2022, pp. 100-114. [Online]. Available: https://doi.org/10.18653/v1/2022.deelio-1.10
+[32] K. Bernhard and J. Vygen, "Combinatorial optimization: Theory and algorithms," Springer, Third Edition, 2005., 2008.
+[33] P. Slavík, "A tight analysis of the greedy algorithm for set cover," in Proceedings of the twenty-eighth annual ACM symposium on Theory of computing, 1996, pp. 435-441.
+[34] A. Doan, P. Konda, P. S. G. C., Y. Govind, D. Paulsen, K. Chandrasekhar, P. Martinkus, and M. Christie, "Magellan: toward building ecosystems of entity matching solutions," Commun. ACM, vol. 63, no. 8, pp. 83-91, 2020. [Online]. Available: https://doi.org/10.1145/3405476
+[35] S. Mudgal, H. Li, T. Rekatsinas, A. Doan, Y. Park, G. Krishnan, R. Deep, E. Arcaute, and V. Raghavendra, "Deep learning for entity matching: A design space exploration," in Proceedings of the 2018 International Conference on Management of Data, 2018, pp. 19-34.
+[36] J. Wang, T. Kraska, M. J. Franklin, and J. Feng, "Crowder: Crowdsourcing entity resolution," Proc. VLDB Endow., vol. 5, no. 11, pp. 1483-1494, 2012. [Online]. Available: http://vldb.org/pvldb/vol5/ p1483_jiannanwang_vldb2012.pdf
+[37] (2021) Code of jointbert. [Online]. Available: https://github.com/ wbsg-uni-manuheim/jointbert
+[38] (2022) Code of robem. [Online]. Available: https://github.com/makbn/ robem
+[39] H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-A. Lachaux, T. Lacroix, B. Rozière, N. Goyal, E. Hambro, F. Azhar et al., "Llama: Open and efficient foundation language models," arXiv preprint arXiv:2302.13971, 2023.
+[40] H. Touvron, L. Martin, K. Stone, P. Albert, A. Alinahairi, Y. Babaei, N. Bashlykov, S. Batra, P. Bhargava, S. Bhosale, D. Bikel, L. Blecher, C. Canton-Ferrer, M. Chen, G. Cucurull, D. Esiobu, J. Fernandes, J. Fu, W. Fu, B. Fuller, C. Gao, V. Goswami, N. Goyal, A. Hartshorn, S. Hooseini, R. Hou, H. Inan, M. Kardas, V. Kerkez, M. Khabsa, I. Kloutnann, A. Korenev, P. S. Koura, M. Lachaux, T. Lavril, J. Lee, D. Liskovich, Y. Lu, Y. Mao, X. Martinet, T. Mihaylov, P. Mishra, I. Molybog, Y. Nie, A. Poulton, J. Reizenstein, R. Rungta, K. Saladi, A. Schelten, R. Silva, E. M. Smith, R. Subramanian, X. E. Tan, B. Tang, R. Taylor, A. Williams, J. X. Kuan, P. Xu, Z. Yan, I. Zarov,
+
+Y. Zhang, A. Fan, M. Kambadur, S. Narang, A. Rodriguez, R. Stojnic, S. Edunov, and T. Scialom, "Llama 2: Open foundation and fine-tuned chat models," CoRR, vol. abs/2307.09288, 2023. [Online]. Available: https://doi.org/10.48550/arXiv.2307.09288
+[41] M. Ebraheem, S. Thirumuruganathan, S. R. Joty, M. Ouzzani, and N. Tang, "Distributed representations of tuples for entity resolution," Proc. VLDB Endow., vol. 11, no. 11, pp. 1454-1467, 2018. [Online]. Available: http://www.vldb.org/pvldb/vol11/p1454-ebraheem.pdf
+[42] A. Chowdhery, S. Narang, J. Devlin, M. Bosma, G. Mishra, A. Roberts, P. Barham, H. W. Chung, C. Sutton, S. Gehrmann et al., "Palm: Scaling language modeling with pathways," arXiv preprint arXiv:2204.02311, 2022.
+[43] M. Agrawal, S. Hegselmann, H. Lang, Y. Kim, and D. Sontag, "Large language models are few-shot clinical information extractors," in Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing, 2022, pp. 1998-2022.
+[44] M. Kayali, A. Lykov, I. Fountalis, N. Vasiloglou, D. Olteanu, and D. Suciu, "CHORUS: foundation models for unified data discovery and exploration," CoRR, vol. abs/2306.09610, 2023. [Online]. Available: https://doi.org/10.48550/arXiv.2306.09610
+[45] N. Guan, K. Chen, and N. Koudas, "Can large language models design
+accurate label functions?" CoRR, vol. abs/2311.00739, 2023. [Online]. Available: https://doi.org/10.48550/arXiv. 2311.00739
+[46] Y. Lee, C. Lim, and H. Choi, "Does GPT-3 generate empathetic dialogues? A novel in-context example selection method and automatic evaluation metric for empathetic dialogue generation," in Proceedings of the 29th International Conference on Computational Linguistics, COLING 2022, Gyeongju, Republic of Korea, October 12-17, 2022. International Committee on Computational Linguistics, 2022, pp. 669-683. [Online]. Available: https://aclanthology.org/2022.coling-1.56
+[47] I. Levy, B. Bogin, and J. Berant, "Diverse demonstrations improve in-context compositional generalization," in Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), ACL 2023, Toronto, Canada, July 9-14, 2023. Association for Computational Linguistics, 2023, pp. 1401-1422. [Online]. Available: https://doi.org/10.18653/v1/2023.acl-long. 78
+[48] H. Su, J. Kasai, C. H. Wu, W. Shi, T. Wang, J. Xin, R. Zhang, M. Ostendorf, L. Zettlemoyer, N. A. Smith, and T. Yu, "Selective annotation makes language models better few-shot learners," in The Eleventh International Conference on Learning Representations, ICLR 2023, Kigali, Rwanda, May 1-5, 2023. OpenReview.net, 2023. [Online]. Available: https://openreview.net/pdf?id=qY1hlv7gwg
+

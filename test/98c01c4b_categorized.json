@@ -1,0 +1,48 @@
+{
+  "Abstract": [
+    "## ABOXRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 3 PRELIMINARIES",
+    "### 3.1 Problem Definition",
+    "### 3.2 Terminology"
+  ],
+  "Methodology": [
+    "## 4 PROPOSED FRAMEWORK",
+    "### 4.1 Formulation",
+    "### 4.2 Feature Representation",
+    "### 4.3 Feature Attention Embedding",
+    "### 4.4 Domain Adaptation-based Variants",
+    "## Algorithm 1 ADAMEL-ZERO",
+    "### 4.5 Parameter Complexity",
+    "## PVLDB Reference Format_",
+    "# Deep Transfer Learning for Multi-source Entity Linkage via Domain Adaptation",
+    "## Xin Luna Dong"
+  ],
+  "Related Work": [
+    "## 2 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 5 EXPERIMENTS",
+    "### 5.1 Experimental Setup",
+    "### 5.2 Transfer Learning for MEL",
+    "### 5.3 Effectiveness of Adaptation",
+    "### 5.4 Attention Analysis",
+    "### 5.5 Data Sources Analysis",
+    "### 5.6 Effectiveness of Support Set",
+    "### 5.7 Model Justification"
+  ],
+  "Conclusion": [
+    "## 6 CONCLUSION"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [
+    "## ACKNOWLEDGMENTS"
+  ],
+  "Appendix": []
+}

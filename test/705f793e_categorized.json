@@ -1,0 +1,82 @@
+{
+  "Abstract": [],
+  "Introduction": [
+    "1 INTRODUCTION",
+    "1.1 Contributions"
+  ],
+  "Problem Definition": [
+    "2 PRELIMINARIES",
+    "2.1 Entity Matching",
+    "2.2 Active Learning"
+  ],
+  "Methodology": [
+    "3 ACTIVE LEARNING USING THE BATTLESHIP APPROACH",
+    "3.1 Overview",
+    "3.2 Training a Matcher with Labeled Samples",
+    "3.3 Pair graphs_ From Spatial Representations to Connected Components",
+    "3.4 Budget Distribution",
+    "3.5 Selection Criteria Calculations",
+    "3.6 Sample Selection and Labeling",
+    "3.7 Optimization with Weak Supervision",
+    "### 3.3 Pair graphs_ From Spatial Representations to Connected Components",
+    "# 5.1 Battleship and Baselines Performance",
+    "## ACM Reference Format_",
+    "## 7 RELATED WORK",
+    "# 2.2 Active Learning",
+    "# 3.2 Training a Matcher with Labeled Samples",
+    "# 3.1 Overview",
+    "### 2.1 Entity Matching",
+    "# 4.3 Baselines Methods",
+    "# 5.2 Runtime Analysis",
+    "# ACKNOWLEDGMENTS",
+    "# 6.4 Weak Supervision Impact",
+    "### 4.1 Datasets",
+    "# 3.7 Optimization with Weak Supervision",
+    "## 1 INTRODUCTION",
+    "### 3.5 Selection Criteria Calculations",
+    "# 3.4 Budget Distribution",
+    "## 3 ACTIVE LEARNING USING THE BATTLESHIP APPROACH",
+    "# 8 CONCLUSIONS",
+    "# 6 COMPONENTS ANALYSIS",
+    "## 5 EMPIRICAL EVALUATION",
+    "# 6.3 The Correspondence Effect",
+    "### 6.1 Local vs. Spatial Certainty",
+    "# 2 PRELIMINARIES",
+    "# 1.1 Contributions",
+    "# The Battleship Approach to the Low Resource Entity Matching Problem",
+    "# 4.2 Implementation Details",
+    "### 6.2 Criteria Weighting Analysis",
+    "# 3.6 Sample Selection and Labeling",
+    "# 6.5 Analysis Conclusion",
+    "## REFERENCES",
+    "## 4 EXPERIMENTAL SETUP"
+  ],
+  "Related Work": [
+    "7 RELATED WORK"
+  ],
+  "Experiment": [
+    "4 EXPERIMENTAL SETUP",
+    "4.1 Datasets",
+    "4.2 Implementation Details",
+    "4.3 Baselines Methods",
+    "5 EMPIRICAL EVALUATION",
+    "5.1 Battleship and Baselines Performance",
+    "5.2 Runtime Analysis",
+    "6 COMPONENTS ANALYSIS",
+    "6.1 Local vs. Spatial Certainty",
+    "6.2 Criteria Weighting Analysis",
+    "6.3 The Correspondence Effect",
+    "6.4 Weak Supervision Impact",
+    "6.5 Analysis Conclusion"
+  ],
+  "Conclusion": [
+    "8 CONCLUSIONS"
+  ],
+  "References": [
+    "REFERENCES"
+  ],
+  "Acknowledgement": [
+    "ACKNOWLEDGMENTS"
+  ],
+  "Appendix": []
+}

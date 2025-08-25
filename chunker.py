@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 from llm_factory import LLMFactory
 import logging
+from pdf_to_md_converter import extract_title_from_md
+import pandas as pd
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -45,7 +47,8 @@ class PaperChunker:
             # Read the markdown content
             with open(md_file_path, 'r', encoding='utf-8') as f:
                 md_content = f.read()
-            
+            self.title = extract_title_from_md(md_content)
+            #paper_register = pd.read_csv('data/paper_register.csv')
             with open('config.yaml', 'r', encoding='utf-8') as f:
                 config = yaml.safe_load(f)
             pattern = config.get('chunker', {}).get('pattern', '')
@@ -78,7 +81,10 @@ class PaperChunker:
                 
                 # Store with cleaned title as key
                 section_dict[clean_title] = content
-            
+            #id = paper_register['id'][paper_register['title'] == title].values[0]
+            #section_dict['path'] = f'{id}_sections.json'
+            #with open(section_dict['path'], 'w', encoding='utf-8') as f:
+            #    json.dump(section_dict, f, ensure_ascii=False, indent=2)
             logger.info(f"Extracted {len(section_dict)} sections from {md_file_path}")
             return section_dict
             
@@ -251,6 +257,19 @@ class PaperChunker:
                 categorization_file = output_path / f"{base_name}_categorized.json"
             
             categorization = self.categorize_sections(section_dict, categorization_file)
+        
+        paper_register = pd.read_csv('data/paper_register.csv')
+        id = paper_register['id'][paper_register['title'] == self.title].values[0]
+        section_dict_path = f'test/{id}_sections.json'
+        categorization_path = f'test/{id}_categorized.json'
+        paper_register.loc[paper_register['title'] == self.title, 'section_ path'] = section_dict_path
+        paper_register.loc[paper_register['title'] == self.title, 'categorization_path'] = categorization_path
+        with open(section_dict_path, 'w', encoding='utf-8') as f:
+            json.dump(section_dict, f, ensure_ascii=False, indent=2)
+        with open(categorization_path, 'w', encoding='utf-8') as f:
+            json.dump(categorization, f, ensure_ascii=False, indent=2)
+        
+        paper_register.to_csv('data/paper_register.csv', index=False)
         
         return section_dict, categorization
 

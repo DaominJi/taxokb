@@ -1,0 +1,40 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 2 BASIC DEFINITIONS",
+    "### 2.1 Entity similarity based on values",
+    "### 2.2 Entity similarity based on neighbors"
+  ],
+  "Methodology": [
+    "## 3 BLOCKING",
+    "### 3.1 Composite Blocking Scheme",
+    "### 3.2 Disjunctive Blocking Graph",
+    "### 3.3 Graph Weighting and Pruning Algorithms",
+    "## 4 NON-ITERATIVE MATCHING PROCESS",
+    "### 4.1 Implementation in Spark",
+    "## George Papadakis",
+    "## Vassilis Christophides",
+    "# MinoanER_ Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities"
+  ],
+  "Related Work": [
+    "## 5 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 6 EXPERIMENTAL EVALUATION",
+    "### 6.1 Effectiveness Evaluation",
+    "### 6.2 Efficiency Evaluation"
+  ],
+  "Conclusion": [
+    "## 7 CONCLUSIONS"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [],
+  "Appendix": []
+}

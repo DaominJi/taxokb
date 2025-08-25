@@ -1,0 +1,43 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 2 BLOCKING FOR ENTITY MATCHING"
+  ],
+  "Methodology": [
+    "## 3 THE SPARKLY SOLUTION",
+    "### 3.1 The TF_IDF Family of Scoring Functions",
+    "### 3.2 The Lucene KWS Library",
+    "### 3.3 The Sparkly Solution",
+    "### 3.4 Selecting Attributes and Tokenizers",
+    "# Sparkly_ A Simple yet Surprisingly Strong TF_IDF Blocker for Entity Matching"
+  ],
+  "Related Work": [
+    "## 6 ADDITIONAL RELATED WORK"
+  ],
+  "Experiment": [
+    "## 4 EMPIRICAL EVALUATION",
+    "### 4.1 Recall and Output Size",
+    "### 4.3 Performance of Sparkly's Components",
+    "### 4.4 Sensitivity Analysis",
+    "### 4.5 Additional Experiments"
+  ],
+  "Conclusion": [
+    "## 5 DISCUSSION _& FUTURE WORK",
+    "## 7 CONCLUSIONS"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [
+    "## ACKNOWLEDGMENTS"
+  ],
+  "Appendix": [
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
+  ]
+}

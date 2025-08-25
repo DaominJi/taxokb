@@ -1,7 +1,7 @@
 from llm_factory import LLMFactory
 import yaml
 import json
-
+import pandas as pd
 from llm_factory import LLMFactory
 import yaml
 import json
@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 import logging
 from chunker import PaperChunker
-
+from pdf_to_md_converter import extract_title_from_md
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -20,12 +20,17 @@ class TaskTaxonomyGenerator:
         self.llm_factory = llm_factory
         self.prompts = yaml.safe_load(open('prompts.yaml', 'r', encoding='utf-8'))
         self.chunker = PaperChunker(llm_factory)
-        
+        self.paper_register = pd.read_csv('data/paper_register.csv')
+
     def extract_problem_definition(self, paper_path: str) -> Dict[str, Any]:
         """Extract problem definition from a single paper."""
         try:
             # First, extract and categorize sections
             section_dict, categorization = self.chunker.process_paper(paper_path)
+            with open(paper_path, 'r', encoding='utf-8') as f:
+                paper_content = f.read()
+            title = extract_title_from_md(paper_content)
+            id = self.paper_register['id'][self.paper_register['title'] == title].values[0]
             
             # Get problem definition sections
             problem_sections = []
@@ -45,7 +50,9 @@ class TaskTaxonomyGenerator:
             # Get prompt and generate problem definition
             prompt = self.prompts['taxonomy_generator']['task_taxonomy']['extract_problem_definition']
             prompt = prompt.replace('[Paper Content]', paper_content)
-            
+            prompt = prompt.replace('[Paper ID]', id)
+            prompt = prompt.replace('[Paper Title]', title)
+
             logger.info(f"Extracting problem definition from {Path(paper_path).stem}")
             response = self.llm_factory.generate(
                 prompt,
@@ -220,12 +227,17 @@ class MethodTaxonomyGenerator:
         self.llm_factory = llm_factory
         self.prompts = yaml.safe_load(open('prompts.yaml', 'r', encoding='utf-8'))
         self.chunker = PaperChunker(llm_factory)
+        self.paper_register = pd.read_csv('data/paper_register.csv')
         
     def extract_method_summary(self, paper_path: str) -> Dict[str, Any]:
         """Extract method summary from a single paper."""
         try:
             # First, extract and categorize sections
             section_dict, categorization = self.chunker.process_paper(paper_path)
+            with open(paper_path, 'r', encoding='utf-8') as f:
+                paper_content = f.read()
+            title = extract_title_from_md(paper_content)
+            id = self.paper_register['id'][self.paper_register['title'] == title].values[0]
             
             # Get methodology sections
             method_sections = []
@@ -250,7 +262,9 @@ class MethodTaxonomyGenerator:
             
             # Get prompt and generate method summary
             prompt = self.prompts['taxonomy_generator']['method_taxonomy']['extract_method_summary']
-            prompt = prompt.replace('{section_text}', section_text)
+            prompt = prompt.replace('[Paper Content]', section_text)
+            prompt = prompt.replace('[Paper ID]', id)
+            prompt = prompt.replace('[Paper Title]', title)
             
             logger.info(f"Extracting method summary from {Path(paper_path).stem}")
             response = self.llm_factory.generate(
@@ -263,7 +277,7 @@ class MethodTaxonomyGenerator:
             # Parse and structure the response
             paper_name = Path(paper_path).stem
             method_summary = {
-                "paper_id": paper_name,
+                "paper_id": id,
                 "methodology_summary": response.content
             }
             

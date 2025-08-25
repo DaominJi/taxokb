@@ -1,0 +1,45 @@
+{
+  "Abstract": [
+    "#### Abstract"
+  ],
+  "Introduction": [
+    "## 1 Introduction"
+  ],
+  "Problem Definition": [],
+  "Methodology": [
+    "## 3 Deep ER Model Architecture",
+    "## 4 Deep Transfer Active Learning for ER",
+    "### 4.1 Adversarial Transfer Learning",
+    "### 4.2 Active Learning",
+    "## Algorithm 1 Deep Transfer Active Learning",
+    "## Require_",
+    "## Ensure_",
+    "# Low-resource Deep Entity Resolution with Transfer and Active Learning"
+  ],
+  "Related Work": [
+    "## 2 Background and Related Work",
+    "### 2.1 Entity Resolution",
+    "### 2.2 Learning-based Entity Resolution",
+    "## 6 Further Related Work"
+  ],
+  "Experiment": [
+    "## 5 Experiments",
+    "### 5.1 Experimental Setup",
+    "### 5.2 Baselines",
+    "### 5.3 Results and Discussions"
+  ],
+  "Conclusion": [
+    "## 7 Conclusion"
+  ],
+  "References": [
+    "## References"
+  ],
+  "Acknowledgement": [
+    "## Acknowledgments"
+  ],
+  "Appendix": [
+    "# A Appendices",
+    "## A. 1 Deep ER Hyperparameters",
+    "## A. 2 Non-DL Learning Algorithms"
+  ]
+}

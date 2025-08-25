@@ -1,0 +1,52 @@
+{
+  "Abstract": [
+    "ABSTRACT"
+  ],
+  "Introduction": [
+    "1 INTRODUCTION"
+  ],
+  "Problem Definition": [],
+  "Methodology": [
+    "3 METHODOLOGY",
+    "3.1 Prompt Generation Module (PGM)",
+    "## PVLDB Artifact Availability_",
+    "## 3 METHODOLOGY",
+    "## 1 INTRODUCTION",
+    "## ABSTRACT",
+    "## 2 PRELIMINARIES",
+    "### 3.1 Prompt Generation Module (PGM)",
+    "## 5 RELATED WORKS",
+    "### 4.1 Experimental Setup",
+    "# ZeroEA_ A Zero-Training Entity Alignment Framework via Pre-Trained Language Model",
+    "## ACKNOWLEDGMENTS",
+    "## 4 EXPERIMENTS",
+    "## PVLDB Reference Format_",
+    "### 4.3 Downstream Task Application_ Text-to-SQL",
+    "## 6 CONCLUSION",
+    "## REFERENCES",
+    "### 4.2 Experimental Results"
+  ],
+  "Related Work": [
+    "5 RELATED WORKS"
+  ],
+  "Experiment": [
+    "4 EXPERIMENTS",
+    "4.1 Experimental Setup",
+    "4.2 Experimental Results",
+    "4.3 Downstream Task Application_ Text-to-SQL"
+  ],
+  "Conclusion": [
+    "6 CONCLUSION"
+  ],
+  "References": [
+    "REFERENCES",
+    "PVLDB Reference Format_",
+    "PVLDB Artifact Availability_"
+  ],
+  "Acknowledgement": [
+    "ACKNOWLEDGMENTS"
+  ],
+  "Appendix": [
+    "2 PRELIMINARIES"
+  ]
+}

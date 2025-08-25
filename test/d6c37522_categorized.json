@@ -1,0 +1,57 @@
+{
+  "Abstract": [
+    "#### Abstract"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 2 PRELIMINARIES",
+    "### 2.1 Problem Formulation"
+  ],
+  "Methodology": [
+    "### 2.2 Serializing",
+    "### 2.3 Vanilla Fine-tuning",
+    "### 2.4 Prompt-based Tuning",
+    "## 3 PROMPT TUNING FOR GEM",
+    "### 3.1 Prompt Templates",
+    "### 3.2 Training and Inference",
+    "## 4 LIGHTWEIGHT SELF-TRAINING",
+    "### 4.1 Overview",
+    "### 4.2 Uncertainty-aware Pseudo-label Selection",
+    "### 4.3 Dynamic Data Pruning",
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_",
+    "# PromptEM_ Prompt-tuning for Low-resource Generalized Entity Matching"
+  ],
+  "Related Work": [
+    "## 6 RELATED WORK",
+    "### 6.1 Entity Matching",
+    "### 6.2 Prompt-tuning"
+  ],
+  "Experiment": [
+    "## 5 EXPERIMENTS",
+    "### 5.1 Experimental Setup",
+    "### 5.2 Main Results (RQ1)",
+    "### 5.3 Ablation Study (RQ2)",
+    "### 5.4 Efficiency Analysis (RQ3)",
+    "### 5.5 Model Variants (RQ4)"
+  ],
+  "Conclusion": [
+    "## 7 CONCLUSIONS"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [],
+  "Appendix": [
+    "## APPENDIX",
+    "## A RESULTS UNDER SUFFICIENT RESOURCE SETTING",
+    "## B MORE RESULTS OF PROMPT CHOICES",
+    "## C ERROR ANALYSIS",
+    "## D IMPLEMENTATION DETAILS OF BASELINES",
+    "## E DETAILS OF EXPERIMENTAL DATASETS",
+    "## F SUMMARIZING LONG ENTRIES",
+    "## G INSIGHTS OF METHOD CHOICES"
+  ]
+}

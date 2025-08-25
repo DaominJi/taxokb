@@ -2,6 +2,23 @@ import os
 import argparse
 from mistralai import Mistral
 import base64
+import re
+import pandas as pd
+import hashlib
+
+
+def extract_title_from_md(md_content):
+    pattern = r'^#\s+(.+?)$'
+    
+    match = re.search(pattern, md_content, re.MULTILINE)
+    
+    if match:
+        return match.group(1).strip()
+    else:
+        return None
+
+def title_to_id(title: str) -> str:
+    return hashlib.md5(title.strip().lower().encode()).hexdigest()[:8] 
 
 def convert_pdf_to_md(input_path, output_path, client):
     """
@@ -96,6 +113,8 @@ def convert_pdf_to_md(input_path, output_path, client):
             elif hasattr(page, 'raw_text') and page.raw_text:
                 markdown_content += page.raw_text + "\n\n"
 
+        #title_pattern = r"^#+ (.*)$"
+        title = extract_title_from_md(markdown_content)
         # Save to Markdown file
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(markdown_content)
@@ -106,19 +125,26 @@ def convert_pdf_to_md(input_path, output_path, client):
         client.files.delete(file_id=uploaded_pdf.id)
         print(f"Cleaned up uploaded file: {uploaded_pdf.id}")
         
-        return True
+        return title
 
     except Exception as e:
         print(f"Error converting {input_path}: {e}")
-        return False
+        return None
+
+def register_paper(path: str, title: str, paper_register: pd.DataFrame) -> str:
+    id = title_to_id(title)
+    new_row = pd.DataFrame({'id': [id], 'path': [path], 'title': [title]})
+    paper_register = pd.concat([paper_register, new_row], ignore_index=True)
+    paper_register.to_csv('data/paper_register.csv', index=False)
+    return id
 
 def main():
     """
     Main function to handle command-line arguments and initiate the conversion.
     """
     parser = argparse.ArgumentParser(description="Convert a PDF file to a Markdown file using the Mistral OCR API.")
-    parser.add_argument("--input_path", type=str, default='data/test', help="The path to the input PDF file.")
-    parser.add_argument("--output_path", type=str, nargs='?', default='data/test', help="The path to save the output Markdown file (optional).")
+    parser.add_argument("--input_path", type=str, default='test/', help="The path to the input PDF file.")
+    parser.add_argument("--output_path", type=str, nargs='?', default='test', help="The path to save the output Markdown file (optional).")
 
     args = parser.parse_args()
 
@@ -133,8 +159,8 @@ def main():
     # Initialize Mistral client
     client = Mistral(api_key=api_key)
 
-    pdf_path = args.input_path + '/pdf_files'
-    output_path = args.output_path + '/md_files'
+    pdf_path = args.input_path
+    output_path = args.output_path
 
     if not output_path:
         # If no output path is provided, create one based on the input file's name
@@ -156,13 +182,22 @@ def main():
                 # Create output directory if it doesn't exist
                 os.makedirs(os.path.dirname(full_output_path), exist_ok=True)
                 
-                convert_pdf_to_md(full_pdf_path, full_output_path, client)
-                print("-"*100)
-                print(f"Converted {full_pdf_path} to {full_output_path}")
-                print("-"*100)
+                if not os.path.exists('data/paper_register.csv'):
+                    df = pd.DataFrame({'id': [], 'path': [], 'title': []})
+                else:
+                    df = pd.read_csv('data/paper_register.csv')
+                path_list = df['path'].tolist()
+                if full_pdf_path in path_list:
+                    continue
+                else:
+                    title = convert_pdf_to_md(full_pdf_path, full_output_path, client)
+                    id = register_paper(full_pdf_path, title, df)
+                    print("-"*100)
+                    print(f"Converted {full_pdf_path} to {full_output_path}")
+                    print("-"*100)
     else:
         # Process single file
-        convert_pdf_to_md(pdf_path, output_path, client)
+        title =convert_pdf_to_md(pdf_path, output_path, client)
 
 if __name__ == "__main__":
     main()

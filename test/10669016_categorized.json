@@ -1,0 +1,35 @@
+{
+  "Abstract": [
+    "## ABSTRACT",
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION",
+    "## 2 PRELIMINARIES"
+  ],
+  "Problem Definition": [
+    "## 3 PROBLEM DEFINITION"
+  ],
+  "Methodology": [
+    "## 4 PRUNING ALGORITHMS",
+    "## 5 WEIGHTING SCHEMES",
+    "# Generalized Supervised Meta-blocking",
+    "## Themis Palpanas",
+    "## Sonia Bergamaschi"
+  ],
+  "Related Work": [
+    "## 7 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 6 EXPERIMENTAL EVALUATION"
+  ],
+  "Conclusion": [
+    "## 8 CONCLUSIONS"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [],
+  "Appendix": []
+}

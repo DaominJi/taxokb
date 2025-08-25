@@ -1,0 +1,50 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [
+    "## 2 PRELIMINARIES AND BACKGROUND",
+    "### 2.1 Problem Statement"
+  ],
+  "Methodology": [
+    "## 3 DIAL",
+    "### 3.1 Matcher",
+    "### 3.2 Blocker",
+    "### 3.3 Overall Algorithm",
+    "# Deep Indexed Active Learning for Matching Heterogeneous Entity Representations"
+  ],
+  "Related Work": [
+    "## 5 RELATED WORK",
+    "### 5.1 Active Learning for Entity Resolution",
+    "### 5.2 Deep Learning for Entity Resolution",
+    "### 5.3 Active Learning for Deep Learning",
+    "### 5.4 Blocking"
+  ],
+  "Experiment": [
+    "## 4 EXPERIMENTS",
+    "### 4.1 Datasets",
+    "### 4.2 Implementation Details",
+    "### 4.3 Methods Compared",
+    "### 4.4 Overall Results",
+    "### 4.5 Multilingual Dataset",
+    "### 4.6 Ablation Study",
+    "### 4.7 Selection Strategies",
+    "### 4.8 Running time"
+  ],
+  "Conclusion": [
+    "## 6 CONCLUSION"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [],
+  "Appendix": [
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_",
+    "### 2.2 Pre-trained Language Models",
+    "### 2.3 Example selection for ER"
+  ]
+}

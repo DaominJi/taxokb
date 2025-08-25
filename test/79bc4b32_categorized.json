@@ -1,0 +1,47 @@
+{
+  "Abstract": [
+    "## ABSTRACT"
+  ],
+  "Introduction": [
+    "## 1 INTRODUCTION"
+  ],
+  "Problem Definition": [],
+  "Methodology": [
+    "## Francesco Guerra",
+    "## PVLDB Reference Format_",
+    "# Analyzing How BERT Performs Entity Matching",
+    "## PVLDB Artifact Availability_",
+    "## 7 LESSONS LEARNED"
+  ],
+  "Related Work": [
+    "## 2 RELATED WORK"
+  ],
+  "Experiment": [
+    "## 3 THE EXPERIMENTAL ANALYSIS",
+    "## 4 IMPACT OF THE FINE-TUNING PROCESS ON THE EM TASK",
+    "### 4.1 Effectiveness",
+    "### 4.2 Attention",
+    "### 4.3 Embeddings",
+    "## 5 RELYING ON THE DATASET STRUCTURE",
+    "### 5.1 The entity-to-entity (E2E) pattern",
+    "### 5.2 The attention patterns involving the dataset attributes",
+    "### 5.2.1 The MAA pattern.",
+    "### 5.3 Importance of the attributes",
+    "### 5.3.1 Analysis of the attention.",
+    "### 5.3.2 Gradient analysis.",
+    "## 6 EXPLOITATION OF THE SEMANTIC SIMILARITY KNOWLEDGE",
+    "### 6.1 Attention and semantic similarity",
+    "### 6.2 Embeddings and semantic similarity",
+    "### 6.3 Gradient and semantic similarity"
+  ],
+  "Conclusion": [
+    "## 8 CONCLUSION"
+  ],
+  "References": [
+    "## REFERENCES"
+  ],
+  "Acknowledgement": [
+    "## ACKNOWLEDGMENTS"
+  ],
+  "Appendix": []
+}

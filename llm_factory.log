@@ -1173,3 +1173,715 @@ message: "Generative Language API has not been used in project 280614450122 befo
 2025-08-22 14:22:15,396 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
 2025-08-22 14:22:17,851 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
 2025-08-22 14:22:21,315 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 15:42:41,141 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 15:42:41,142 - LLMFactory - INFO - Initialized google provider
+2025-08-24 15:42:41,142 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 15:42:41,142 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 15:42:41,154 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 15:51:11,770 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 15:51:11,770 - LLMFactory - INFO - Initialized google provider
+2025-08-24 15:51:11,770 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 15:51:11,770 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 15:51:11,781 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 15:53:06,591 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 15:53:06,591 - LLMFactory - INFO - Initialized google provider
+2025-08-24 15:53:06,591 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 15:53:06,591 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 15:53:06,603 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 15:54:24,311 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 15:54:24,311 - LLMFactory - INFO - Initialized google provider
+2025-08-24 15:54:24,312 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 15:54:24,312 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 15:54:24,329 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:32,928 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:19:32,928 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:19:32,928 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:19:32,928 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:19:32,955 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:35,538 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:38,604 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:42,784 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:19:45,346 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:48,293 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:19:50,971 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:19:53,868 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:19:57,421 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:00,107 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:03,365 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:06,755 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:09,544 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:11,500 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:14,532 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:15,881 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:19,543 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:23,652 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:25,373 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:28,458 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:30,809 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:33,797 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:35,807 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:40,207 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:42,573 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:45,054 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:20:47,502 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:20:58,239 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:28,017 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:25:28,017 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:25:28,017 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:25:28,017 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:25:28,045 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:30,220 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:33,506 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:35,809 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:37,444 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:40,671 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:43,831 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:45,689 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:47,819 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:50,063 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:52,254 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:25:55,305 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:25:58,696 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:01,346 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:05,544 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:07,489 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:09,752 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:11,094 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:12,917 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:15,695 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:17,324 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:20,190 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:24,080 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:27,006 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:28,482 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:31,217 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:33,501 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:36,382 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:26:38,731 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:26:48,438 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:33:05,104 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:33:05,104 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:33:05,104 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:33:05,104 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:33:05,125 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:06,940 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:09,196 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:11,450 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:13,214 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:16,159 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:17,861 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:20,870 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:23,532 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:25,476 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:26,808 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:28,854 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:30,698 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:33,053 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:34,474 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:33:36,740 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:35:55,648 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:35:55,648 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:35:55,648 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:35:55,648 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:35:55,666 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:01,224 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:06,756 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:09,583 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:16,063 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:18,932 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:25,189 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:27,739 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:33,893 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:36,571 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:43,212 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:45,146 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:50,278 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:36:53,238 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:36:59,518 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:02,656 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:07,890 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:10,132 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:14,312 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:15,654 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:20,896 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:22,830 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:28,780 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:30,305 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:37,893 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:42,185 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:37:50,593 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:37:52,014 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:38:01,681 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:38:04,413 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:38:11,380 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:38:13,507 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:38:18,960 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:39:14,588 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:16,617 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:20,913 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:23,524 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:26,749 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:29,004 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:31,052 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:34,176 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:36,808 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:39,036 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:40,368 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:42,007 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:43,647 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:46,063 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:47,846 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:50,096 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:52,555 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:54,651 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:57,042 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:39:59,541 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:01,466 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:04,350 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:06,081 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:09,620 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:12,626 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:14,421 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:15,978 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:17,748 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:19,752 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:22,046 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:23,994 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:26,248 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:40:28,461 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:08,570 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:47:08,570 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:47:08,570 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:47:08,570 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:47:08,589 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:10,830 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:15,956 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:18,398 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:23,652 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:29,603 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:36,024 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:38,570 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:43,697 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:46,152 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:51,485 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:47:53,826 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:47:58,345 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:01,940 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:07,051 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:10,419 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:15,856 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:17,483 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:22,615 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:24,324 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:30,089 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:32,409 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:36,643 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:38,272 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:44,120 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:46,666 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:53,064 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:48:54,615 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:48:59,913 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:49:02,266 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:49:06,751 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:49:09,607 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:49:14,765 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:49:55,940 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:49:58,776 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:01,231 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:03,689 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:05,833 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:08,500 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:13,486 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:16,605 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:19,560 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:21,906 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:23,451 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:25,599 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:27,447 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:29,798 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:31,234 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:33,884 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:36,851 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:39,277 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:42,190 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:43,658 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:45,888 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:48,131 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:52,839 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:56,674 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:50:59,437 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:01,423 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:02,776 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:04,820 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:06,665 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:09,235 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:10,965 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:13,832 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:51:16,159 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:57:52,826 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 16:57:52,826 - LLMFactory - INFO - Initialized google provider
+2025-08-24 16:57:52,826 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 16:57:52,826 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 16:57:52,845 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:57:55,204 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:00,129 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:02,518 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:07,809 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:09,396 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:13,749 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:17,522 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:22,863 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:25,307 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:31,462 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:33,602 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:38,121 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:41,694 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:47,233 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:50,192 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:58:54,765 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:58:56,847 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:00,851 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:02,143 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:07,099 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:09,176 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:26,836 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:29,454 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:34,951 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:37,296 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:42,530 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:44,169 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:48,263 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:50,608 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 16:59:56,180 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 16:59:58,494 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 17:00:04,152 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 17:01:36,479 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:38,765 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:41,071 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:42,649 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:45,515 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:48,338 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:50,332 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:53,854 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:56,895 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:01:59,137 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:00,494 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:03,233 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:04,869 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:07,934 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:09,544 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:12,038 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:14,205 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:16,746 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:19,638 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:21,559 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:26,886 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:29,402 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:31,488 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:34,770 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:38,252 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:40,658 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:42,041 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:43,985 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:45,829 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:48,286 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:50,028 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:52,180 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 17:02:54,448 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:14:54,350 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:14:54,350 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:14:54,350 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:14:54,350 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:14:54,369 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:14:57,183 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:14:58,128 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:01,124 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:09,305 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:12,466 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:13,534 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:16,999 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:22,224 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:25,910 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:31,041 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:33,796 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:39,467 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:42,877 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:47,969 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:15:51,245 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:15:58,077 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:00,216 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:04,996 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:06,399 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:13,131 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:15,369 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:20,554 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:22,435 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:27,058 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:29,578 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:34,079 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:35,748 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:40,878 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:43,429 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:48,867 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:16:51,107 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:16:56,889 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:17:31,990 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:34,111 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:36,472 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:39,308 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:41,727 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:44,705 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:46,932 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:49,785 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:52,356 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:54,501 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:55,839 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:17:58,394 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:00,654 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:03,038 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:04,773 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:07,102 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:10,034 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:12,327 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:14,574 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:16,637 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:19,036 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:23,077 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:25,433 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:28,712 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:31,783 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:34,009 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:35,768 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:37,721 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:39,681 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:42,328 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:44,446 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:46,723 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-24 22:18:49,271 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:41:55,753 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:41:55,753 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:41:55,753 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:41:55,753 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:42:47,325 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:42:47,325 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:42:47,325 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:42:47,325 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:43:01,136 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:43:01,136 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:43:01,136 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:43:01,136 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:43:33,042 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:43:33,042 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:43:33,042 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:43:33,042 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:44:13,013 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:44:13,014 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:44:13,014 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:44:13,014 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:44:26,149 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:44:26,149 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:44:26,149 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:44:26,149 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:46:15,388 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:46:15,389 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:46:15,389 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:46:15,389 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:46:15,408 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:16,938 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:17,757 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:18,681 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:19,389 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:20,213 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:21,034 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:21,846 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:22,675 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:23,478 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:24,148 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:24,813 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:25,631 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:26,358 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:27,068 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:27,864 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:28,702 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:29,465 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:30,146 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:30,951 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:31,667 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:32,386 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:33,156 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:33,823 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:34,647 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:35,572 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:36,440 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:37,221 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:37,869 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:38,728 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:39,426 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:40,274 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:40,993 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:41,700 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:42,438 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:43,356 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:44,095 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:44,888 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:45,704 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:46,522 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:47,246 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:48,000 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:46:48,781 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:00,387 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:48:00,388 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:48:00,388 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:48:00,388 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:48:00,399 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:01,292 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:01,959 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:02,717 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:03,532 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:04,257 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:05,175 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:05,992 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:06,808 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:07,526 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:08,343 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:09,188 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:10,294 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:11,010 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:11,727 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:12,434 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:13,366 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:14,151 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:15,509 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:16,226 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:17,051 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:17,866 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:18,679 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:19,465 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:20,168 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:20,826 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:21,728 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:22,424 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:23,617 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:24,391 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:25,152 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:25,846 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:26,473 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:27,385 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:28,409 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:29,120 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:29,893 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:30,582 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:31,385 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:32,067 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:32,859 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:33,615 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:34,514 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:35,170 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:39,870 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:48:39,870 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:48:39,870 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:48:39,870 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:48:39,882 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:40,817 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:41,630 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:42,346 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:43,136 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:43,985 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:44,699 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:45,520 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:48:46,288 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:31,694 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:49:31,694 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:49:31,694 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:49:31,694 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:49:31,707 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:34,149 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:37,235 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:40,591 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:42,739 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:45,426 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:46,851 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:47,671 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:49,717 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:51,648 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:54,808 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:56,654 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:49:59,290 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:01,985 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:04,137 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:06,894 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:08,878 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:10,922 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:13,995 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:15,925 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:31,789 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:50:31,789 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:50:31,789 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:50:31,789 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:50:31,802 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:33,725 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:35,807 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:37,903 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:39,894 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:41,837 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:42,940 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:43,789 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:45,637 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:50:47,483 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:40,932 - LLMFactory - INFO - Initialized openai provider
+2025-08-24 22:55:40,932 - LLMFactory - INFO - Initialized google provider
+2025-08-24 22:55:40,932 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-24 22:55:40,932 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-24 22:55:40,945 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:42,908 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:44,752 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:46,898 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:48,840 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:50,894 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:52,423 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:53,244 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:55,074 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:57,398 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:55:59,999 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:01,666 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:03,580 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:05,751 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:07,744 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:10,070 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:11,746 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:13,513 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:15,602 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:17,825 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:21,206 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:23,151 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:24,790 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:27,349 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:29,113 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:31,856 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:34,598 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:36,155 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:39,140 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:41,684 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:44,231 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:46,542 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:48,135 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:50,595 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:52,846 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:55,305 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:57,108 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:56:58,993 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:02,030 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:03,695 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:06,266 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:08,507 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:09,218 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:11,688 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:13,729 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:16,221 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:18,296 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:19,114 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:21,686 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:24,409 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:27,050 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:28,681 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:30,733 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:34,091 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:37,185 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:39,841 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:42,502 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:44,810 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:48,653 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-24 22:57:51,397 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:44:39,666 - LLMFactory - INFO - Initialized openai provider
+2025-08-25 08:44:39,666 - LLMFactory - INFO - Initialized google provider
+2025-08-25 08:44:39,666 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-25 08:44:39,666 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-25 08:44:39,701 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:44:42,080 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:44:48,200 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:44:50,778 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:44:57,933 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:45:00,825 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:45:08,927 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:45:12,034 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:45:27,251 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:45:29,834 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:45:35,695 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:45:37,382 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:45:43,050 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:45:46,326 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:45:59,024 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:01,869 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:07,805 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:09,769 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:18,620 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:20,303 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:30,134 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:31,960 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:38,473 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:43,456 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:50,423 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:46:52,891 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:46:59,075 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:47:00,586 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:47:17,761 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:47:19,880 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:47:27,486 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:47:30,070 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:47:36,065 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 08:49:01,254 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:04,359 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:06,953 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:09,378 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:11,883 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:14,085 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:15,765 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:18,581 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:21,448 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:23,633 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:24,990 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:27,053 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:28,857 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:31,182 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:33,021 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:34,870 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:37,120 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:39,205 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:41,641 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:44,441 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:47,112 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:49,646 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:51,475 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:56,212 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:49:59,961 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:02,406 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:03,845 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:06,690 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:08,664 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:11,079 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:12,738 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:15,381 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 08:50:17,804 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:16:30,703 - LLMFactory - INFO - Initialized openai provider
+2025-08-25 11:16:30,703 - LLMFactory - INFO - Initialized google provider
+2025-08-25 11:16:30,703 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-25 11:16:30,703 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-25 11:16:30,741 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:16:32,954 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:16:39,080 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:16:41,306 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:16:46,739 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:16:49,476 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:16:56,653 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:16:59,225 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:17:05,712 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:17:08,307 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:17:15,899 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:17:17,957 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:17:24,994 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:17:28,239 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:17:33,643 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:17:36,270 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-25 11:17:44,375 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
+2025-08-25 11:17:46,754 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1

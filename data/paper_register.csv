@@ -1,0 +1,17 @@
+id,path,title,section_ path,categorization_path
+baa3b0fc,test/CollaborER.pdf,CollaborER: A Self-supervised Entity Resolution Framework Using Multi-features Collaboration,test/baa3b0fc_sections.json,test/baa3b0fc_categorized.json
+79bc4b32,test/BERTEM.pdf,Analyzing How BERT Performs Entity Matching,test/79bc4b32_sections.json,test/79bc4b32_categorized.json
+53cfb6e5,test/BatchER.pdf,Cost-Effective In-Context Learning for Entity Resolution: A Design Space Exploration,test/53cfb6e5_sections.json,test/53cfb6e5_categorized.json
+98c01c4b,test/ADAMEL.pdf,Deep Transfer Learning for Multi-source Entity Linkage via Domain Adaptation,test/98c01c4b_sections.json,test/98c01c4b_categorized.json
+54593c94,test/CLER.pdf,Blocker and Matcher Can Mutually Benefit: A Co-Learning Framework for Low-Resource Entity Resolution,test/54593c94_sections.json,test/54593c94_categorized.json
+3e96d15e,test/DIAL.pdf,Deep Indexed Active Learning for Matching Heterogeneous Entity Representations,test/3e96d15e_sections.json,test/3e96d15e_categorized.json
+10669016,test/GSMB.pdf,Generalized Supervised Meta-blocking,test/10669016_sections.json,test/10669016_categorized.json
+9f0c2daf,test/Sparkly.pdf,Sparkly: A Simple yet Surprisingly Strong TF/IDF Blocker for Entity Matching,test/9f0c2daf_sections.json,test/9f0c2daf_categorized.json
+d6c37522,test/PromptEM.pdf,PromptEM: Prompt-tuning for Low-resource Generalized Entity Matching,test/d6c37522_sections.json,test/d6c37522_categorized.json
+07e4e216,test/SMASH.pdf,"Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching",test/07e4e216_sections.json,test/07e4e216_categorized.json
+6ab21388,test/MinoanER.pdf,"MinoanER: Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities",test/6ab21388_sections.json,test/6ab21388_categorized.json
+b24a912c,test/LLM-CER.pdf,In-context Clustering-based Entity Resolution with Large Language Models: A Design Space Exploration,test/b24a912c_sections.json,test/b24a912c_categorized.json
+256e52ab,test/ZeroEA.pdf,ZeroEA: A Zero-Training Entity Alignment Framework via Pre-Trained Language Model,test/256e52ab_sections.json,test/256e52ab_categorized.json
+705f793e,test/Battleship.pdf,The Battleship Approach to the Low Resource Entity Matching Problem,test/705f793e_sections.json,test/705f793e_categorized.json
+f32a10ff,test/DTA.pdf,Low-resource Deep Entity Resolution with Transfer and Active Learning,test/f32a10ff_sections.json,test/f32a10ff_categorized.json
+ec4709c1,test/DeepBlocker.pdf,Deep Learning for Blocking in Entity Matching: A Design Space Exploration,test/ec4709c1_sections.json,test/ec4709c1_categorized.json
