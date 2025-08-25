@@ -6,10 +6,12 @@
     "## 1 INTRODUCTION"
   ],
   "Problem Definition": [
-    "## 2 PRELIMINARIES",
     "### 2.1 Problem Definition"
   ],
   "Methodology": [
+    "## 2 PRELIMINARIES",
+    "### 2.2 Pre-trained Language Models",
+    "### 2.3 Graph Neural Networks",
     "## 3 FRAMEWORK OVERVIEW",
     "## 4 AUTOMATIC LABEL GENERATION (ALG)",
     "### 4.1 Reliable Positive Label Generation (RPLG)",
@@ -17,10 +19,7 @@
     "## 5 Collaborative ER Training (CERT)",
     "### 5.1 Multi-Relational Graph Feature Learning (MRGFL)",
     "### 5.2 Collaborative Sentence Feature Learning (CSFL)",
-    "# CollaborER_ A Self-supervised Entity Resolution Framework Using Multi-features Collaboration",
-    "## 7 DEMONSTRATION",
-    "### 2.3 Graph Neural Networks",
-    "### 2.2 Pre-trained Language Models"
+    "# CollaborER_ A Self-supervised Entity Resolution Framework Using Multi-features Collaboration"
   ],
   "Related Work": [
     "## 8 Related Work"
@@ -33,7 +32,8 @@
     "### 6.4 Ablation Study",
     "### 6.5 Further Experiments",
     "### 6.5.1 Graph Scale Analysis",
-    "### 6.5.2 ALG Analysis"
+    "### 6.5.2 ALG Analysis",
+    "## 7 DEMONSTRATION"
   ],
   "Conclusion": [
     "## 9 CONCLUSIONS"

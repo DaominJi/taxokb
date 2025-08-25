@@ -7,11 +7,11 @@
   ],
   "Problem Definition": [],
   "Methodology": [
-    "## Francesco Guerra",
-    "## PVLDB Reference Format_",
-    "# Analyzing How BERT Performs Entity Matching",
     "## PVLDB Artifact Availability_",
-    "## 7 LESSONS LEARNED"
+    "## Francesco Guerra",
+    "# Analyzing How BERT Performs Entity Matching",
+    "## 7 LESSONS LEARNED",
+    "## PVLDB Reference Format_"
   ],
   "Related Work": [
     "## 2 RELATED WORK"

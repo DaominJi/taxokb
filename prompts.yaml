@@ -781,9 +781,8 @@ experiment_setting_extractor:
           "canonical_name": "xgboost",
           "aliases": ["XGBoost", "XGB", "xgb"],
           "description": "...",
-          "original_paper": { ... },
           "category": "classical ML",
-          "supporting_papers": [ ... ],
+          "supporting_papers": [ ... ] # the paper that the baseline is from, denoted by the paper_id
         },
         ...
       ]
@@ -825,7 +824,6 @@ experiment_setting_extractor:
     - `description`
     - `profile` (e.g., `num_instances`, `num_classes`, etc.)
     - `task_type`
-    - `original_paper`
     - `url`
     - `supporting_papers`
     - `confidence`
@@ -840,10 +838,9 @@ experiment_setting_extractor:
           "aliases": ["CIFAR-10", "CIFAR10", "cifar_10"],
           "description": "...",
           "profile": { ... },
-          "task_type": ["classification"],
-          "original_paper": { ... },
+          "task_type": ["classification"], 
           "url": "...",
-          "supporting_papers": [ ... ],
+          "supporting_papers": [ ... ], # the paper that the baseline is from, denoted by the paper_id
         },
         ...
       ]
@@ -892,9 +889,7 @@ experiment_setting_extractor:
           "description": "...",
           "formulation": "...",
           "task_scope": ["regression", "recommendation"],
-          "supporting_papers": [ ... ],
-          "usage_frequency": 10,
-          "confidence": 0.92
+          "supporting_papers": [ ... ], # the paper that the baseline is from, denoted by the paper_id
         },
         ...
       ]

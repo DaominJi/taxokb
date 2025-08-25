@@ -19,6 +19,8 @@
     "### 3.3 Pseudo-label Selection",
     "### 3.4 Training",
     "## 4 INFERENCE",
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_",
     "# Blocker and Matcher Can Mutually Benefit_ A Co-Learning Framework for Low-Resource Entity Resolution"
   ],
   "Related Work": [
@@ -43,8 +45,5 @@
   "Acknowledgement": [
     "## ACKNOWLEDGMENTS"
   ],
-  "Appendix": [
-    "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_"
-  ]
+  "Appendix": []
 }

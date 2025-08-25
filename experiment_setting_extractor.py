@@ -8,6 +8,7 @@ import logging
 from chunker import PaperChunker
 import re
 import pandas as pd
+from pdf_to_md_converter import extract_title_from_md
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -41,6 +42,11 @@ class ExperimentSettingExtractor:
         try:
             # First, extract and categorize sections
             section_dict, categorization = self.chunker.process_paper(paper_path)
+
+            with open(paper_path, 'r', encoding='utf-8') as f:
+                paper_content = f.read()
+            title = extract_title_from_md(paper_content)
+            paper_id = self.paper_register['id'][self.paper_register['title'] == title].values[0]
             
             # Get experiment sections
             experiment_sections = []
@@ -56,31 +62,18 @@ class ExperimentSettingExtractor:
             # Combine experiment sections
             experiment_text = '\n\n'.join(experiment_sections)
             
-            # Get paper title from the first section or filename
-            paper_title = Path(paper_path).stem
-            # Try to find actual title from Abstract or Introduction
-            if 'Abstract' in categorization and categorization['Abstract']:
-                first_abstract_section = categorization['Abstract'][0]
-                if first_abstract_section in section_dict:
-                    # Often the title is at the beginning of the abstract
-                    abstract_content = section_dict[first_abstract_section]
-                    # Extract first line as potential title
-                    lines = abstract_content.strip().split('\n')
-                    if lines and len(lines[0]) < 200:  # Reasonable title length
-                        paper_title = lines[0].strip()
-            
             # Get prompt and generate experiment summary
             prompt = self.prompts['experiment_setting_extractor']['extract_experiment_summary']
-            prompt = prompt.replace('{paper_id}', Path(paper_path).stem)
-            prompt = prompt.replace('{paper_title}', paper_title)
+            prompt = prompt.replace('{paper_id}', paper_id)
+            prompt = prompt.replace('{paper_title}', title)
             prompt = prompt.replace('{experiment_text}', experiment_text)
             
             logger.info(f"Extracting experiment settings from {Path(paper_path).stem}")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-2024-08-06',
+                model='gpt-4.1',
                 max_tokens=10000,
-                temperature=0
+                temperature=0.7
             )
             
             # Parse JSON response
@@ -127,9 +120,9 @@ class ExperimentSettingExtractor:
             logger.info("Merging baseline methods...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-2024-08-06',
+                model='gpt-4.1',
                 max_tokens=10000,
-                temperature=0
+                temperature=0.7
             )
             
             # Parse JSON response
@@ -169,9 +162,9 @@ class ExperimentSettingExtractor:
             logger.info("Merging datasets...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-2024-08-06',
+                model='gpt-4.1',
                 max_tokens=10000,
-                temperature=0
+                temperature=0.7
             )
             
             # Parse JSON response
@@ -211,9 +204,9 @@ class ExperimentSettingExtractor:
             logger.info("Merging metrics...")
             response = self.llm_factory.generate(
                 prompt,
-                model='gpt-4o-2024-08-06',
+                model='gpt-4.1',
                 max_tokens=10000,
-                temperature=0
+                temperature=0.7
             )
             
             # Parse JSON response
@@ -395,13 +388,13 @@ if __name__ == "__main__":
     extractor = ExperimentSettingExtractor(llm_factory)
     
     # Test with a single paper
-    test_paper = "test/paper1.md"  # Adjust path as needed
-    if Path(test_paper).exists():
-        logger.info(f"Testing with single paper: {test_paper}")
-        single_result = extractor.extract_experiment_summary(test_paper)
-        if single_result:
-            print("\nSingle Paper Result:")
-            print(json.dumps(single_result, indent=2))
+    # test_paper = "test/paper1.md"  # Adjust path as needed
+    # if Path(test_paper).exists():
+    #     logger.info(f"Testing with single paper: {test_paper}")
+    #     single_result = extractor.extract_experiment_summary(test_paper)
+    #     if single_result:
+    #         print("\nSingle Paper Result:")
+    #         print(json.dumps(single_result, indent=2))
     
     # Process all papers in a directory
     papers_dir = "test"  # Adjust path as needed
