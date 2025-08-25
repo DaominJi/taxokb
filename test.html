@@ -221,25 +221,25 @@
 
         .experiment-section {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .experiment-section h4 {
             color: #495057;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .experiment-item {
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             background: #f8f9fa;
             border-radius: 8px;
             border-left: 3px solid #dee2e6;
@@ -293,10 +293,12 @@
         .legend {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 15px;
-            padding-top: 15px;
+            gap: 10px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid #e9ecef;
+            max-height: 80px;
+            overflow-y: auto;
         }
 
         .legend-item {
@@ -305,6 +307,15 @@
             gap: 5px;
             font-size: 13px;
             color: #6c757d;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .legend-item:hover {
+            background: #f8f9fa;
+            color: #495057;
         }
 
         .legend-color {
@@ -1130,8 +1141,15 @@
             trendsContent.innerHTML = `
                 <div class="chart-container">
                     <div class="chart-title">📈 Research Trends: ${node.name}</div>
-                    <canvas id="trendChart"></canvas>
-                    <div class="legend" id="chartLegend"></div>
+                    <div style="margin-bottom: 10px;">
+                        <button onclick="toggleChartType()" style="padding: 4px 12px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">
+                            Switch to ${chartType === 'normalized' ? 'Absolute' : 'Normalized'} View
+                        </button>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 250px;">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                    <div class="legend" id="chartLegend" style="margin-top: 10px;"></div>
                 </div>
             `;
             
@@ -1142,49 +1160,88 @@
                 trendChart.destroy();
             }
             
+            // Store original data globally for toggle
+            window.currentTrendData = data;
+            window.currentNode = node;
+            
             // Prepare data for stacked area chart
             const colors = [
-                'rgba(102, 126, 234, 0.8)',
-                'rgba(118, 75, 162, 0.8)',
-                'rgba(255, 99, 132, 0.8)',
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(75, 192, 192, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
-                'rgba(255, 159, 64, 0.8)'
+                'rgba(102, 126, 234, 0.7)',
+                'rgba(118, 75, 162, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 159, 64, 0.7)'
             ];
             
-            const datasets = data.series.map((series, index) => ({
-                label: series.name,
-                data: series.values,
-                backgroundColor: colors[index % colors.length],
-                borderColor: colors[index % colors.length].replace('0.8', '1'),
-                borderWidth: 2,
-                fill: 'stack',
-                tension: 0.3
-            }));
+            // Store original values for tooltip
+            const originalData = data.series.map(series => series.values);
             
-            // Calculate percentages for normalized stacked area
-            const totals = data.years.map((_, i) => 
-                data.series.reduce((sum, series) => sum + (series.values[i] || 0), 0)
-            );
-            
-            const normalizedDatasets = datasets.map(dataset => ({
-                ...dataset,
-                data: dataset.data.map((value, i) => 
-                    totals[i] > 0 ? (value / totals[i]) * 100 : 0
-                )
-            }));
+            let datasets;
+            if (window.chartType === 'normalized') {
+                // Calculate totals for each year
+                const totals = [];
+                for (let i = 0; i < data.years.length; i++) {
+                    let total = 0;
+                    for (let j = 0; j < data.series.length; j++) {
+                        total += (data.series[j].values[i] || 0);
+                    }
+                    totals.push(total);
+                }
+                
+                // Create normalized datasets
+                datasets = data.series.map((series, seriesIndex) => {
+                    const normalizedValues = series.values.map((value, yearIndex) => {
+                        if (totals[yearIndex] === 0) return 0;
+                        return (value / totals[yearIndex]) * 100;
+                    });
+                    
+                    return {
+                        label: series.name,
+                        data: normalizedValues,
+                        originalData: series.values,
+                        backgroundColor: colors[seriesIndex % colors.length],
+                        borderColor: colors[seriesIndex % colors.length].replace('0.7', '1'),
+                        borderWidth: 1,
+                        fill: true,
+                        tension: 0.3
+                    };
+                });
+            } else {
+                // Absolute values
+                datasets = data.series.map((series, seriesIndex) => ({
+                    label: series.name,
+                    data: series.values,
+                    originalData: series.values,
+                    backgroundColor: colors[seriesIndex % colors.length],
+                    borderColor: colors[seriesIndex % colors.length].replace('0.7', '1'),
+                    borderWidth: 1,
+                    fill: true,
+                    tension: 0.3
+                }));
+            }
             
             trendChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: data.years,
-                    datasets: normalizedDatasets
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 5,
+                            bottom: 5
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
                     plugins: {
                         title: {
                             display: false
@@ -1195,12 +1252,35 @@
                         tooltip: {
                             mode: 'index',
                             intersect: false,
+                            padding: 8,
+                            bodySpacing: 4,
+                            titleFont: {
+                                size: 13
+                            },
+                            bodyFont: {
+                                size: 12
+                            },
                             callbacks: {
                                 label: function(context) {
                                     const label = context.dataset.label || '';
-                                    const value = context.parsed.y.toFixed(1);
-                                    const originalValue = data.series[context.datasetIndex].values[context.dataIndex];
-                                    return `${label}: ${value}% (${originalValue} papers)`;
+                                    const originalValue = context.dataset.originalData[context.dataIndex];
+                                    if (window.chartType === 'normalized') {
+                                        const percentage = context.parsed.y.toFixed(1);
+                                        return `${label}: ${percentage}% (${originalValue} papers)`;
+                                    } else {
+                                        return `${label}: ${originalValue} papers`;
+                                    }
+                                },
+                                footer: function(tooltipItems) {
+                                    if (tooltipItems.length > 0) {
+                                        const yearIndex = tooltipItems[0].dataIndex;
+                                        let total = 0;
+                                        tooltipItems.forEach(item => {
+                                            total += item.dataset.originalData[yearIndex] || 0;
+                                        });
+                                        return `Total: ${total} papers`;
+                                    }
+                                    return '';
                                 }
                             }
                         }
@@ -1210,7 +1290,18 @@
                             display: true,
                             title: {
                                 display: true,
-                                text: 'Year'
+                                text: 'Year',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
                             }
                         },
                         y: {
@@ -1218,23 +1309,77 @@
                             display: true,
                             title: {
                                 display: true,
-                                text: 'Percentage (%)'
+                                text: window.chartType === 'normalized' ? 'Percentage (%)' : 'Number of Papers',
+                                font: {
+                                    size: 12
+                                }
                             },
                             min: 0,
-                            max: 100
+                            max: window.chartType === 'normalized' ? 100 : undefined,
+                            ticks: {
+                                font: {
+                                    size: 11
+                                },
+                                maxTicksLimit: 6,
+                                callback: function(value) {
+                                    return window.chartType === 'normalized' ? value + '%' : value;
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.3
+                        },
+                        point: {
+                            radius: 2,
+                            hitRadius: 8,
+                            hoverRadius: 4
                         }
                     }
                 }
             });
             
-            // Create custom legend
+            // Create custom legend with paper counts
             const legendContainer = document.getElementById('chartLegend');
+            const totalPapersPerSeries = data.series.map(series => 
+                series.values.reduce((sum, val) => sum + (val || 0), 0)
+            );
+            
             legendContainer.innerHTML = data.series.map((series, index) => `
-                <div class="legend-item">
-                    <div class="legend-color" style="background: ${colors[index % colors.length]}"></div>
-                    <span>${series.name}</span>
+                <div class="legend-item" style="cursor: pointer;" onclick="toggleDataset(${index})">
+                    <div class="legend-color" style="background: ${colors[index % colors.length]}; opacity: ${trendChart.isDatasetVisible(index) ? 1 : 0.3}"></div>
+                    <span>${series.name} (${totalPapersPerSeries[index]} total)</span>
                 </div>
             `).join('');
+        }
+        
+        // Add toggle functions
+        window.chartType = 'normalized';
+        
+        function toggleChartType() {
+            window.chartType = window.chartType === 'normalized' ? 'absolute' : 'normalized';
+            if (window.currentTrendData && window.currentNode) {
+                displayTrendsChart(window.currentTrendData, window.currentNode);
+            }
+        }
+        
+        function toggleDataset(index) {
+            if (trendChart) {
+                const isVisible = trendChart.isDatasetVisible(index);
+                trendChart.setDatasetVisibility(index, !isVisible);
+                trendChart.update();
+                
+                // Update legend opacity
+                const legendItems = document.querySelectorAll('.legend-item');
+                const legendColor = legendItems[index].querySelector('.legend-color');
+                if (legendColor) {
+                    legendColor.style.opacity = !isVisible ? 1 : 0.3;
+                }
+            }
         }
 
         async function loadExperimentSettings(node) {

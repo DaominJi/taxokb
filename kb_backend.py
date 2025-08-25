@@ -543,16 +543,25 @@ def generate_trend_data(node: Dict, taxonomy_type: str) -> Dict:
     }
     
     if node.get('children'):
+        # Define trend patterns for better distribution
+        trend_patterns = ['growing', 'stable', 'declining', 'cyclic', 'growing', 'stable']
+        
         for i, child in enumerate(node['children']):
-            # Generate synthetic trend with some randomness
-            base_trend = random.choice(['growing', 'stable', 'declining', 'cyclic'])
-            values = generate_synthetic_trend(len(years), base_trend, i)
+            # Assign trend pattern cyclically
+            trend_type = trend_patterns[i % len(trend_patterns)]
+            
+            # Generate values with better distribution
+            values = generate_synthetic_trend(len(years), trend_type, i)
+            
+            # Scale values based on position to create variety
+            scale_factor = 1.0 + (i * 0.2)
+            values = [int(v * scale_factor) for v in values]
             
             trend_data['series'].append({
                 'name': child.get('name', f'Child {i+1}'),
                 'node_id': child.get('node_id', f'child_{i}'),
                 'values': values,
-                'trend_type': base_trend
+                'trend_type': trend_type
             })
     else:
         # Single node trend
@@ -567,25 +576,46 @@ def generate_trend_data(node: Dict, taxonomy_type: str) -> Dict:
     return trend_data
 
 def generate_synthetic_trend(length: int, trend_type: str, seed: int) -> List[int]:
-    """Generate synthetic trend values"""
+    """Generate synthetic trend values with more realistic distributions"""
     import random
-    random.seed(seed)
+    import math
+    random.seed(seed + 42)  # Add constant for consistency
     
     values = []
-    base = random.randint(5, 20)
     
-    for i in range(length):
-        if trend_type == 'growing':
-            value = base + i * random.randint(2, 5) + random.randint(-2, 5)
-        elif trend_type == 'declining':
-            value = base + 30 - i * random.randint(1, 3) + random.randint(-2, 2)
-        elif trend_type == 'cyclic':
-            import math
-            value = base + 10 + int(10 * math.sin(i * 0.8)) + random.randint(-2, 2)
-        else:  # stable
-            value = base + random.randint(-3, 3)
-        
-        values.append(max(1, value))
+    # Different base values for different trend types
+    if trend_type == 'growing':
+        # Start small, grow over time
+        for i in range(length):
+            base_value = 5 + i * 3
+            noise = random.randint(-2, 3)
+            value = base_value + noise
+            values.append(max(1, value))
+    
+    elif trend_type == 'declining':
+        # Start high, decline over time
+        for i in range(length):
+            base_value = 25 - i * 2
+            noise = random.randint(-2, 2)
+            value = base_value + noise
+            values.append(max(1, value))
+    
+    elif trend_type == 'cyclic':
+        # Sinusoidal pattern
+        for i in range(length):
+            base_value = 15
+            cycle = 8 * math.sin(i * math.pi / 3)
+            noise = random.randint(-1, 1)
+            value = int(base_value + cycle + noise)
+            values.append(max(1, value))
+    
+    else:  # stable
+        # Relatively constant with small variations
+        base = random.randint(10, 20)
+        for i in range(length):
+            noise = random.randint(-2, 2)
+            value = base + noise
+            values.append(max(1, value))
     
     return values
 
