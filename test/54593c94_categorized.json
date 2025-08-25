@@ -7,21 +7,21 @@
   ],
   "Problem Definition": [
     "## 2 PRELIMINARIES",
-    "### 2.1 Problem Setting",
-    "### 2.2 Using Pre-trained Language Models (LMs)",
-    "### 2.3 Blocker_ Entry Embedding Learning and Similarity-based Pairing",
-    "### 2.4 Matcher_ Pairwise Binary Classifier by Fine-tuning LMs"
+    "### 2.1 Problem Setting"
   ],
   "Methodology": [
+    "### 2.2 Using Pre-trained Language Models (LMs)",
+    "### 2.3 Blocker_ Entry Embedding Learning and Similarity-based Pairing",
+    "### 2.4 Matcher_ Pairwise Binary Classifier by Fine-tuning LMs",
     "## 3 THE CLER FRAMEWORK",
     "### 3.1 Overview of CLER",
     "### 3.2 Pseudo-label Generation",
     "### 3.3 Pseudo-label Selection",
     "### 3.4 Training",
     "## 4 INFERENCE",
+    "# Blocker and Matcher Can Mutually Benefit_ A Co-Learning Framework for Low-Resource Entity Resolution",
     "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_",
-    "# Blocker and Matcher Can Mutually Benefit_ A Co-Learning Framework for Low-Resource Entity Resolution"
+    "## PVLDB Artifact Availability_"
   ],
   "Related Work": [
     "## 6 RELATED WORK",

@@ -1,50 +1,76 @@
 {
   "Abstract": [
-    "## ABSTRACT"
+    "ABSTRACT"
   ],
   "Introduction": [
-    "## 1 INTRODUCTION"
+    "INTRODUCTION",
+    "PRELIMINARIES AND BACKGROUND"
   ],
   "Problem Definition": [
-    "## 2 PRELIMINARIES AND BACKGROUND",
-    "### 2.1 Problem Statement"
+    "Problem Statement"
   ],
   "Methodology": [
-    "## 3 DIAL",
+    "DIAL",
+    "Matcher",
+    "Blocker",
+    "Overall Algorithm",
+    "## REFERENCES",
+    "### 4.8 Running time",
+    "### 5.3 Active Learning for Deep Learning",
+    "### 4.2 Implementation Details",
+    "## PVLDB Reference Format_",
+    "### 2.1 Problem Statement",
+    "### 4.7 Selection Strategies",
+    "## 6 CONCLUSION",
     "### 3.1 Matcher",
+    "# Deep Indexed Active Learning for Matching Heterogeneous Entity Representations",
+    "### 4.3 Methods Compared",
+    "## 4 EXPERIMENTS",
+    "### 5.1 Active Learning for Entity Resolution",
+    "## ABSTRACT",
+    "## 3 DIAL",
+    "### 5.2 Deep Learning for Entity Resolution",
+    "## 1 INTRODUCTION",
+    "### 4.1 Datasets",
+    "### 2.3 Example selection for ER",
+    "### 4.4 Overall Results",
     "### 3.2 Blocker",
+    "### 4.6 Ablation Study",
+    "### 5.4 Blocking",
+    "### 4.5 Multilingual Dataset",
     "### 3.3 Overall Algorithm",
-    "# Deep Indexed Active Learning for Matching Heterogeneous Entity Representations"
+    "## PVLDB Artifact Availability_",
+    "## 5 RELATED WORK",
+    "## 2 PRELIMINARIES AND BACKGROUND",
+    "### 2.2 Pre-trained Language Models"
   ],
   "Related Work": [
-    "## 5 RELATED WORK",
-    "### 5.1 Active Learning for Entity Resolution",
-    "### 5.2 Deep Learning for Entity Resolution",
-    "### 5.3 Active Learning for Deep Learning",
-    "### 5.4 Blocking"
+    "RELATED WORK",
+    "Active Learning for Entity Resolution",
+    "Deep Learning for Entity Resolution",
+    "Active Learning for Deep Learning",
+    "Blocking"
   ],
   "Experiment": [
-    "## 4 EXPERIMENTS",
-    "### 4.1 Datasets",
-    "### 4.2 Implementation Details",
-    "### 4.3 Methods Compared",
-    "### 4.4 Overall Results",
-    "### 4.5 Multilingual Dataset",
-    "### 4.6 Ablation Study",
-    "### 4.7 Selection Strategies",
-    "### 4.8 Running time"
+    "EXPERIMENTS",
+    "Datasets",
+    "Implementation Details",
+    "Methods Compared",
+    "Overall Results",
+    "Multilingual Dataset",
+    "Ablation Study",
+    "Selection Strategies",
+    "Running time"
   ],
   "Conclusion": [
-    "## 6 CONCLUSION"
+    "CONCLUSION"
   ],
   "References": [
-    "## REFERENCES"
+    "REFERENCES"
   ],
   "Acknowledgement": [],
   "Appendix": [
-    "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_",
-    "### 2.2 Pre-trained Language Models",
-    "### 2.3 Example selection for ER"
+    "PVLDB Reference Format_",
+    "PVLDB Artifact Availability_"
   ]
 }

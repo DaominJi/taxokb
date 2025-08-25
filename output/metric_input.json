@@ -1,0 +1,282 @@
+[
+  {
+    "paper_id": "f32a10ff",
+    "metrics": [
+      {
+        "name": "Precision",
+        "description": "Fraction of correctly predicted positive pairs among all predicted positive pairs.",
+        "confidence": 0.95
+      },
+      {
+        "name": "Recall",
+        "description": "Fraction of correctly predicted positive pairs among all actual positive pairs.",
+        "confidence": 0.95
+      },
+      {
+        "name": "F1",
+        "description": "Harmonic mean of precision and recall.",
+        "formulation": "F1 = 2 * (precision * recall) / (precision + recall)",
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "53cfb6e5",
+    "metrics": [
+      {
+        "name": "F1",
+        "description": "Harmonic mean of Precision and Recall, measuring matching accuracy of entity resolution.",
+        "formulation": "\\mathrm{F}1 = 2 \\cdot \\mathrm{P} \\cdot \\mathrm{R} / (\\mathrm{P} + \\mathrm{R})",
+        "confidence": 1.0
+      },
+      {
+        "name": "API Cost",
+        "description": "Monetary cost for API calls to LLMs, measured in US dollars.",
+        "confidence": 0.95
+      },
+      {
+        "name": "Labeling Cost",
+        "description": "Monetary cost for labeling entity pairs to prepare demonstrations, estimated from crowdsourcing rates.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "79bc4b32",
+    "metrics": [
+      {
+        "name": "F1 score",
+        "description": "Harmonic mean of precision and recall for the binary classification of matching vs. non-matching entities.",
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "baa3b0fc",
+    "metrics": [
+      {
+        "name": "F1-score",
+        "description": "Harmonic mean of precision and recall; measures ER quality",
+        "formulation": "\\frac{2 \\times (\\text{Prec.} \\times \\text{Rec.})}{(\\text{Prec.} + \\text{Rec.})}",
+        "confidence": 0.99
+      }
+    ]
+  },
+  {
+    "paper_id": "54593c94",
+    "metrics": [
+      {
+        "name": "F1-score",
+        "description": "Harmonic mean of precision and recall for entity matching.",
+        "formulation": null,
+        "confidence": 0.98
+      },
+      {
+        "name": "Recall",
+        "description": "Proportion of true matches correctly identified by the blocker.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "b24a912c",
+    "metrics": [
+      {
+        "name": "Accuracy",
+        "description": "Proportion of correctly clustered records according to the ground truth clusters.",
+        "formulation": "\\mathrm{ACC}=\\frac{\\text { CorrectCount }}{|\\Re|} \\quad \\text { CorrectCount }=\\sum_{X_{j} \\in \\mathbb{X}} \\sum_{x \\in X_{j}} \\mathbb{I}(\\exists y \\in M_{j}^{\\prime}, y=x)",
+        "confidence": 0.99
+      },
+      {
+        "name": "FP-measure",
+        "description": "Harmonic mean of purity and inverse-purity, evaluating clustering homogeneity and stability.",
+        "formulation": "\\text{FP-measure}(\\mathbb{X}, \\forall)=\\frac{2}{1/\\text{purity}(\\mathbb{X}, \\forall)+1/\\text{inverse-purity}(\\mathbb{X}, \\forall)}",
+        "confidence": 0.99
+      }
+    ]
+  },
+  {
+    "paper_id": "d6c37522",
+    "metrics": [
+      {
+        "name": "Precision",
+        "description": "Proportion of predicted matches that are correct",
+        "formulation": null,
+        "confidence": 0.95
+      },
+      {
+        "name": "Recall",
+        "description": "Proportion of ground-truth matches that are predicted",
+        "formulation": null,
+        "confidence": 0.95
+      },
+      {
+        "name": "F1-score",
+        "description": "Harmonic mean of precision and recall",
+        "formulation": null,
+        "confidence": 0.95
+      }
+    ]
+  },
+  {
+    "paper_id": "9f0c2daf",
+    "metrics": [
+      {
+        "name": "Recall",
+        "description": "Fraction of true matches retained after blocking; $R=|C \\cap G| /|G|$, where $C$ is the blocking output and $G$ is the set of all gold matches.",
+        "formulation": "R=|C \\cap G| /|G|",
+        "confidence": 0.98
+      },
+      {
+        "name": "Candidate Set Size Ratio",
+        "description": "Ratio of candidate pairs output by the blocker to all possible pairs, $CSSR=|C| /|A \\times B|$.",
+        "formulation": "CSSR=|C| /|A \\times B|",
+        "confidence": 0.95
+      }
+    ]
+  },
+  {
+    "paper_id": "10669016",
+    "metrics": [
+      {
+        "name": "Recall",
+        "description": "Fraction of ground-truth matches retained after blocking and pruning",
+        "confidence": 1.0
+      },
+      {
+        "name": "Precision",
+        "description": "Fraction of predicted matches that are correct",
+        "confidence": 1.0
+      },
+      {
+        "name": "F1",
+        "description": "Harmonic mean of precision and recall",
+        "formulation": "$F1 = \\frac{2 \\cdot Precision \\cdot Recall}{Precision + Recall}$",
+        "confidence": 1.0
+      }
+    ]
+  },
+  {
+    "paper_id": "3e96d15e",
+    "metrics": [
+      {
+        "name": "Precision",
+        "description": "Fraction of predicted duplicates that are correct",
+        "confidence": 0.95
+      },
+      {
+        "name": "Recall",
+        "description": "Fraction of true duplicates that are retrieved",
+        "confidence": 0.95
+      },
+      {
+        "name": "F1",
+        "description": "Harmonic mean of precision and recall, measuring accuracy of duplicate detection",
+        "confidence": 0.97
+      }
+    ]
+  },
+  {
+    "paper_id": "6ab21388",
+    "metrics": [
+      {
+        "name": "Precision",
+        "description": "Proportion of predicted matches that are correct.",
+        "confidence": 0.98
+      },
+      {
+        "name": "Recall",
+        "description": "Proportion of ground truth matches that are correctly predicted.",
+        "confidence": 0.98
+      },
+      {
+        "name": "F1",
+        "description": "Harmonic mean of precision and recall.",
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "ec4709c1",
+    "metrics": [
+      {
+        "name": "Recall",
+        "description": "Fraction of true matches covered by the candidate set after blocking",
+        "formulation": "|G ∩ C| / |G|",
+        "confidence": 1.0
+      },
+      {
+        "name": "Candidate Set Size Ratio",
+        "description": "Fraction of all possible pairs selected as candidates; lower is better",
+        "formulation": "|C| / |A × B|",
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "256e52ab",
+    "metrics": [
+      {
+        "name": "Hits@1",
+        "description": "Fraction of correct entities ranked at position 1.",
+        "confidence": 0.95
+      },
+      {
+        "name": "Hits@10",
+        "description": "Fraction of correct entities ranked within top 10.",
+        "confidence": 0.95
+      },
+      {
+        "name": "MRR",
+        "description": "Mean Reciprocal Rank; average of reciprocal ranks for correct entities.",
+        "confidence": 0.95
+      },
+      {
+        "name": "Precision",
+        "description": "Proportion of predicted links that are correct.",
+        "confidence": 0.9
+      },
+      {
+        "name": "Recall",
+        "description": "Proportion of true links that are recovered.",
+        "confidence": 0.9
+      },
+      {
+        "name": "F1",
+        "description": "Harmonic mean of precision and recall.",
+        "confidence": 0.9
+      },
+      {
+        "name": "Exact Match (EM)",
+        "description": "Measures whether the predicted SQL exactly matches the ground truth.",
+        "confidence": 0.85
+      },
+      {
+        "name": "Execution Accuracy (EX)",
+        "description": "Measures whether the execution result of the predicted SQL matches the ground truth.",
+        "confidence": 0.8
+      }
+    ]
+  },
+  {
+    "paper_id": "07e4e216",
+    "metrics": [
+      {
+        "name": "Precision",
+        "description": "Proportion of correctly identified positive matches among all returned matches",
+        "confidence": 0.95
+      },
+      {
+        "name": "Recall",
+        "description": "Proportion of correctly identified positive matches among all true matches",
+        "confidence": 0.95
+      },
+      {
+        "name": "F-score",
+        "description": "Harmonic mean of precision and recall, measuring the overall match accuracy",
+        "formulation": "F = 2 * (Precision * Recall) / (Precision + Recall)",
+        "confidence": 0.97
+      }
+    ]
+  }
+]

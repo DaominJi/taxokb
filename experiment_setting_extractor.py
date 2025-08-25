@@ -114,8 +114,7 @@ class ExperimentSettingExtractor:
             baselines_input = {"baselines": all_baselines}
             
             prompt = self.prompts['experiment_setting_extractor']['merge_baselines']
-            prompt = prompt.replace('{"baselines": [ baseline_entry_1, baseline_entry_2, ... ]}', 
-                                   json.dumps(baselines_input, indent=2))
+            prompt = prompt.replace('[Baseline_input]', json.dumps(baselines_input, indent=2))
             
             logger.info("Merging baseline methods...")
             response = self.llm_factory.generate(
@@ -156,8 +155,7 @@ class ExperimentSettingExtractor:
             datasets_input = {"datasets": all_datasets}
             
             prompt = self.prompts['experiment_setting_extractor']['merge_datasets']
-            prompt = prompt.replace('{"datasets": [ dataset_entry_1, dataset_entry_2, ... ]}',
-                                   json.dumps(datasets_input, indent=2))
+            prompt = prompt.replace('[Dataset_input]', json.dumps(datasets_input, indent=2))
             
             logger.info("Merging datasets...")
             response = self.llm_factory.generate(
@@ -198,8 +196,7 @@ class ExperimentSettingExtractor:
             metrics_input = {"metrics": all_metrics}
             
             prompt = self.prompts['experiment_setting_extractor']['merge_metrics']
-            prompt = prompt.replace('{"metrics": [ metric_entry_1, metric_entry_2, ... ]}',
-                                   json.dumps(metrics_input, indent=2))
+            prompt = prompt.replace('[Metric_input]', json.dumps(metrics_input, indent=2))
             
             logger.info("Merging metrics...")
             response = self.llm_factory.generate(
@@ -258,11 +255,27 @@ class ExperimentSettingExtractor:
                 
                 # Collect all datasets, metrics, and baselines
                 if 'datasets' in experiment_data:
-                    all_datasets.extend(experiment_data['datasets'])
+                    dataset_info = {}
+                    dataset_info['paper_id'] = experiment_data['paper_id']
+                    dataset_info['datasets'] = experiment_data['datasets']
+                    all_datasets.append(dataset_info)
                 if 'metrics' in experiment_data:
-                    all_metrics.extend(experiment_data['metrics'])
+                    metric_info = {}
+                    metric_info['paper_id'] = experiment_data['paper_id']
+                    metric_info['metrics'] = experiment_data['metrics']
+                    all_metrics.append(metric_info)
                 if 'baselines' in experiment_data:
-                    all_baselines.extend(experiment_data['baselines'])
+                    baseline_info = {}
+                    baseline_info['paper_id'] = experiment_data['paper_id']
+                    baseline_info['baselines'] = experiment_data['baselines']
+                    all_baselines.append(baseline_info)
+        
+        with open('output/dataset_input.json', 'w', encoding='utf-8') as f:
+            json.dump(all_datasets, f, ensure_ascii=False, indent=2)
+        with open('output/metric_input.json', 'w', encoding='utf-8') as f:
+            json.dump(all_metrics, f, ensure_ascii=False, indent=2)
+        with open('output/baseline_input.json', 'w', encoding='utf-8') as f:
+            json.dump(all_baselines, f, ensure_ascii=False, indent=2)
         
         if not all_experiments:
             logger.error("No experiment data extracted from any paper")

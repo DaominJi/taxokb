@@ -14,7 +14,9 @@
     "### 3.2 The Lucene KWS Library",
     "### 3.3 The Sparkly Solution",
     "### 3.4 Selecting Attributes and Tokenizers",
-    "# Sparkly_ A Simple yet Surprisingly Strong TF_IDF Blocker for Entity Matching"
+    "# Sparkly_ A Simple yet Surprisingly Strong TF_IDF Blocker for Entity Matching",
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
   ],
   "Related Work": [
     "## 6 ADDITIONAL RELATED WORK"
@@ -36,8 +38,5 @@
   "Acknowledgement": [
     "## ACKNOWLEDGMENTS"
   ],
-  "Appendix": [
-    "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_"
-  ]
+  "Appendix": []
 }

@@ -19,7 +19,9 @@
     "### 3.7 Hybrid Methods",
     "### 3.8 Vector Pairing Choices",
     "## 4 REPRESENTATIVE DL SOLUTIONS",
-    "# Deep Learning for Blocking in Entity Matching_ A Design Space Exploration"
+    "# Deep Learning for Blocking in Entity Matching_ A Design Space Exploration",
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
   ],
   "Related Work": [
     "## 6 RELATED WORK"
@@ -42,8 +44,5 @@
   "Acknowledgement": [
     "## ACKNOWLEDGMENTS"
   ],
-  "Appendix": [
-    "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_"
-  ]
+  "Appendix": []
 }

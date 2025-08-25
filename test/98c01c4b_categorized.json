@@ -1,48 +1,72 @@
 {
   "Abstract": [
-    "## ABOXRACT"
+    "ABOXRACT"
   ],
   "Introduction": [
-    "## 1 INTRODUCTION"
+    "1 INTRODUCTION"
   ],
   "Problem Definition": [
-    "## 3 PRELIMINARIES",
-    "### 3.1 Problem Definition",
-    "### 3.2 Terminology"
+    "3 PRELIMINARIES",
+    "3.1 Problem Definition",
+    "3.2 Terminology"
   ],
   "Methodology": [
-    "## 4 PROPOSED FRAMEWORK",
-    "### 4.1 Formulation",
-    "### 4.2 Feature Representation",
-    "### 4.3 Feature Attention Embedding",
-    "### 4.4 Domain Adaptation-based Variants",
-    "## Algorithm 1 ADAMEL-ZERO",
-    "### 4.5 Parameter Complexity",
+    "4 PROPOSED FRAMEWORK",
+    "4.1 Formulation",
+    "4.2 Feature Representation",
+    "4.3 Feature Attention Embedding",
+    "4.4 Domain Adaptation-based Variants",
+    "Algorithm 1 ADAMEL-ZERO",
+    "4.5 Parameter Complexity",
+    "## REFERENCES",
+    "### 5.7 Model Justification",
+    "## ABOXRACT",
     "## PVLDB Reference Format_",
+    "## 6 CONCLUSION",
+    "## 2 RELATED WORK",
+    "## ACKNOWLEDGMENTS",
+    "## 3 PRELIMINARIES",
+    "## Xin Luna Dong",
+    "## Algorithm 1 ADAMEL-ZERO",
+    "### 4.2 Feature Representation",
+    "### 4.1 Formulation",
+    "### 4.4 Domain Adaptation-based Variants",
+    "### 4.3 Feature Attention Embedding",
+    "## 5 EXPERIMENTS",
+    "### 5.2 Transfer Learning for MEL",
+    "## 1 INTRODUCTION",
     "# Deep Transfer Learning for Multi-source Entity Linkage via Domain Adaptation",
-    "## Xin Luna Dong"
+    "### 3.2 Terminology",
+    "### 5.6 Effectiveness of Support Set",
+    "### 3.1 Problem Definition",
+    "### 4.5 Parameter Complexity",
+    "### 5.3 Effectiveness of Adaptation",
+    "## 4 PROPOSED FRAMEWORK",
+    "### 5.4 Attention Analysis",
+    "### 5.1 Experimental Setup",
+    "### 5.5 Data Sources Analysis"
   ],
   "Related Work": [
-    "## 2 RELATED WORK"
+    "2 RELATED WORK"
   ],
   "Experiment": [
-    "## 5 EXPERIMENTS",
-    "### 5.1 Experimental Setup",
-    "### 5.2 Transfer Learning for MEL",
-    "### 5.3 Effectiveness of Adaptation",
-    "### 5.4 Attention Analysis",
-    "### 5.5 Data Sources Analysis",
-    "### 5.6 Effectiveness of Support Set",
-    "### 5.7 Model Justification"
+    "5 EXPERIMENTS",
+    "5.1 Experimental Setup",
+    "5.2 Transfer Learning for MEL",
+    "5.3 Effectiveness of Adaptation",
+    "5.4 Attention Analysis",
+    "5.5 Data Sources Analysis",
+    "5.6 Effectiveness of Support Set",
+    "5.7 Model Justification"
   ],
   "Conclusion": [
-    "## 6 CONCLUSION"
+    "6 CONCLUSION"
   ],
   "References": [
-    "## REFERENCES"
+    "REFERENCES"
   ],
   "Acknowledgement": [
-    "## ACKNOWLEDGMENTS"
+    "ACKNOWLEDGMENTS"
   ],
   "Appendix": []
 }

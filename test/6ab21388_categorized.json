@@ -17,9 +17,9 @@
     "### 3.3 Graph Weighting and Pruning Algorithms",
     "## 4 NON-ITERATIVE MATCHING PROCESS",
     "### 4.1 Implementation in Spark",
-    "## George Papadakis",
     "## Vassilis Christophides",
-    "# MinoanER_ Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities"
+    "# MinoanER_ Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities",
+    "## George Papadakis"
   ],
   "Related Work": [
     "## 5 RELATED WORK"

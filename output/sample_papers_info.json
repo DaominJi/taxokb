@@ -1,0 +1,315 @@
+[
+  {
+    "semantic_scholar_id": "3d1653a4949a46f3370399be20396cafa9d88996",
+    "title": "CollaborER: A Self-supervised Entity Resolution Framework Using Multi-features Collaboration",
+    "year": 2021,
+    "publication_date": "2021-08-18",
+    "authors": [
+      "Congcong Ge",
+      "Pengfei Wang",
+      "Lu Chen",
+      "Xiaoze Liu",
+      "Baihua Zheng",
+      "Yunjun Gao"
+    ],
+    "authors_string": "Congcong Ge, Pengfei Wang, Lu Chen, Xiaoze Liu, Baihua Zheng, Yunjun Gao",
+    "venue": "arXiv.org",
+    "citation_count": 4,
+    "reference_count": 51,
+    "abstract": "Entity Resolution (ER) aims to identify whether two tuples refer to the same real-world entity and is well-known to be labor-intensive. It is a prerequisite to anomaly detection, as comparing the attribute values of two matched tuples from two different datasets provides one effective way to detect anomalies. Existing ER approaches, due to insufficient feature discovery or error-prone inherent characteristics, are not able to achieve stable performance. In this paper, we present CollaborER, a self-supervised entity resolution framework via multi-features collaboration. It is capable of (i) obtaining reliable ER results with zero human annotations and (ii) discovering adequate tuples' features in a fault-tolerant manner. CollaborER consists of two phases, i.e., automatic label generation (ALG) and collaborative ER training (CERT). In the first phase, ALG is proposed to generate a set of positive tuple pairs and a set of negative tuple pairs. ALG guarantees the high quality of the generated tuples and hence ensures the training quality of the subsequent CERT. In the second phase, CERT is introduced to learn the matching signals by discovering graph features and sentence features of tuples collaboratively. Extensive experimental results over eight real-world ER benchmarks show that CollaborER outperforms all the existing unsupervised ER approaches and is comparable or even superior to the state-of-the-art supervised ER methods.",
+    "original_title": "CollaborER: A Self-supervised Entity Resolution Framework Using Multi-features Collaboration"
+  },
+  {
+    "semantic_scholar_id": "2111bb95cca973759ff32eb5f6b481b531055c95",
+    "title": "Analyzing How BERT Performs Entity Matching",
+    "year": 2022,
+    "publication_date": "2022-04-01",
+    "authors": [
+      "Matteo Paganelli",
+      "Francesco Del Buono",
+      "Andrea Baraldi",
+      "F. Guerra"
+    ],
+    "authors_string": "Matteo Paganelli, Francesco Del Buono, Andrea Baraldi, F. Guerra",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 27,
+    "reference_count": 34,
+    "abstract": "\n State-of-the-art Entity Matching (EM) approaches rely on transformer architectures, such as\n BERT\n , for generating highly contex-tualized embeddings of terms. The embeddings are then used to predict whether pairs of entity descriptions refer to the same real-world entity. BERT-based EM models demonstrated to be effective, but act as black-boxes for the users, who have limited insight into the motivations behind their decisions.\n \n In this paper, we perform a multi-facet analysis of the components of pre-trained and fine-tuned BERT architectures applied to an EM task. The main findings resulting from our extensive experimental evaluation are (1) the fine-tuning process applied to the EM task mainly modifies the last layers of the BERT components, but in a different way on tokens belonging to descriptions of matching / non-matching entities; (2) the special structure of the EM datasets, where records are pairs of entity descriptions is recognized by BERT; (3) the pair-wise semantic similarity of tokens is not a key knowledge exploited by BERT-based EM models.",
+    "original_title": "Analyzing How BERT Performs Entity Matching"
+  },
+  {
+    "semantic_scholar_id": "d642e004b9e4acef660283e4f518aa9210ff341d",
+    "title": "Cost-Effective In-Context Learning for Entity Resolution: A Design Space Exploration",
+    "year": 2023,
+    "publication_date": "2023-12-07",
+    "authors": [
+      "Meihao Fan",
+      "Xiaoyue Han",
+      "Ju Fan",
+      "Chengliang Chai",
+      "Nan Tang",
+      "Guoliang Li",
+      "Xiaoyong Du"
+    ],
+    "authors_string": "Meihao Fan, Xiaoyue Han, Ju Fan, Chengliang Chai, Nan Tang, Guoliang Li, Xiaoyong Du",
+    "venue": "IEEE International Conference on Data Engineering",
+    "citation_count": 14,
+    "reference_count": 56,
+    "abstract": "Entity resolution (ER) is an important data integration task with a wide spectrum of applications. The state-of-the-art solutions on ER rely on pre-trained language models (PLMs), which require fine-tuning on a lot of labeled matching/non-matching entity pairs. Recently, large languages models (LLMs), such as GPT-4, have shown the ability to perform many tasks without tuning model parameters, which is known as in-context learning (ICL) that facilitates effective learning from a few labeled input context demonstrations. However, existing ICL approaches to ER typically necessitate providing a task description and a set of demonstrations for each entity pair and thus have limitations on the monetary cost of interfacing LLMs. To address the problem, in this paper, we provide a comprehensive study to investigate how to develop a cost-effective batch prompting approach to ER. We introduce a framework BATCHER consisting of demonstration selection and question batching and explore different design choices that support batch prompting for ER. We also devise a covering-based demonstration selection strategy that achieves an effective balance between matching accuracy and monetary cost. We conduct a thorough evaluation to explore the design space and evaluate our proposed strategies. Through extensive experiments, we find that batch prompting is very cost-effective for ER, compared with not only PLM-based methods fine-tuned with extensive labeled data but also LLM-based methods with manually designed prompting. We also provide guidance for selecting appropriate design choices for batch prompting.",
+    "original_title": "Cost-Effective In-Context Learning for Entity Resolution: A Design Space Exploration"
+  },
+  {
+    "semantic_scholar_id": "6f1043b213157e31b998ba10c5aea90e282db402",
+    "title": "Deep Transfer Learning for Multi-source Entity Linkage via Domain Adaptation",
+    "year": 2021,
+    "publication_date": "2021-10-27",
+    "authors": [
+      "Di Jin",
+      "Bunyamin Sisman",
+      "Hao Wei",
+      "Xin Dong",
+      "Danai Koutra"
+    ],
+    "authors_string": "Di Jin, Bunyamin Sisman, Hao Wei, Xin Dong, Danai Koutra",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 13,
+    "reference_count": 40,
+    "abstract": "Multi-source entity linkage focuses on integrating knowledge from multiple sources by linking the records that represent the same real world entity. This is critical in high-impact applications such as data cleaning and user stitching. The state-of-the-art entity linkage pipelines mainly depend on supervised learning that requires abundant amounts of training data. However, collecting well-labeled training data becomes expensive when the data from many sources arrives incrementally over time. Moreover, the trained models can easily overfit to specific data sources, and thus fail to generalize to new sources due to significant differences in data and label distributions. To address these challenges, we present AdaMEL, a deep transfer learning framework that learns generic high-level knowledge to perform multi-source entity linkage. AdaMEL models the attribute importance that is used to match entities through an attribute-level self-attention mechanism, and leverages the massive unlabeled data from new data sources through domain adaptation to make it generic and data-source agnostic. In addition, AdaMEL is capable of incorporating an additional set of labeled data to more accurately integrate data sources with different attribute importance. Extensive experiments show that our framework achieves state-of-the-art results with 8.21% improvement on average over methods based on supervised learning. Besides, it is more stable in handling different sets of data sources in less runtime.",
+    "original_title": "Deep Transfer Learning for Multi-source Entity Linkage via Domain Adaptation"
+  },
+  {
+    "semantic_scholar_id": "b4e7db733588b97e0095bea2d329a8b42b2ee8f4",
+    "title": "Blocker and Matcher Can Mutually Benefit: A Co-Learning Framework for Low-Resource Entity Resolution",
+    "year": 2023,
+    "publication_date": "2023-11-01",
+    "authors": [
+      "Shiwen Wu",
+      "Qiyu Wu",
+      "Honghua Dong",
+      "Wen Hua",
+      "Xiaofang Zhou"
+    ],
+    "authors_string": "Shiwen Wu, Qiyu Wu, Honghua Dong, Wen Hua, Xiaofang Zhou",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 7,
+    "reference_count": 47,
+    "abstract": "Entity resolution (ER) approaches typically consist of a blocker and a matcher. They share the same goal and cooperate in different roles: the blocker first quickly removes obvious non-matches, and the matcher subsequently determines whether the remaining pairs refer to the same real-world entity. Despite the state-of-the-art performance achieved by deep learning methods in ER, these techniques often rely on a large amount of labeled data for training, which can be challenging or costly to obtain. Thus, there is a need to develop effective ER systems under low-resource settings. In this work, we propose an end-to-end iterative Co-learning framework for ER, aimed at jointly training the blocker and the matcher by leveraging their cooperative relationship. In particular, we let the blocker and the matcher share their learned knowledge with each other via iteratively updated pseudo labels, which broaden the supervision signals. To mitigate the impact of noise in pseudo labels, we develop optimization techniques from three aspects: label generation, label selection and model training. Through extensive experiments on benchmark datasets, we demonstrate that our proposed framework outperforms baselines by an average of 9.13--51.55%. Furthermore, our analysis confirms that our framework achieves mutual benefits between the blocker and the matcher.",
+    "original_title": "Blocker and Matcher Can Mutually Benefit: A Co-Learning Framework for Low-Resource Entity Resolution"
+  },
+  {
+    "semantic_scholar_id": "b69dfbe1d9dff10307227624250f62eab5f9261e",
+    "title": "Deep Indexed Active Learning for Matching Heterogeneous Entity Representations",
+    "year": 2021,
+    "publication_date": "2021-04-08",
+    "authors": [
+      "Arjit Jain",
+      "Sunita Sarawagi",
+      "Prithviraj Sen"
+    ],
+    "authors_string": "Arjit Jain, Sunita Sarawagi, Prithviraj Sen",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 25,
+    "reference_count": 73,
+    "abstract": "Given two large lists of records, the task in entity resolution (ER) is to find the pairs from the Cartesian product of the lists that correspond to the same real world entity. Typically, passive learning methods on such tasks require large amounts of labeled data to yield useful models. Active Learning is a promising approach for ER in low resource settings. However, the search space, to find informative samples for the user to label, grows quadratically for instance-pair tasks making active learning hard to scale. Previous works, in this setting, rely on hand-crafted predicates, pre-trained language model embeddings, or rule learning to prune away unlikely pairs from the Cartesian product. This blocking step can miss out on important regions in the product space leading to low recall. We propose DIAL, a scalable active learning approach that jointly learns embeddings to maximize recall for blocking and accuracy for matching blocked pairs. DIAL uses an Index-By-Committee framework, where each committee member learns representations based on powerful pre-trained transformer language models. We highlight surprising differences between the matcher and the blocker in the creation of the training data and the objective used to train their parameters. Experiments on five benchmark datasets and a multilingual record matching dataset show the effectiveness of our approach in terms of precision, recall and running time.",
+    "original_title": "Deep Indexed Active Learning for Matching Heterogeneous Entity Representations"
+  },
+  {
+    "semantic_scholar_id": "dfed1188c2bdff8a823454aa99d53462cd8e04cc",
+    "title": "Generalized Supervised Meta-blocking",
+    "year": 2022,
+    "publication_date": "2022-05-01",
+    "authors": [
+      "Luca Gagliardelli",
+      "G. Papadakis",
+      "Giovanni Simonini",
+      "S. Bergamaschi",
+      "Themis Palpanas"
+    ],
+    "authors_string": "Luca Gagliardelli, G. Papadakis, Giovanni Simonini, S. Bergamaschi, Themis Palpanas",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 9,
+    "reference_count": 36,
+    "abstract": "Entity Resolution is a core data integration task that relies on Blocking to scale to large datasets. Schema-agnostic blocking achieves very high recall, requires no domain knowledge and applies to data of any structuredness and schema heterogeneity. This comes at the cost of many irrelevant candidate pairs (i.e., comparisons), which can be significantly reduced by Meta-blocking techniques that leverage the entity co-occurrence patterns inside blocks: first, pairs of candidate entities are weighted in proportion to their matching likelihood, and then, pruning discards the pairs with the lowest scores. Supervised Meta-blocking goes beyond this approach by combining multiple scores per comparison into a feature vector that is fed to a binary classifier. By using probabilistic classifiers, Generalized Supervised Meta-blocking associates every pair of candidates with a score that can be used by any pruning algorithm. For higher effectiveness, new weighting schemes are examined as features. Through extensive experiments, we identify the best pruning algorithms, their optimal sets of features, as well as the minimum possible size of the training set.",
+    "original_title": "Generalized Supervised Meta-blocking"
+  },
+  {
+    "semantic_scholar_id": "0d87e9b80950422b12953219d6dbeefeb6aac0b4",
+    "title": "Sparkly: A Simple yet Surprisingly Strong TF/IDF Blocker for Entity Matching",
+    "year": 2023,
+    "publication_date": "2023-02-01",
+    "authors": [
+      "Derek Paulsen",
+      "Yash Govind",
+      "A. Doan"
+    ],
+    "authors_string": "Derek Paulsen, Yash Govind, A. Doan",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 26,
+    "reference_count": 42,
+    "abstract": "Blocking is a major task in entity matching. Numerous blocking solutions have been developed, but as far as we can tell, blocking using the well-known tf/idf measure has received virtually no attention. Yet, when we experimented with tf/idf blocking using Lucene, we found it did quite well. So in this paper we examine tf/idf blocking in depth. We develop Sparkly, which uses Lucene to perform top-k tf/idf blocking in a distributed share-nothing fashion on a Spark cluster. We develop techniques to identify good attributes and tokenizers that can be used to block on, making Sparkly completely automatic. We perform extensive experiments showing that Sparkly outperforms 8 state-of-the-art blockers. Finally, we provide an in-depth analysis of Sparkly's performance, regarding both recall/output size and runtime. Our findings suggest that (a) tf/idf blocking needs more attention, (b) Sparkly forms a strong baseline that future blocking work should compare against, and (c) future blocking work should seriously consider top-k blocking, which helps improve recall, and a distributed share-nothing architecture, which helps improve scalability, predictability, and extensibility.",
+    "original_title": "Sparkly: A Simple yet Surprisingly Strong TF/IDF Blocker for Entity Matching"
+  },
+  {
+    "semantic_scholar_id": "00b93e27e39c2f41688ec7e25d9e002c5720a509",
+    "title": "PromptEM: Prompt-tuning for Low-resource Generalized Entity Matching",
+    "year": 2022,
+    "publication_date": "2022-07-11",
+    "authors": [
+      "Pengfei Wang",
+      "Xiaocan Zeng",
+      "Lu Chen",
+      "Fan Ye",
+      "Yuren Mao",
+      "Junhao Zhu",
+      "Yunjun Gao"
+    ],
+    "authors_string": "Pengfei Wang, Xiaocan Zeng, Lu Chen, Fan Ye, Yuren Mao, Junhao Zhu, Yunjun Gao",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 30,
+    "reference_count": 62,
+    "abstract": "Entity Matching (EM), which aims to identify whether two entity records from two relational tables refer to the same real-world entity, is one of the fundamental problems in data management. Traditional EM assumes that two tables are homogeneous with the aligned schema, while it is common that entity records of different formats (e.g., relational, semi-structured, or textual types) involve in practical scenarios. It is not practical to unify their schemas due to the different formats. To support EM on format-different entity records, Generalized Entity Matching (GEM) has been proposed and gained much attention recently. To do GEM, existing methods typically perform in a supervised learning way, which relies on a large amount of high-quality labeled examples. However, the labeling process is extremely labor-intensive, and frustrates the use of GEM. Low-resource GEM, i.e., GEM that only requires a small number of labeled examples, becomes an urgent need. To this end, this paper, for the first time, focuses on the low-resource GEM and proposes a novel low-resource GEM method, termed as PromptEM. PromptEM has addressed three challenging issues (i.e., designing GEM-specific prompt-tuning, improving pseudo-labels quality, and running efficient self-training) in low-resource GEM. Extensive experimental results on eight real benchmarks demonstrate the superiority of PromptEM in terms of effectiveness and efficiency.",
+    "original_title": "PromptEM: Prompt-tuning for Low-resource Generalized Entity Matching"
+  },
+  {
+    "semantic_scholar_id": "068c189033b0d06aeab5872c8fd31f6d6f33b535",
+    "title": "Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching",
+    "year": 2024,
+    "publication_date": "2024-08-01",
+    "authors": [
+      "Joshua Wu",
+      "Dixin Tang",
+      "Nithin V. Chalapathi",
+      "Tristan Chambers",
+      "Julie Ciccolini",
+      "Cheryl Phillips",
+      "Lisa Pickoff-White",
+      "Aditya G. Parameswaran"
+    ],
+    "authors_string": "Joshua Wu, Dixin Tang, Nithin V. Chalapathi, Tristan Chambers, Julie Ciccolini, Cheryl Phillips, Lisa Pickoff-White, Aditya G. Parameswaran",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 1,
+    "reference_count": 16,
+    "abstract": "String matching is at the core of data cleaning, record matching, and information retrieval. String matching relies on a similarity measure that evaluates the similarity of two strings, regarding the two as a match if their similarity is larger than a user-defined threshold. In our collaboration with journalists and public defenders, we found that real-world datasets, such as police rosters that journalists and public defenders work with, often contain acronyms, abbreviations, and typos, thanks to errors during manual entry, into, say, a spreadsheet or a form. Unfortunately, traditional similarity measures lead to low accuracy since they do not consider all three aspects together. Some recent work proposes leveraging synonym rules to improve matching, but either requires these rules to be provided upfront, or generated prior to matching, which leads to low accuracy in our setting and similar ones. To address these limitations, we propose Smash, a simple yet effective measure to assess the similarity of two strings with acronyms, abbreviations, and typos, all without relying on synonym rules. We design a dynamic programming algorithm to efficiently compute this measure, along with two optimizations that improve accuracy. We show that compared to the best baselines, including one based on ChatGPT with GPT-4, Smash improves the max and mean F-score by 23.5% and 110.8%, respectively. We implement Smash in OpenRefine, a graphical data cleaning tool, to facilitate its use by journalists, public defenders, and other non-programmers for data cleaning.",
+    "original_title": "Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching"
+  },
+  {
+    "semantic_scholar_id": "cd4d3ab157224d1754176efac5e736e8c2678a04",
+    "title": "MinoanER: Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities",
+    "year": 2019,
+    "publication_date": "2019-03-26",
+    "authors": [
+      "Vasilis Efthymiou",
+      "G. Papadakis",
+      "Kostas Stefanidis",
+      "V. Christophides"
+    ],
+    "authors_string": "Vasilis Efthymiou, G. Papadakis, Kostas Stefanidis, V. Christophides",
+    "venue": "International Conference on Extending Database Technology",
+    "citation_count": 36,
+    "reference_count": 37,
+    "abstract": "Entity Resolution (ER) aims to identify different descriptions in various Knowledge Bases (KBs) that refer to the same entity. ER is challenged by the Variety, Volume and Veracity of entity descriptions published in the Web of Data. To address them, we propose the MinoanER framework that simultaneously fulfills full automation, support of highly heterogeneous entities, and massive parallelization of the ER process. MinoanER leverages a token-based similarity of entities to define a new metric that derives the similarity of neighboring entities from the most important relations, as they are indicated only by statistics. A composite blocking method is employed to capture different sources of matching evidence from the content, neighbors, or names of entities. The search space of candidate pairs for comparison is compactly abstracted by a novel disjunctive blocking graph and processed by a non-iterative, massively parallel matching algorithm that consists of four generic, schema-agnostic matching rules that are quite robust with respect to their internal configuration. We demonstrate that the effectiveness of MinoanER is comparable to existing ER tools over real KBs exhibiting low Variety, but it outperforms them significantly when matching KBs with high Variety.",
+    "original_title": "MinoanER: Schema-Agnostic, Non-Iterative, Massively Parallel Resolution of Web Entities"
+  },
+  {
+    "semantic_scholar_id": "907ce8049f64839047e07e41dc90663fd9fa12b5",
+    "title": "In-context Clustering-based Entity Resolution with Large Language Models: A Design Space Exploration",
+    "year": 2025,
+    "publication_date": "2025-06-03",
+    "authors": [
+      "Jiajie Fu",
+      "Haitong Tang",
+      "Arijit Khan",
+      "S. Mehrotra",
+      "Xiangyu Ke",
+      "Yunjun Gao"
+    ],
+    "authors_string": "Jiajie Fu, Haitong Tang, Arijit Khan, S. Mehrotra, Xiangyu Ke, Yunjun Gao",
+    "venue": "arXiv.org",
+    "citation_count": 0,
+    "reference_count": 78,
+    "abstract": "Entity Resolution (ER) is a fundamental data quality improvement task that identifies and links records referring to the same real-world entity. Traditional ER approaches often rely on pairwise comparisons, which can be costly in terms of time and monetary resources, especially with large datasets. Recently, Large Language Models (LLMs) have shown promising results in ER tasks. However, existing methods typically focus on pairwise matching, missing the potential of LLMs to perform clustering directly in a more cost-effective and scalable manner. In this paper, we propose a novel in-context clustering approach for ER, where LLMs are used to cluster records directly, reducing both time complexity and monetary costs. We systematically investigate the design space for in-context clustering, analyzing the impact of factors such as set size, diversity, variation, and ordering of records on clustering performance. Based on these insights, we develop LLM-CER (LLM-powered Clustering-based ER), which achieves high-quality ER results while minimizing LLM API calls. Our approach addresses key challenges, including efficient cluster merging and LLM hallucination, providing a scalable and effective solution for ER. Extensive experiments on nine real-world datasets demonstrate that our method significantly improves result quality, achieving up to 150% higher accuracy, 10% increase in the F-measure, and reducing API calls by up to 5 times, while maintaining comparable monetary cost to the most cost-effective baseline.",
+    "original_title": "In-context Clustering-based Entity Resolution with Large Language Models: A Design Space Exploration"
+  },
+  {
+    "semantic_scholar_id": "aec5ef00564b8427b3e8998ca95fd40250b1d252",
+    "title": "ZeroEA: A Zero-Training Entity Alignment Framework via Pre-Trained Language Model",
+    "year": 2024,
+    "publication_date": "2024-03-01",
+    "authors": [
+      "Nan Huo",
+      "Reynold Cheng",
+      "Ben Kao",
+      "Wentao Ning",
+      "Nur Al Hasan Haldar",
+      "Xiaodong Li",
+      "Jinyang Li",
+      "Mohammad Matin Najafi",
+      "Tian Li",
+      "Ge Qu"
+    ],
+    "authors_string": "Nan Huo, Reynold Cheng, Ben Kao, Wentao Ning, Nur Al Hasan Haldar, Xiaodong Li, Jinyang Li, Mohammad Matin Najafi, Tian Li, Ge Qu",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 7,
+    "reference_count": 25,
+    "abstract": "Entity alignment (EA), a crucial task in knowledge graph (KG) research, aims to identify equivalent entities across different KGs to support downstream tasks like KG integration, text-to-SQL, and question-answering systems. Given rich semantic information within KGs, pre-trained language models (PLMs) have shown promise in EA tasks due to their exceptional context-aware encoding capabilities. However, the current solutions based on PLMs encounter obstacles such as the need for extensive training, expensive data annotation, and inadequate incorporation of structural information. In this study, we introduce a novel zero-training EA framework, ZeroEA, which effectively captures both semantic and structural information for PLMs. To be specific, Graph2Prompt module serves as the bridge between graph structure and plain text by converting KG topology into textual context suitable for PLM input. Additionally, in order to provide PLMs with concise and clear input text of reasonable length, we design a motif-based neighborhood filter to eliminate noisy neighbors. The comprehensive experiments and analyses on 5 benchmark datasets demonstrate the effectiveness of ZeroEA, outperforming all leading competitors and achieving state-of-the-art performance in entity alignment. Notably, our study highlights the considerable potential of EA technique in improving the performance of downstream tasks, thereby benefitting the broader research field.",
+    "original_title": "ZeroEA: A Zero-Training Entity Alignment Framework via Pre-Trained Language Model"
+  },
+  {
+    "semantic_scholar_id": "9971a0dcdc6e3b077726099b377870c3df5b13b5",
+    "title": "The Battleship Approach to the Low Resource Entity Matching Problem",
+    "year": 2023,
+    "publication_date": "2023-11-27",
+    "authors": [
+      "Bar Genossar",
+      "Avigdor Gal",
+      "Roee Shraga"
+    ],
+    "authors_string": "Bar Genossar, Avigdor Gal, Roee Shraga",
+    "venue": "Proc. ACM Manag. Data",
+    "citation_count": 4,
+    "reference_count": 73,
+    "abstract": "Entity matching, a core data integration problem, is the task of deciding whether two data tuples refer to the same real-world entity. Recent advances in deep learning methods, using pre-trained language models, were proposed for resolving entity matching. Although demonstrating unprecedented results, these solutions suffer from a major drawback as they require large amounts of labeled data for training, and, as such, are inadequate to be applied to low resource entity matching problems. To overcome the challenge of obtaining sufficient labeled data we offer a new active learning approach, focusing on a selection mechanism that exploits unique properties of entity matching. We argue that a distributed representation of a tuple pair indicates its informativeness when considered among other pairs. This is used consequently in our approach that iteratively utilizes space-aware considerations. Bringing it all together, we treat the low resource entity matching problem as a Battleship game, hunting indicative samples, focusing on positive ones, through awareness of the latent space along with careful planning of next sampling iterations. An extensive experimental analysis shows that the proposed algorithm outperforms state-of-the-art active learning solutions to low resource entity matching, and although using less samples, can be as successful as state-of-the-art fully trained known algorithms.",
+    "original_title": "The Battleship Approach to the Low Resource Entity Matching Problem"
+  },
+  {
+    "semantic_scholar_id": "c57757597d0664a0f66d40108e50bf696044c9fe",
+    "title": "Low-resource Deep Entity Resolution with Transfer and Active Learning",
+    "year": 2019,
+    "publication_date": "2019-06-17",
+    "authors": [
+      "Jungo Kasai",
+      "Kun Qian",
+      "Sairam Gurajada",
+      "Yunyao Li",
+      "Lucian Popa"
+    ],
+    "authors_string": "Jungo Kasai, Kun Qian, Sairam Gurajada, Yunyao Li, Lucian Popa",
+    "venue": "Annual Meeting of the Association for Computational Linguistics",
+    "citation_count": 139,
+    "reference_count": 39,
+    "abstract": "Entity resolution (ER) is the task of identifying different representations of the same real-world entities across databases. It is a key step for knowledge base creation and text mining. Recent adaptation of deep learning methods for ER mitigates the need for dataset-specific feature engineering by constructing distributed representations of entity records. While these methods achieve state-of-the-art performance over benchmark data, they require large amounts of labeled data, which are typically unavailable in realistic ER applications. In this paper, we develop a deep learning-based method that targets low-resource settings for ER through a novel combination of transfer learning and active learning. We design an architecture that allows us to learn a transferable model from a high-resource setting to a low-resource one. To further adapt to the target dataset, we incorporate active learning that carefully selects a few informative examples to fine-tune the transferred model. Empirical evaluation demonstrates that our method achieves comparable, if not better, performance compared to state-of-the-art learning-based methods while using an order of magnitude fewer labels.",
+    "original_title": "Low-resource Deep Entity Resolution with Transfer and Active Learning"
+  },
+  {
+    "semantic_scholar_id": "6eec79dc30f9087fe579353a2596bea59c39b5a5",
+    "title": "Deep Learning for Blocking in Entity Matching: A Design Space Exploration",
+    "year": 2021,
+    "publication_date": "2021-07-01",
+    "authors": [
+      "Saravanan Thirumuruganathan",
+      "Han Li",
+      "N. Tang",
+      "M. Ouzzani",
+      "Yash Govind",
+      "Derek Paulsen",
+      "Glenn M. Fung",
+      "A. Doan"
+    ],
+    "authors_string": "Saravanan Thirumuruganathan, Han Li, N. Tang, M. Ouzzani, Yash Govind, Derek Paulsen, Glenn M. Fung, A. Doan",
+    "venue": "Proceedings of the VLDB Endowment",
+    "citation_count": 82,
+    "reference_count": 80,
+    "abstract": "Entity matching (EM) finds data instances that refer to the same real-world entity. Most EM solutions perform blocking then matching. Many works have applied deep learning (DL) to matching, but far fewer works have applied DL to blocking. These blocking works are also limited in that they consider only a simple form of DL and some of them require labeled training data. In this paper, we develop the DeepBlocker framework that significantly advances the state of the art in applying DL to blocking for EM. We first define a large space of DL solutions for blocking, which contains solutions of varying complexity and subsumes most previous works. Next, we develop eight representative solutions in this space. These solutions do not require labeled training data and exploit recent advances in DL (e.g., sequence modeling, transformer, self supervision). We empirically determine which solutions perform best on what kind of datasets (structured, textual, or dirty). We show that the best solutions (among the above eight) outperform the best existing DL solution and the best existing non-DL solutions (including a state-of-the-art industrial non-DL solution), on dirty and textual data, and are comparable on structured data. Finally, we show that the combination of the best DL and non-DL solutions can perform even better, suggesting a new venue for research.",
+    "original_title": "Deep Learning for Blocking in Entity Matching: A Design Space Exploration"
+  }
+]

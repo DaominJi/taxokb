@@ -18,10 +18,10 @@
     "### 5.3 Hierarchical Cluster Merging",
     "### 5.4 End-to-End ER Solution",
     "## Algorithm 4 End-to-end ER",
-    "### 3.1 Entity Resolution",
     "### 3.2 LLM_ Adaptation Techniques",
+    "# In-context Clustering-based Entity Resolution with Large Language Models_ A Design Space Exploration",
     "## 3 PRELIMINARIES",
-    "# In-context Clustering-based Entity Resolution with Large Language Models_ A Design Space Exploration"
+    "### 3.1 Entity Resolution"
   ],
   "Related Work": [
     "## 2 RELATED WORK"

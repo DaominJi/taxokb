@@ -5,14 +5,13 @@
   "Introduction": [
     "## 1 INTRODUCTION"
   ],
-  "Problem Definition": [
+  "Problem Definition": [],
+  "Methodology": [
     "## 3 OUR STRING SIMILARITY MEASURE",
     "## 4 COMPUTING SMASH",
     "### 4.1 Optimal Substructure",
     "### 4.2 Dynamic Programming Algorithm",
-    "### 4.3 Constructing the Optimal Partition"
-  ],
-  "Methodology": [
+    "### 4.3 Constructing the Optimal Partition",
     "## 5 OPTIMIZATIONS AND APPLICABILITY",
     "## 6 IMPLEMENTATION",
     "# Dealing with Acronyms, Abbreviations, and Typos in Real-World Entity Matching"

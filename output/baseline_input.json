@@ -1,0 +1,731 @@
+[
+  {
+    "paper_id": "f32a10ff",
+    "baselines": [
+      {
+        "name": "Deep Learning (DL)",
+        "description": "Deep learning model for entity resolution using deepmatcher library.",
+        "category": "deep learning",
+        "citation_number": null,
+        "confidence": 0.95
+      },
+      {
+        "name": "Deep Active Learning (DAL)",
+        "description": "Active learning framework with deep models (random initialization).",
+        "category": "deep learning",
+        "citation_number": null,
+        "confidence": 0.9
+      },
+      {
+        "name": "Support Vector Machine (SVM)",
+        "description": "Non-deep learning baseline using SVM algorithm from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.95
+      },
+      {
+        "name": "Decision Tree",
+        "description": "Non-deep learning baseline from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Random Forest",
+        "description": "Non-deep learning baseline from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Naive Bayes",
+        "description": "Non-deep learning baseline from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Logistic Regression",
+        "description": "Non-deep learning baseline from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Linear Regression",
+        "description": "Non-deep learning baseline from Magellan package.",
+        "category": "classical ML",
+        "citation_number": "[Konda et al., 2016]",
+        "confidence": 0.88
+      },
+      {
+        "name": "Mudgal et al. (2018)",
+        "description": "State-of-the-art deep learning method for entity resolution.",
+        "category": "deep learning",
+        "citation_number": "[Mudgal et al., 2018]",
+        "confidence": 0.95
+      }
+    ]
+  },
+  {
+    "paper_id": "53cfb6e5",
+    "baselines": [
+      {
+        "name": "Ditto",
+        "description": "PLM-based entity resolution using RoBerta and fine-tuning on labeled pairs.",
+        "category": "deep learning",
+        "citation_number": "[1]",
+        "confidence": 1.0
+      },
+      {
+        "name": "JointBert",
+        "description": "Dual-objective BERT model combining binary matching and multi-class classification for entity matching.",
+        "category": "deep learning",
+        "citation_number": "[2]",
+        "confidence": 1.0
+      },
+      {
+        "name": "RobEM",
+        "description": "Robust PLM-based ER method addressing data imbalance with modifications to enhance PLMs.",
+        "category": "deep learning",
+        "citation_number": "[3]",
+        "confidence": 1.0
+      },
+      {
+        "name": "ManualPrompt",
+        "description": "LLM-based ER (GPT-3) using manually designed prompts and demonstrations; standard prompting.",
+        "category": "LLM",
+        "citation_number": "[11]",
+        "confidence": 1.0
+      }
+    ]
+  },
+  {
+    "paper_id": "79bc4b32",
+    "baselines": [
+      {
+        "name": "DM+",
+        "description": "DeepMatcher+, a reference DL-based EM approach that does not rely on a transformer architecture.",
+        "category": "deep learning",
+        "citation_number": "[21]",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ditto",
+        "description": "A BERT-based EM approach with data augmentation techniques and advanced EM data encoding.",
+        "category": "deep learning",
+        "citation_number": "[17]",
+        "confidence": 0.97
+      }
+    ]
+  },
+  {
+    "paper_id": "baa3b0fc",
+    "baselines": [
+      {
+        "name": "ZeroER",
+        "description": "Unsupervised, generative ER approach using Gaussian Mixture Models",
+        "category": "unsupervised",
+        "citation_number": "[46]",
+        "confidence": 0.95
+      },
+      {
+        "name": "EMBDI",
+        "description": "Unsupervised, learns local embeddings for ER based on attribute-centric graphs",
+        "category": "unsupervised",
+        "citation_number": "[5]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DeepMatcher+ (DM+)",
+        "description": "Supervised, implements multiple ER methods and reports best F1-scores",
+        "category": "deep learning",
+        "citation_number": "[25]",
+        "confidence": 0.95
+      },
+      {
+        "name": "GraphER",
+        "description": "Supervised, integrates schematic and structural information with GNN for ER",
+        "category": "graph",
+        "citation_number": "[23]",
+        "confidence": 0.95
+      },
+      {
+        "name": "MCA",
+        "description": "Supervised, uses attention mechanism in sequence-based model for ER",
+        "category": "deep learning",
+        "citation_number": "[50]",
+        "confidence": 0.95
+      },
+      {
+        "name": "ERGAN",
+        "description": "Supervised, generative adversarial network for label augmentation in ER",
+        "category": "deep learning",
+        "citation_number": "[36]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DITTO",
+        "description": "Supervised, pre-trained Transformer-based language model for ER as sentence-pair classification",
+        "category": "transformer",
+        "citation_number": "[25]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DITTO-S",
+        "description": "DITTO using pseudo labels generated by CollaborER's ALG",
+        "category": "transformer",
+        "citation_number": "[25]",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "54593c94",
+    "baselines": [
+      {
+        "name": "CollaborEM",
+        "description": "Unsupervised framework that constructs rule-based pseudo labels and combines graph and sentence features.",
+        "category": "unsupervised",
+        "citation_number": "[12]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DITTO",
+        "description": "Supervised ER model; fine-tunes a pre-trained language model for sentence-pair classification.",
+        "category": "deep learning",
+        "citation_number": "[18]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DTAL",
+        "description": "Iterative active-learning-based entity matching method allocating annotation budget to informative pairs.",
+        "category": "active learning",
+        "citation_number": "[15]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DITTO-full",
+        "description": "DITTO trained with the full training data of the processed Magellan datasets.",
+        "category": "deep learning",
+        "confidence": 0.9
+      },
+      {
+        "name": "LLaMA-65B",
+        "description": "Large language model (65B) with 10-shot in-context learning.",
+        "category": "LLM",
+        "citation_number": "[32]",
+        "confidence": 0.92
+      },
+      {
+        "name": "GPT3-175B",
+        "description": "Large language model (175B parameters) with 10-shot in-context learning.",
+        "category": "LLM",
+        "citation_number": "[4]",
+        "confidence": 0.92
+      },
+      {
+        "name": "SBERT",
+        "description": "Pre-trained SBERT used as a blocker.",
+        "category": "deep learning",
+        "citation_number": "[30]",
+        "confidence": 0.9
+      },
+      {
+        "name": "DeepBlocker",
+        "description": "Blocker baseline for candidate generation.",
+        "category": "deep learning",
+        "citation_number": "[31]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Sudowoodo",
+        "description": "Blocker baseline for candidate generation.",
+        "category": "deep learning",
+        "citation_number": "[35]",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "b24a912c",
+    "baselines": [
+      {
+        "name": "Booster",
+        "description": "LLM-based ER method employing traditional blocking and iterative partition scoring.",
+        "category": "LLM",
+        "citation_number": "[43]",
+        "confidence": 0.98
+      },
+      {
+        "name": "BQ",
+        "description": "Batch-Questioning: Batches pairwise match questions into a single prompt for LLMs.",
+        "category": "LLM",
+        "citation_number": "[26]",
+        "confidence": 0.98
+      },
+      {
+        "name": "CrowdER+LLM",
+        "description": "Clustering-based design that filters irrelevant pairs and uses LLM to cluster ambiguous cases.",
+        "category": "LLM",
+        "citation_number": "[77]",
+        "confidence": 0.97
+      }
+    ]
+  },
+  {
+    "paper_id": "d6c37522",
+    "baselines": [
+      {
+        "name": "DeepMatcher",
+        "description": "Entity matching framework using RNNs to aggregate attribute values",
+        "category": "deep learning",
+        "citation_number": "[31]",
+        "confidence": 0.95
+      },
+      {
+        "name": "BERT",
+        "description": "Fine-tuned for entity matching as a sequence pair classification task",
+        "category": "deep learning",
+        "citation_number": "[6]",
+        "confidence": 0.95
+      },
+      {
+        "name": "SentenceBERT",
+        "description": "Siamese architecture for pretrained LMs for sentence/entity matching",
+        "category": "deep learning",
+        "citation_number": "[36]",
+        "confidence": 0.95
+      },
+      {
+        "name": "Ditto",
+        "description": "State-of-the-art EM approach using pre-trained LM with domain knowledge, TF-IDF summarization, and data augmentation",
+        "category": "deep learning",
+        "citation_number": "[23]",
+        "confidence": 0.95
+      },
+      {
+        "name": "DADER",
+        "description": "Transfer learning-based EM framework via domain adaptation",
+        "category": "deep learning",
+        "citation_number": "[45]",
+        "confidence": 0.95
+      },
+      {
+        "name": "Rotom",
+        "description": "Meta-learning framework for data selection/weighting to better fine-tune LMs",
+        "category": "deep learning",
+        "citation_number": "[30]",
+        "confidence": 0.95
+      },
+      {
+        "name": "TDmatch",
+        "description": "Unsupervised approach using graph creation and random walk for structured/text data",
+        "category": "graph-based, unsupervised",
+        "citation_number": "[1]",
+        "confidence": 0.95
+      },
+      {
+        "name": "TDmatch*",
+        "description": "TDmatch embeddings with an MLP classifier in supervised setting",
+        "category": "deep learning",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "9f0c2daf",
+    "baselines": [
+      {
+        "name": "Autoencoder",
+        "description": "Deep learning (DL) based blocker; one of the two best DL blockers.",
+        "category": "deep learning",
+        "citation_number": "[38]",
+        "confidence": 0.98
+      },
+      {
+        "name": "Hybrid",
+        "description": "Deep learning based blocker; one of the two best DL blockers.",
+        "category": "deep learning",
+        "citation_number": "[38]",
+        "confidence": 0.98
+      },
+      {
+        "name": "Union(DL,RBB)",
+        "description": "Combination of the best DL blocker and RBB, a SOTA industrial blocker.",
+        "category": "deep learning, industrial",
+        "citation_number": "[38]",
+        "confidence": 0.95
+      },
+      {
+        "name": "PBW",
+        "description": "SOTA hash blocker from JedAI open-source platform.",
+        "category": "hashing",
+        "citation_number": "[31, 33]",
+        "confidence": 0.93
+      },
+      {
+        "name": "DBW",
+        "description": "SOTA hash blocker from JedAI open-source platform.",
+        "category": "hashing",
+        "citation_number": "[31, 33]",
+        "confidence": 0.93
+      },
+      {
+        "name": "JD",
+        "description": "SOTA hash blocker from JedAI open-source platform.",
+        "category": "hashing",
+        "citation_number": "[31, 33]",
+        "confidence": 0.93
+      },
+      {
+        "name": "kNN-cosine",
+        "description": "kNN blocker using cosine similarity over 5-gram tokenization.",
+        "category": "heuristic",
+        "citation_number": "[29]",
+        "confidence": 0.9
+      },
+      {
+        "name": "kNN-jaccard",
+        "description": "kNN blocker using Jaccard similarity over 3-gram and 5-gram tokenization.",
+        "category": "heuristic",
+        "citation_number": "[29]",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "10669016",
+    "baselines": [
+      {
+        "name": "BCI",
+        "description": "Binary classifier for weight-based supervised meta-blocking",
+        "category": "classical ML",
+        "citation_number": "[25]",
+        "confidence": 1.0
+      },
+      {
+        "name": "CEP",
+        "description": "Cardinality-based pruning algorithm",
+        "category": "heuristic",
+        "citation_number": "[25]",
+        "confidence": 0.8
+      },
+      {
+        "name": "CNP",
+        "description": "Cardinality-based pruning algorithm",
+        "category": "heuristic",
+        "citation_number": "[25]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Supervised Meta-blocking",
+        "description": "Original supervised meta-blocking framework using BCI and CNP with the feature set proposed in [25]",
+        "category": "classical ML",
+        "citation_number": "[25]",
+        "confidence": 0.95
+      }
+    ]
+  },
+  {
+    "paper_id": "3e96d15e",
+    "baselines": [
+      {
+        "name": "PairedFixed",
+        "description": "Non-adaptive blocking: candidate set via similarity search on pretrained TPLM embeddings; no task-specific finetuning",
+        "category": "deep learning",
+        "confidence": 0.92
+      },
+      {
+        "name": "PairedAdapt",
+        "description": "Embeddings from TPLM as finetuned by the matcher in paired mode; candidate set created as in PairedFixed",
+        "category": "deep learning",
+        "confidence": 0.92
+      },
+      {
+        "name": "SentenceBERT",
+        "description": "Finetunes TPLM and a SentenceBERT-like classifier on labeled data to obtain embeddings for similarity search; RoBERTa transformer used in this work",
+        "category": "deep learning",
+        "citation_number": "[34]",
+        "confidence": 0.95
+      },
+      {
+        "name": "Rules",
+        "description": "Blocking based on hand-crafted rules (human-designed), applied to five benchmark datasets",
+        "category": "heuristic",
+        "confidence": 0.92
+      },
+      {
+        "name": "Random Forest",
+        "description": "Ensemble of 20 decision trees using learner-aware Query By Committee (QBC); strong active learning baseline for entity resolution",
+        "category": "classical ML",
+        "citation_number": "[40]",
+        "confidence": 0.95
+      },
+      {
+        "name": "JedAI:Schema-based",
+        "description": "JedAI toolkit schema-based pipeline; similarity joins for blocking; best configuration per [47]",
+        "category": "heuristic",
+        "citation_number": "[47]",
+        "confidence": 0.93
+      },
+      {
+        "name": "JedAI:Schema-agnostic",
+        "description": "JedAI toolkit schema-agnostic pipeline; leverages all attributes to extract overlapping blocks; best configuration per [47]",
+        "category": "heuristic",
+        "citation_number": "[47]",
+        "confidence": 0.93
+      },
+      {
+        "name": "PairedFixed (MultiLingual)",
+        "description": "Non-adaptive blocking for MultiLingual dataset; candidate set via similarity search on pretrained multilingual BERT embeddings",
+        "category": "deep learning",
+        "confidence": 0.9
+      },
+      {
+        "name": "PairedAdapt (MultiLingual)",
+        "description": "Adaptive blocking for MultiLingual dataset; embeddings from multilingual BERT as finetuned by the matcher in paired mode",
+        "category": "deep learning",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "6ab21388",
+    "baselines": [
+      {
+        "name": "SiGMa",
+        "description": "State-of-the-art entity resolution method.",
+        "category": "graph-based",
+        "citation_number": "[21]",
+        "confidence": 0.95
+      },
+      {
+        "name": "LINDA",
+        "description": "State-of-the-art entity resolution method.",
+        "category": "heuristic",
+        "citation_number": "[4]",
+        "confidence": 0.9
+      },
+      {
+        "name": "RiMOM",
+        "description": "State-of-the-art entity resolution method.",
+        "category": "heuristic",
+        "citation_number": "[23]",
+        "confidence": 0.9
+      },
+      {
+        "name": "PARIS",
+        "description": "State-of-the-art entity resolution method.",
+        "category": "graph-based",
+        "citation_number": "[33]",
+        "confidence": 0.95
+      },
+      {
+        "name": "BSL",
+        "description": "Custom heavily fine-tuned baseline using value similarity and Unique Mapping Clustering; disregards neighbor evidence.",
+        "category": "heuristic",
+        "confidence": 0.92
+      }
+    ]
+  },
+  {
+    "paper_id": "ec4709c1",
+    "baselines": [
+      {
+        "name": "RBB",
+        "description": "State-of-the-art industrial non-DL solution that uses labeled data to learn a blocker",
+        "category": "classical ML",
+        "citation_number": null,
+        "confidence": 0.95
+      },
+      {
+        "name": "BSL",
+        "description": "Blocking Scheme Learner; learns a blocker from labeled data",
+        "category": "classical ML",
+        "citation_number": "[53]",
+        "confidence": 0.93
+      },
+      {
+        "name": "TB",
+        "description": "Token Blocking; unsupervised schema-agnostic approach",
+        "category": "heuristic",
+        "citation_number": "[61]",
+        "confidence": 0.93
+      },
+      {
+        "name": "AutoBlock",
+        "description": "DL method that learns tuple embeddings using labeled data and LSH for retrieval",
+        "category": "deep learning",
+        "citation_number": "[81]",
+        "confidence": 0.93
+      },
+      {
+        "name": "DeepER",
+        "description": "Existing DL solution for blocking",
+        "category": "deep learning",
+        "citation_number": null,
+        "confidence": 0.85
+      },
+      {
+        "name": "DeepBlock",
+        "description": "Existing DL solution; marginally uses DL to improve a non-DL blocking solution",
+        "category": "deep learning",
+        "citation_number": null,
+        "confidence": 0.83
+      }
+    ]
+  },
+  {
+    "paper_id": "256e52ab",
+    "baselines": [
+      {
+        "name": "MTransE",
+        "category": "translation-based, deep learning",
+        "citation_number": "[7]",
+        "confidence": 0.95
+      },
+      {
+        "name": "JAPE",
+        "category": "translation-based, deep learning",
+        "citation_number": "[44]",
+        "confidence": 0.95
+      },
+      {
+        "name": "BootEA",
+        "category": "translation-based, deep learning",
+        "citation_number": "[45]",
+        "confidence": 0.95
+      },
+      {
+        "name": "TransEdge",
+        "category": "translation-based, deep learning",
+        "citation_number": "[3]",
+        "confidence": 0.95
+      },
+      {
+        "name": "GCN-Align",
+        "category": "GNN, deep learning",
+        "citation_number": "[53]",
+        "confidence": 0.95
+      },
+      {
+        "name": "MuGNN",
+        "category": "GNN, deep learning",
+        "citation_number": "[6]",
+        "confidence": 0.95
+      },
+      {
+        "name": "RDGCN",
+        "category": "GNN, deep learning",
+        "citation_number": "[54]",
+        "confidence": 0.95
+      },
+      {
+        "name": "CEAPF",
+        "category": "GNN, deep learning",
+        "citation_number": "[58]",
+        "confidence": 0.9
+      },
+      {
+        "name": "MEAlormer",
+        "category": "PLM-based, deep learning",
+        "citation_number": "[9]",
+        "confidence": 0.95
+      },
+      {
+        "name": "BERT-INT",
+        "category": "PLM-based, deep learning",
+        "citation_number": "[47]",
+        "confidence": 0.95
+      },
+      {
+        "name": "SDEA",
+        "category": "PLM-based, deep learning",
+        "citation_number": "[65]",
+        "confidence": 0.9
+      },
+      {
+        "name": "MultiKE",
+        "category": "translation-based, unsupervised",
+        "citation_number": "[61]",
+        "confidence": 0.9
+      },
+      {
+        "name": "SelfKG",
+        "category": "GNN, unsupervised",
+        "citation_number": "[32]",
+        "confidence": 0.9
+      },
+      {
+        "name": "Graphix-base",
+        "description": "Baseline text-to-SQL model using schema linking via string matching.",
+        "confidence": 0.95
+      },
+      {
+        "name": "Graphix-TransE",
+        "description": "Graphix-base model with TransE-based schema linking.",
+        "confidence": 0.9
+      },
+      {
+        "name": "Graphix-GCN",
+        "description": "Graphix-base model with GCN-based schema linking.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "07e4e216",
+    "baselines": [
+      {
+        "name": "Levenshtein distance",
+        "description": "Edit distance metric for string similarity",
+        "category": "classical ML",
+        "citation_number": "[4]",
+        "confidence": 0.98
+      },
+      {
+        "name": "Affine gap distance",
+        "description": "Edit distance metric with different penalties for gaps",
+        "category": "classical ML",
+        "citation_number": "[11]",
+        "confidence": 0.96
+      },
+      {
+        "name": "Jaccard-Word",
+        "description": "Tokenizes strings into sets of words and computes the Jaccard score",
+        "category": "classical ML",
+        "citation_number": "[36]",
+        "confidence": 0.97
+      },
+      {
+        "name": "Jaccard-NG",
+        "description": "Creates n-grams (3-grams) for strings and computes Jaccard score over n-gram sets",
+        "category": "classical ML",
+        "citation_number": "[17]",
+        "confidence": 0.97
+      },
+      {
+        "name": "pkduck",
+        "description": "Synonym rules-based approach for string matching",
+        "category": "classical ML",
+        "citation_number": "[30]",
+        "confidence": 0.99
+      },
+      {
+        "name": "Bipartite",
+        "description": "Set similarity approach using a bipartite graph; similarity is minimal sum of edge weights divided by number of edges; edge weights evaluated with Jaccard-NG",
+        "category": "graph-based",
+        "citation_number": "[10, 25]",
+        "confidence": 0.98
+      },
+      {
+        "name": "ChatGPT (GPT-4.0)",
+        "description": "Large language model-based approach to string matching",
+        "category": "LLM",
+        "citation_number": "[2]",
+        "confidence": 0.98
+      }
+    ]
+  }
+]

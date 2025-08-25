@@ -7,16 +7,6 @@
   ],
   "Problem Definition": [],
   "Methodology": [
-    "## PVLDB Artifact Availability_",
-    "## Francesco Guerra",
-    "# Analyzing How BERT Performs Entity Matching",
-    "## 7 LESSONS LEARNED",
-    "## PVLDB Reference Format_"
-  ],
-  "Related Work": [
-    "## 2 RELATED WORK"
-  ],
-  "Experiment": [
     "## 3 THE EXPERIMENTAL ANALYSIS",
     "## 4 IMPACT OF THE FINE-TUNING PROCESS ON THE EM TASK",
     "### 4.1 Effectiveness",
@@ -32,9 +22,16 @@
     "## 6 EXPLOITATION OF THE SEMANTIC SIMILARITY KNOWLEDGE",
     "### 6.1 Attention and semantic similarity",
     "### 6.2 Embeddings and semantic similarity",
-    "### 6.3 Gradient and semantic similarity"
+    "### 6.3 Gradient and semantic similarity",
+    "## Francesco Guerra",
+    "# Analyzing How BERT Performs Entity Matching"
   ],
+  "Related Work": [
+    "## 2 RELATED WORK"
+  ],
+  "Experiment": [],
   "Conclusion": [
+    "## 7 LESSONS LEARNED",
     "## 8 CONCLUSION"
   ],
   "References": [
@@ -43,5 +40,8 @@
   "Acknowledgement": [
     "## ACKNOWLEDGMENTS"
   ],
-  "Appendix": []
+  "Appendix": [
+    "## PVLDB Reference Format_",
+    "## PVLDB Artifact Availability_"
+  ]
 }

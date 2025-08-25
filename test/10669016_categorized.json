@@ -1,8 +1,6 @@
 {
   "Abstract": [
-    "## ABSTRACT",
-    "## PVLDB Reference Format_",
-    "## PVLDB Artifact Availability_"
+    "## ABSTRACT"
   ],
   "Introduction": [
     "## 1 INTRODUCTION",
@@ -14,9 +12,11 @@
   "Methodology": [
     "## 4 PRUNING ALGORITHMS",
     "## 5 WEIGHTING SCHEMES",
+    "## PVLDB Reference Format_",
     "# Generalized Supervised Meta-blocking",
-    "## Themis Palpanas",
-    "## Sonia Bergamaschi"
+    "## PVLDB Artifact Availability_",
+    "## Sonia Bergamaschi",
+    "## Themis Palpanas"
   ],
   "Related Work": [
     "## 7 RELATED WORK"

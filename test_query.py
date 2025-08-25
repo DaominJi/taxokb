@@ -13,7 +13,7 @@ graph = Neo4jGraph(
 
 # Initialize LLM (OpenAI example)
 llm = ChatOpenAI(
-    model="gpt-4o",  # Updated to match your quick_query function
+    model="gpt-4.1",  # Updated to match your quick_query function
     temperature=0,
     api_key=os.getenv("OPENAI_API_KEY")
 )
@@ -52,11 +52,11 @@ def quick_query(question):
         chain = GraphCypherQAChain.from_llm(
             llm=llm,
             graph=graph,
-            verbose=False,
+            verbose=True,
             allow_dangerous_requests=True
         )
         
-        result = chain.run(question)
+        result = chain.invoke(question)
         return result
         
     except Exception as e:
@@ -64,5 +64,5 @@ def quick_query(question):
         return f"Error: {e}"
 
 # Use it
-answer = quick_query("what is the entity resolution?")
+answer = quick_query("Which papers adopted the deep learning method?")
 print(answer)

@@ -755,22 +755,65 @@ experiment_setting_extractor:
     {experiment_text}
     ```
   merge_baselines: |
-    You are given a list of baseline method entries extracted from multiple research papers. Merge them into a unified list of canonical baseline methods.
+    You are given a list of baseline method entries extracted from multiple research papers. Your task is to merge these entries into a **single unified list** of canonical baseline methods.
+
+    ---
 
     ## 🎯 Goal
-    Create a unified entry for each baseline method, with:
-    - Canonical name
-    - Collected aliases
-    - Merged metadata (category, description, paper)
-    - Merged `supporting_papers` and usage statistics
+
+    For each baseline method, create a unified entry with:
+
+    * `canonical_name`
+    * Collected `aliases`
+    * Merged metadata (`category`, `description`)
+    * `supporting_papers` for provenance
+    * `usage_frequency` = number of distinct papers referencing it
+
+    ---
 
     ## 🧾 Input Format
 
     ```json
-    {
-      "baselines": [ baseline_entry_1, baseline_entry_2, ... ]
-    }
+    [
+      {
+        "paper_id": "abc123",
+        "baselines": [
+          {
+            "name": "XGBoost",
+            "description": "Gradient boosting decision tree method.",
+            "category": "classical ML"
+          },
+          {
+            "name": "BERT",
+            "description": "Transformer-based pretrained language model.",
+            "category": "deep learning"
+          }
+        ]
+      },
+      {
+        "paper_id": "xyz456",
+        "baselines": [
+          {
+            "name": "xgb",
+            "description": "Boosted tree method widely used for tabular tasks.",
+            "category": "classical ML"
+          }
+        ]
+      }
+    ]
     ```
+
+    Each block contains:
+
+    * `paper_id` – identifier of the paper
+    * `baselines` – list of baseline method entries
+
+    Each baseline entry has at least a `name` and may include:
+
+    * `description`
+    * `category`
+
+    ---
 
     ## 📦 Output Format
 
@@ -779,54 +822,111 @@ experiment_setting_extractor:
       "baselines": [
         {
           "canonical_name": "xgboost",
-          "aliases": ["XGBoost", "XGB", "xgb"],
-          "description": "...",
+          "aliases": ["XGBoost", "xgb"],
+          "description": "Gradient boosting decision tree method.",
           "category": "classical ML",
-          "supporting_papers": [ ... ] # the paper that the baseline is from, denoted by the paper_id
+          "supporting_papers": ["abc123", "xyz456"],
+          "usage_frequency": 2
         },
-        ...
+        {
+          "canonical_name": "bert",
+          "aliases": ["BERT"],
+          "description": "Transformer-based pretrained language model.",
+          "category": "deep learning",
+          "supporting_papers": ["abc123"],
+          "usage_frequency": 1
+        }
       ]
     }
     ```
 
+    ---
+
     ## ✅ Instructions
 
-    - Canonicalize using lowercase + normalization rules.
-    - Merge `supporting_papers` across mentions.
-    - Count unique `paper_id`s for `usage_frequency`.
-    - Preserve different aliases and include them in the list.
-    - If descriptions or categories differ, prefer the one with more support.
+    * Normalize names to create `canonical_name`: lowercase, remove punctuation, unify hyphen/underscore.
+    * Merge entries with the same `canonical_name`.
+    * For conflicting descriptions or categories, keep the one supported by more papers.
+    * Merge `supporting_papers` and count unique `paper_id`s for `usage_frequency`.
+    * Preserve all observed surface forms in `aliases`.
 
-    Return JSON:
+    Return only valid JSON in the output:
+
     ```json
     {"baselines": [ ... ]}
     ```
+
+    Below is the input:
+    [Baseline_input]
+
   merge_datasets: |
-    You are given a list of dataset entries extracted from multiple research papers. Your task is to merge these entries into a **single unified list** of datasets.
+    You are given a collection of dataset entries extracted from multiple sources. Each source provides a **`paper_id`** and its corresponding list of **`datasets`**. Your task is to merge all dataset entries across papers into a **single unified list**.
+
+    ---
 
     ## 🎯 Goal
+
     For each dataset, generate a single canonical entry by:
-    - Unifying different surface names into one `canonical_name`
-    - Collecting all observed `aliases`
-    - Merging non-conflicting fields
-    - Preserving provenance via `supporting_papers`
-    - Computing `usage_frequency` as the number of distinct papers referencing it
+
+    * Unifying different surface names into one `canonical_name`
+    * Collecting all observed `aliases`
+    * Merging non-conflicting fields
+    * Preserving provenance via `supporting_papers`
+    * Computing `usage_frequency` as the number of distinct papers referencing it
+
+    ---
 
     ## 🧾 Input Format
 
     ```json
-    {
-      "datasets": [ dataset_entry_1, dataset_entry_2, ... ]
-    }
+    [
+      {
+        "paper_id": "abc123",
+        "datasets": [
+          {
+            "name": "Example-Dataset",
+            "description": "A sample dataset used for testing.",
+            "task_type": ["classification"],
+            "processing": "Preprocessed with tokenization and normalization.",
+            "confidence": 0.95
+          },
+          {
+            "name": "SampleData",
+            "description": "Another dataset for benchmarking purposes.",
+            "task_type": ["regression"],
+            "confidence": 0.9
+          }
+        ]
+      },
+      {
+        "paper_id": "xyz456",
+        "datasets": [
+          {
+            "name": "Ex_DS",
+            "description": "Structured dataset commonly used for evaluation.",
+            "task_type": ["classification"],
+            "confidence": 0.92
+          }
+        ]
+      }
+    ]
     ```
 
-    Each dataset_entry has at least a `name` and may contain:
-    - `description`
-    - `profile` (e.g., `num_instances`, `num_classes`, etc.)
-    - `task_type`
-    - `url`
-    - `supporting_papers`
-    - `confidence`
+    Each paper block contains:
+
+    * `paper_id` – unique identifier of the paper
+    * `datasets` – a list of dataset entries mentioned in that paper
+
+    Each dataset entry has at least a `name` and may include:
+
+    * `description`
+    * `profile` (e.g., `size`, `attributes`, `categories`, etc.)
+    * `task_type`
+    * `url`
+    * `processing`
+    * `confidence`
+
+    ---
 
     ## 📦 Output Format
 
@@ -834,49 +934,107 @@ experiment_setting_extractor:
     {
       "datasets": [
         {
-          "canonical_name": "cifar10",
-          "aliases": ["CIFAR-10", "CIFAR10", "cifar_10"],
-          "description": "...",
+          "canonical_name": "example_dataset",
+          "aliases": ["Example-Dataset", "Ex_DS"],
+          "description": "A sample dataset used for testing.",
           "profile": { ... },
-          "task_type": ["classification"], 
+          "task_type": ["classification"],
           "url": "...",
-          "supporting_papers": [ ... ], # the paper that the baseline is from, denoted by the paper_id
+          "processing": "Preprocessed with tokenization and normalization.",
+          "supporting_papers": ["abc123", "xyz456"],
+          "usage_frequency": 2
         },
-        ...
+        {
+          "canonical_name": "sampledata",
+          "aliases": ["SampleData"],
+          "description": "Another dataset for benchmarking purposes.",
+          "task_type": ["regression"],
+          "supporting_papers": ["abc123"],
+          "usage_frequency": 1
+        }
       ]
     }
     ```
 
+    ---
+
     ## ✅ Instructions
 
-    - Normalize names to create `canonical_name`: lowercase, remove punctuation, collapse whitespace, unify hyphen/underscore.
-    - Merge entries with the same `canonical_name`.
-    - For conflicting descriptions, keep the one supported by more papers.
-    - Merge `supporting_papers` and count unique `paper_id`s for `usage_frequency`.
-    - Preserve all observed surface forms in `aliases`.
+    * Normalize names to create `canonical_name`: lowercase, remove punctuation, collapse whitespace, unify hyphen/underscore.
+    * Merge entries with the same `canonical_name`.
+    * For conflicting descriptions, keep the one supported by more distinct papers.
+    * Merge `supporting_papers` and count unique `paper_id`s for `usage_frequency`.
+    * Preserve all observed surface forms in `aliases`.
 
-    Only return valid JSON:
-    ```json
-    {"datasets": [ ... ]}
-    ```
+    Return only valid JSON in the output.
+
+    Below is the input:
+    [Dataset_input]
+
   merge_metrics: |
-    You are given a list of metric definitions extracted from multiple research papers. Your task is to merge them into a unified list of metrics.
+    You are given a list of metric definitions extracted from multiple research papers. Your task is to merge them into a **single unified list** of metrics.
+
+    ---
 
     ## 🎯 Goal
+
     For each metric:
-    - Normalize to a canonical name
-    - Merge alternate names into `aliases`
-    - Combine fields like `description`, `formulation`, and `task_scope`
-    - Merge all `supporting_papers`
-    - Calculate `usage_frequency`
+
+    * Normalize to a `canonical_name`
+    * Collect all observed surface names as `aliases`
+    * Merge non-conflicting fields (`description`, `formulation`, `task_scope`)
+    * Preserve provenance in `supporting_papers`
+    * Compute `usage_frequency` as the number of distinct papers mentioning it
+
+    ---
 
     ## 🧾 Input Format
 
     ```json
-    {
-      "metrics": [ metric_entry_1, metric_entry_2, ... ]
-    }
+    [
+      {
+        "paper_id": "abc123",
+        "metrics": [
+          {
+            "name": "RMSE",
+            "description": "Root Mean Square Error, measures average magnitude of error.",
+            "formulation": "sqrt(mean((y - y_hat)^2))",
+            "task_scope": ["regression"]
+          },
+          {
+            "name": "Accuracy",
+            "description": "Proportion of correct predictions out of total predictions.",
+            "formulation": "(TP + TN) / (TP + TN + FP + FN)",
+            "task_scope": ["classification"]
+          }
+        ]
+      },
+      {
+        "paper_id": "xyz456",
+        "metrics": [
+          {
+            "name": "Root Mean Square Error",
+            "description": "Measures deviation between predicted and observed values.",
+            "formulation": "sqrt(Σ(y - y_hat)^2 / n)",
+            "task_scope": ["recommendation"]
+          }
+        ]
+      }
+    ]
     ```
+
+    Each block contains:
+
+    * `paper_id` – unique identifier of the paper
+    * `metrics` – list of metric entries extracted from that paper
+
+    Each metric entry has at least a `name` and may include:
+
+    * `description`
+    * `formulation`
+    * `task_scope`
+
+    ---
 
     ## 📦 Output Format
 
@@ -886,29 +1044,44 @@ experiment_setting_extractor:
         {
           "canonical_name": "rmse",
           "aliases": ["RMSE", "Root Mean Square Error"],
-          "description": "...",
-          "formulation": "...",
+          "description": "Root Mean Square Error, measures average magnitude of error.",
+          "formulation": "sqrt(mean((y - y_hat)^2))",
           "task_scope": ["regression", "recommendation"],
-          "supporting_papers": [ ... ], # the paper that the baseline is from, denoted by the paper_id
+          "supporting_papers": ["abc123", "xyz456"],
+          "usage_frequency": 2
         },
-        ...
+        {
+          "canonical_name": "accuracy",
+          "aliases": ["Accuracy"],
+          "description": "Proportion of correct predictions out of total predictions.",
+          "formulation": "(TP + TN) / (TP + TN + FP + FN)",
+          "task_scope": ["classification"],
+          "supporting_papers": ["abc123"],
+          "usage_frequency": 1
+        }
       ]
     }
     ```
 
+    ---
+
     ## ✅ Instructions
 
-    - Normalize names to canonical form (lowercase, trim, remove punctuation).
-    - Merge entries with the same canonical name.
-    - Prefer descriptions/formulations that appear most frequently.
-    - Count distinct `paper_id`s in `supporting_papers` for usage stats.
-    - Preserve all surface forms in `aliases`.
+    * Normalize names to create `canonical_name`: lowercase, trim, remove punctuation, unify hyphen/underscore.
+    * Merge entries with the same `canonical_name`.
+    * For conflicting descriptions/formulations, keep the one supported by more distinct papers.
+    * Merge `task_scope` lists and deduplicate.
+    * Merge `supporting_papers` and count unique `paper_id`s for `usage_frequency`.
+    * Preserve all observed surface names in `aliases`.
 
-    Return only valid JSON:
+    Return only valid JSON in the output:
+
     ```json
     {"metrics": [ ... ]}
     ```
 
+    Below is the input:
+    [Metric_input]
 
 
               

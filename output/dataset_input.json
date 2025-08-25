@@ -1,0 +1,953 @@
+[
+  {
+    "paper_id": "f32a10ff",
+    "datasets": [
+      {
+        "name": "DBLP-ACM",
+        "description": "Citation dataset used for entity resolution experiments.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Feature-based blocking and random splits; tokenized with NLTK and lowercased.",
+        "confidence": 0.98
+      },
+      {
+        "name": "DBLP-Scholar",
+        "description": "Citation dataset for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Feature-based blocking and random splits; tokenized with NLTK and lowercased.",
+        "confidence": 0.98
+      },
+      {
+        "name": "Cora",
+        "description": "Citation dataset with 8 attributes in the schema; entity matching task.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Candidate set of 50,000 pairs randomly sampled from jaccard similarity-based blocking.",
+        "confidence": 0.98
+      },
+      {
+        "name": "Fodors-Zagats",
+        "description": "Restaurant dataset for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Feature-based blocking and random splits; tokenized and lowercased.",
+        "confidence": 0.9
+      },
+      {
+        "name": "Amazon-Google",
+        "description": "Product matching dataset.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Feature-based blocking and random splits; tokenized and lowercased.",
+        "confidence": 0.85
+      },
+      {
+        "name": "Zomato-Yelp",
+        "description": "Restaurant dataset constructed by merging Restaurants 1 and 2 from Das et al. (2016); schemas differ slightly.",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Null value for zip code attribute in Restaurants 1 to avoid merging errors.",
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "53cfb6e5",
+    "datasets": [
+      {
+        "name": "WA",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "AB",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "AG",
+        "description": "Amazon-Google: software products from Amazon and Google with three attributes (title, manufacturer, price); 11,460 entity pairs, 1,167 matches.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 1.0
+      },
+      {
+        "name": "DS",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "DA",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "FZ",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "IA",
+        "description": "Part of Magellan benchmark; contains entities from two tables with labeled matching/non-matching entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "Beer",
+        "description": "Part of Magellan benchmark; small dataset with only 91 pairs for testing.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "79bc4b32",
+    "datasets": [
+      {
+        "name": "S-FZ",
+        "description": "Structured, Fodors-Zagats dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-DG",
+        "description": "Structured, DBLP-GoogleScholar dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-DA",
+        "description": "Structured, DBLP-ACM dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-AG",
+        "description": "Structured, Amazon-Google dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-WA",
+        "description": "Structured, Walmart-Amazon dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-BR",
+        "description": "Structured, BeerAdvo-RateBeer dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "S-IA",
+        "description": "Structured, iTunes-Amazon dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "T-AB",
+        "description": "Textual, Abt-Buy dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "D-IA",
+        "description": "Dirty, iTunes-Amazon dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "D-DA",
+        "description": "Dirty, DBLP-ACM dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "D-DG",
+        "description": "Dirty, DBLP-GoogleScholar dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      },
+      {
+        "name": "D-WA",
+        "description": "Dirty, Walmart-Amazon dataset from Magellan Benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Pairs of entity descriptions, split into train, validation, and test sets in 60/20/20 proportion; balanced samples for analysis; attributes concatenated or separated by [SEP] token.",
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "baa3b0fc",
+    "datasets": [
+      {
+        "name": "AG",
+        "description": "Amazon-Google; software domain, structured ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "BR",
+        "description": "BeerAdvo-RateBeer; beer domain, structured ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DA-clean",
+        "description": "clean version of DBLP-ACM; citation domain, structured ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "FZ",
+        "description": "Fodors-Zagats; restaurant domain, structured ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "IA-clean",
+        "description": "clean version of iTunes-Amazon; music domain, structured ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DA-dirty",
+        "description": "dirty version of DBLP-ACM; citation domain, dirty ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "IA-dirty",
+        "description": "dirty version of iTunes-Amazon; music domain, dirty ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "AB",
+        "description": "Abt-Buy; product domain, text-heavy ER benchmark",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "54593c94",
+    "datasets": [
+      {
+        "name": "Amazon-Google (AG)",
+        "description": "Product matching dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DBLP-ACM (DA)",
+        "description": "Bibliographic dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DBLP-Scholar (DS)",
+        "description": "Bibliographic dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Fodors-Zagats (FZ)",
+        "description": "Restaurant matching dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Walmart-Amazon (WA)",
+        "description": "Product matching dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Abt-Buy (AB)",
+        "description": "Product matching dataset from the Magellan repository for entity resolution.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Monitor (M)",
+        "description": "A dataset from the Alaska benchmark for entity matching.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "b24a912c",
+    "datasets": [
+      {
+        "name": "Cora",
+        "description": "A text-based dataset comprising duplicate references to scientific publications; structured CSV version used.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.99
+      },
+      {
+        "name": "Alaska",
+        "description": "An e-commerce product dataset collected from multiple websites.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "AS",
+        "description": "Widely recognized for Dirty ER benchmarks.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "DBLP-Google",
+        "description": "Citation domain dataset containing bibliographic duplicates sourced from DBLP and Google Scholar.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.92
+      },
+      {
+        "name": "Citeseer-DBLP",
+        "description": "Citation domain dataset containing bibliographic duplicates sourced from Citeseer and DBLP.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.92
+      },
+      {
+        "name": "Song",
+        "description": "Music domain dataset including information from various platforms.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "Music",
+        "description": "Music 20K dataset, used for Dirty ER benchmarks; large-scale variants up to 50K records.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "AmazonGoogle",
+        "description": "Dataset from the Software domain, more specialized and complex ER tasks.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.94
+      },
+      {
+        "name": "Walmart-Amazon",
+        "description": "Dataset from the Electronics domain, more specialized and complex ER tasks.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.94
+      }
+    ]
+  },
+  {
+    "paper_id": "d6c37522",
+    "datasets": [
+      {
+        "name": "REL-HETER",
+        "description": "Relational, heterogeneous schema entity matching dataset from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      },
+      {
+        "name": "SEMI-HOMO",
+        "description": "Semi-structured, homogeneous schema entity matching dataset from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      },
+      {
+        "name": "SEMI-HETER",
+        "description": "Semi-structured, heterogeneous schema entity matching dataset from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      },
+      {
+        "name": "SEMI-REL",
+        "description": "Semi-structured and relational entity matching dataset from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      },
+      {
+        "name": "SEMI-TEXT-c",
+        "description": "Semi-structured and textual entity matching dataset (category) from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.92
+      },
+      {
+        "name": "SEMI-TEXT-w",
+        "description": "Semi-structured and textual entity matching dataset (word) from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.92
+      },
+      {
+        "name": "REL-TEXT",
+        "description": "Relational and textual entity matching dataset from Machamp",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      },
+      {
+        "name": "GEO-HETER",
+        "description": "Geospatial heterogeneous entity matching dataset",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.93
+      }
+    ]
+  },
+  {
+    "paper_id": "9f0c2daf",
+    "datasets": [
+      {
+        "name": "Amazon-Google",
+        "description": "Structured dataset with short atomic attributes; used for entity matching.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "AmazonGoogle_2",
+        "description": "Textual version derived from structured Amazon-Google dataset with 2-3 textual blob attributes.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.9
+      },
+      {
+        "name": "Hospital",
+        "description": "Private dataset for entity matching.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.7
+      },
+      {
+        "name": "Songs",
+        "description": "Structured dataset used for entity matching, large scale experiments.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.85
+      },
+      {
+        "name": "BC",
+        "description": "Big Citations: blocks two tables of 2.5M and 1.8M paper citations, with complete gold.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "MB",
+        "description": "Music Brainz: blocks a table of 20M songs (against itself), with complete gold.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "WDC",
+        "description": "Web Data Commons: blocks a table of 26M product descriptions; lacks complete gold.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.9
+      }
+    ]
+  },
+  {
+    "paper_id": "10669016",
+    "datasets": [
+      {
+        "name": "AbtBuy",
+        "description": "Matches products extracted from Abt.com and Buy.com [18]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 1.0
+      },
+      {
+        "name": "DblpAcm",
+        "description": "Matches scientific articles extracted from dblp.org and dl.acm.org [18]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 1.0
+      },
+      {
+        "name": "ScholarDbIp",
+        "description": "Matches scientific articles extracted from scholar.google.com and dblp.org [18]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 1.0
+      },
+      {
+        "name": "AmazonGP",
+        "description": "Entity matching dataset, some duplicate entities share no infrequent attribute value token",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "ImdbTmdb",
+        "description": "Matches movies and TV series extracted from IMDB and TheMovieDB [19]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "ImdbTvdb",
+        "description": "Matches movies and TV series extracted from IMDB and TheTVDB [19]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "TmdbTvdb",
+        "description": "Matches movies and TV series extracted from TheMovieDB and TheTVDB [19]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Movies",
+        "description": "Matches information about films extracted from imdb.com and dbpedia.org [21]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "WMAmazon",
+        "description": "Matches products from Walmart.com and Amazon.com [8]",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      }
+    ]
+  },
+  {
+    "paper_id": "3e96d15e",
+    "datasets": [
+      {
+        "name": "Walmart-Amazon",
+        "description": "Product dataset; structured dataset; from DeepMatcher, ER Benchmark, and Magellan data repository",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Schema from DeepMatcher used; initial labeled seed: 64 positive and 64 negative pairs sampled at random; default active learning with 10 rounds, labeling budget 128 per round",
+        "confidence": 0.97
+      },
+      {
+        "name": "Amazon-Google",
+        "description": "Product dataset; structured dataset; from DeepMatcher, ER Benchmark, and Magellan data repository",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Schema from DeepMatcher used; initial labeled seed: 64 positive and 64 negative pairs sampled at random; default active learning with 10 rounds, labeling budget 128 per round",
+        "confidence": 0.97
+      },
+      {
+        "name": "DBLP-ACM",
+        "description": "Citation dataset; structured dataset; from DeepMatcher, ER Benchmark, and Magellan data repository",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Initial labeled seed: 64 positive and 64 negative pairs sampled at random; default active learning with 10 rounds, labeling budget 128 per round",
+        "confidence": 0.95
+      },
+      {
+        "name": "DBLP-Scholar",
+        "description": "Citation dataset; structured dataset; from DeepMatcher, ER Benchmark, and Magellan data repository",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Initial labeled seed: 64 positive and 64 negative pairs sampled at random; default active learning with 10 rounds, labeling budget 128 per round",
+        "confidence": 0.95
+      },
+      {
+        "name": "Abt-Buy",
+        "description": "Product dataset; textual dataset; from DeepMatcher, ER Benchmark, and Magellan data repository",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "Initial labeled seed: 64 positive and 64 negative pairs sampled at random; CAND=20x|S| and k=20 for this dataset due to small |S|; default active learning with 10 rounds, labeling budget 128 per round",
+        "confidence": 0.97
+      },
+      {
+        "name": "MultiLingual",
+        "description": "Multilingual entity matching dataset (English-German subset) from [26], originally proposed for machine translation of structured data; each element is a string in English or German (with HTML/XML tags)",
+        "task_type": [
+          "entity matching"
+        ],
+        "processing": "English-Deutsch subset; initial labeled seed: 64 positive and 64 negative pairs sampled at random; test set constructed similarly; uses multilingual BERT as base",
+        "confidence": 0.93
+      }
+    ]
+  },
+  {
+    "paper_id": "6ab21388",
+    "datasets": [
+      {
+        "name": "Restaurant",
+        "description": "Contains descriptions of restaurants and their addresses from two different KBs; popular benchmark created by the Ontology Alignment Evaluation Initiative.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Rexa-DBLP",
+        "description": "Contains descriptions of publications and their authors; matches between both publications and authors.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "BBCmusic-DBpedia",
+        "description": "Contains descriptions of musicians, bands and their birthplaces, from BBCmusic and the BTC2012 version of DBpedia; highly heterogeneous schema and values.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.97
+      },
+      {
+        "name": "YAGO-IMDb",
+        "description": "Contains descriptions of movie-related entities (e.g., actors, directors, movies) from YAGO and IMDb; largest and most balanced KB pair.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.97
+      }
+    ]
+  },
+  {
+    "paper_id": "ec4709c1",
+    "datasets": [
+      {
+        "name": "Amazon-Google $_{1}$",
+        "description": "Structured EM dataset; 1,363 and 3,226 tuples in Table A/B, 1,300 matches, 4 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Walmart-Amazon $_{1}$",
+        "description": "Structured EM dataset; 2,554 and 22,074 tuples in Table A/B, 1,154 matches, 6 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DBLP-Google $_{1}$",
+        "description": "Structured EM dataset; 2,616 and 64,263 tuples in Table A/B, 5,347 matches, 4 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DBLP-ACM $_{1}$",
+        "description": "Structured EM dataset; 2,616 and 2,294 tuples in Table A/B, 2,224 matches, 4 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Hospital $_{1}$",
+        "description": "Structured EM dataset; 1,786 and 1,786 tuples in Table A/B, 3,949 matches, 7 attributes. Private dataset.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Song-Song $_{1}$",
+        "description": "Structured EM dataset; 1,000,000 and 1,000,000 tuples in Table A/B, 1,292,023 matches, 5 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Amazon-Google $_{2}$",
+        "description": "Textual EM dataset (derived from Amazon-Google $_{1}$); 2 textual blob attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.96
+      },
+      {
+        "name": "Walmart-Amazon $_{2}$",
+        "description": "Textual EM dataset (derived from Walmart-Amazon $_{1}$); 2 textual blob attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.96
+      },
+      {
+        "name": "Abt-Buy",
+        "description": "Textual EM dataset; 1,081 and 1,092 tuples in Table A/B, 1,097 matches, 3 textual attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.97
+      },
+      {
+        "name": "DBLP-ACM $_{2}$",
+        "description": "Dirty EM dataset (synthetically corrupted from DBLP-ACM $_{1}$); 4 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.94
+      },
+      {
+        "name": "Hospital $_{2}$",
+        "description": "Dirty EM dataset (synthetically corrupted from Hospital $_{1}$); 7 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.94
+      },
+      {
+        "name": "Song-Song $_{2}$",
+        "description": "Dirty EM dataset (synthetically corrupted from Song-Song $_{1}$); 5 attributes",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.94
+      },
+      {
+        "name": "Restaurants",
+        "description": "Real-world dirty EM dataset; contains noise such as misspellings, missing values, incorrect entries",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.91
+      },
+      {
+        "name": "Books",
+        "description": "Real-world dirty EM dataset; contains noise such as misspellings, missing values, incorrect entries",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.91
+      },
+      {
+        "name": "Cora",
+        "description": "Real-world dirty EM dataset; contains noise such as misspellings, missing values, incorrect entries",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.91
+      }
+    ]
+  },
+  {
+    "paper_id": "256e52ab",
+    "datasets": [
+      {
+        "name": "DBP15K",
+        "description": "Well-recognized benchmark for entity alignment, containing three smaller subsets for cross-lingual EA, each with 15,000 aligned entity pairs.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "DWY100K",
+        "description": "Comprises two subsets of a medium scale for monolingual EA, each including 100,000 aligned entity pairs and around one million triples.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.97
+      },
+      {
+        "name": "DBP1M",
+        "description": "Large EA benchmark with two cross-lingual subsets, each with over one million entities and nearly ten million triples.",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      },
+      {
+        "name": "SPIDER",
+        "description": "Large-scale, complex, and cross-domain text-to-SQL dataset; 10,181 questions, 5,693 unique SQL queries, over 200 databases across 138 domains.",
+        "task_type": [
+          "qa",
+          "generation"
+        ],
+        "confidence": 0.95
+      }
+    ]
+  },
+  {
+    "paper_id": "07e4e216",
+    "datasets": [
+      {
+        "name": "Police ROSTER",
+        "description": "31,516 rows of police officer data; uses the 'Title' column with 154 distinct values (99 standard, 55 modified forms)",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Large Disease",
+        "description": "405,543 rows of medical data relating to disease; each row stores a medical term with standard and modified forms; many acronyms and abbreviations but not misspellings; evaluated on a 30,000 row sample",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.98
+      },
+      {
+        "name": "Small Disease",
+        "description": "Subset of Large Disease; includes 634 disease names; pairs of standard and modified disease names",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.96
+      },
+      {
+        "name": "Location",
+        "description": "Dataset including location names (e.g., street and city names); ground truth contains 116 pairs of standard and modified names referring to the same location",
+        "task_type": [
+          "entity matching"
+        ],
+        "confidence": 0.95
+      }
+    ]
+  }
+]

@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Resolution Taxonomy Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .stat-value-header {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-group {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-btn {
+            padding: 12px 24px;
+            border: none;
+            background: white;
+            color: #495057;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .toggle-btn:hover {
+            background: #f1f3f5;
+        }
+
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .toggle-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 10px;
+            padding: 8px 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+            width: 250px;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .tree-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+            border-right: 1px solid #dee2e6;
+            max-height: 600px;
+        }
+
+        .details-panel {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            max-height: 600px;
+        }
+
+        .tree-node {
+            margin: 5px 0;
+            user-select: none;
+        }
+
+        .tree-node-content {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tree-node-content:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .tree-node-content.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .tree-toggle {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .tree-toggle.expanded {
+            transform: rotate(90deg);
+        }
+
+        .tree-toggle.no-children {
+            visibility: hidden;
+        }
+
+        .tree-label {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .paper-count {
+            background: rgba(108, 117, 125, 0.2);
+            color: #495057;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .tree-node-content.selected .paper-count {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .tree-children {
+            margin-left: 28px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .tree-children.expanded {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .details-header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .details-header h2 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+
+        .details-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .details-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .children-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .child-card {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .child-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .child-card h3 {
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .child-card p {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .child-papers {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .child-papers-label {
+            color: #6c757d;
+            font-size: 13px;
+        }
+
+        .child-papers-count {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .papers-list {
+            margin-top: 20px;
+        }
+
+        .paper-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .paper-title {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+
+        .paper-meta {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .connect-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .connect-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .connect-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .neo4j-config {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .config-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .config-group input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .config-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .backend-config {
+            margin-bottom: 10px;
+        }
+
+        .backend-config label {
+            display: block;
+            margin-bottom: 5px;
+            color: #495057;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .connection-status {
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .connection-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .connection-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .connection-status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌳 Entity Resolution Taxonomy Explorer</h1>
+            <p>Interactive visualization of methodology and task taxonomies with paper distribution</p>
+            <div class="stats-bar" id="statsBar" style="display: none;">
+                <div class="stat-item-header">
+                    <span>📄</span>
+                    <span class="stat-value-header" id="totalPapers">0</span>
+                    <span>Papers</span>
+                </div>
+                <div class="stat-item-header">
+                    <span>🔧</span>
+                    <span class="stat-value-header" id="methodNodes">0</span>
+                    <span>Methods</span>
+                </div>
+                <div class="stat-item-header">
+                    <span>📋</span>
+                    <span class="stat-value-header" id="taskNodes">0</span>
+                    <span>Tasks</span>
+                </div>
+                <div class="stat-item-header">
+                    <span>💾</span>
+                    <span class="stat-value-header" id="datasets">0</span>
+                    <span>Datasets</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="neo4j-config">
+            <div class="backend-config">
+                <label>Backend API URL:</label>
+                <input type="text" id="backendUrl" placeholder="Backend URL (e.g., http://localhost:5001)" value="http://localhost:5001">
+            </div>
+            <div class="config-group">
+                <input type="text" id="neo4jUrl" placeholder="Neo4j URL (e.g., bolt://localhost:7687)" value="bolt://localhost:7687">
+                <input type="text" id="neo4jUser" placeholder="Username" value="neo4j">
+                <input type="password" id="neo4jPassword" placeholder="Password">
+                <button class="connect-btn" id="connectBtn" onclick="connectToNeo4j()">Connect & Load Data</button>
+            </div>
+            <div id="connectionStatus"></div>
+        </div>
+
+        <div class="controls">
+            <div class="toggle-group">
+                <button class="toggle-btn active" id="methodBtn" onclick="switchTaxonomy('method')" disabled>
+                    📊 Method Taxonomy
+                </button>
+                <button class="toggle-btn" id="taskBtn" onclick="switchTaxonomy('task')" disabled>
+                    📝 Task Taxonomy
+                </button>
+            </div>
+            
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Search nodes..." onkeyup="searchNodes()" disabled>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="tree-panel" id="treePanel">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Connect to Neo4j to load taxonomy data...</p>
+                </div>
+            </div>
+            
+            <div class="details-panel" id="detailsPanel">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📁</div>
+                    <h3>No Node Selected</h3>
+                    <p>Select a node from the tree to view details and child distribution</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentTaxonomy = 'method';
+        let taxonomyData = {
+            method: null,
+            task: null
+        };
+        let selectedNode = null;
+        let backendUrl = 'http://localhost:5001';
+
+        // API Helper functions
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${backendUrl}/api${endpoint}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'API request failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error(`API Error (${endpoint}):`, error);
+                throw error;
+            }
+        }
+
+        // Connect to Neo4j through backend
+        async function connectToNeo4j() {
+            const url = document.getElementById('neo4jUrl').value;
+            const user = document.getElementById('neo4jUser').value;
+            const password = document.getElementById('neo4jPassword').value;
+            backendUrl = document.getElementById('backendUrl').value;
+            const connectBtn = document.getElementById('connectBtn');
+            
+            if (!url || !user || !password) {
+                showStatus('Please fill in all connection details', 'error');
+                return;
+            }
+
+            connectBtn.disabled = true;
+            connectBtn.textContent = 'Connecting...';
+            showStatus('Connecting to Neo4j...', 'info');
+
+            try {
+                // Connect to Neo4j
+                await apiCall('/connect', {
+                    method: 'POST',
+                    body: JSON.stringify({ uri: url, user, password })
+                });
+
+                showStatus('Connected! Loading data...', 'success');
+                
+                // Load statistics
+                await loadStatistics();
+                
+                // Load both taxonomies
+                await Promise.all([
+                    loadMethodTaxonomy(),
+                    loadTaskTaxonomy()
+                ]);
+                
+                // Enable controls
+                document.getElementById('methodBtn').disabled = false;
+                document.getElementById('taskBtn').disabled = false;
+                document.getElementById('searchInput').disabled = false;
+                
+                connectBtn.textContent = 'Reconnect';
+                showStatus('Connected and data loaded successfully!', 'success');
+                
+                // Render the initial tree
+                renderTree();
+                
+            } catch (error) {
+                showStatus(`Connection failed: ${error.message}`, 'error');
+                connectBtn.textContent = 'Connect & Load Data';
+            } finally {
+                connectBtn.disabled = false;
+            }
+        }
+
+        async function loadStatistics() {
+            try {
+                const result = await apiCall('/statistics');
+                
+                if (result.success && result.data) {
+                    const stats = result.data;
+                    document.getElementById('totalPapers').textContent = stats.total_papers || 0;
+                    document.getElementById('methodNodes').textContent = stats.method_nodes || 0;
+                    document.getElementById('taskNodes').textContent = stats.task_nodes || 0;
+                    document.getElementById('datasets').textContent = stats.datasets || 0;
+                    document.getElementById('statsBar').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        async function loadMethodTaxonomy() {
+            try {
+                const result = await apiCall('/taxonomy/method');
+                
+                if (result.success && result.data) {
+                    taxonomyData.method = result.data;
+                } else {
+                    throw new Error('No method taxonomy data received');
+                }
+            } catch (error) {
+                console.error('Failed to load method taxonomy:', error);
+                showStatus('Error loading method taxonomy', 'error');
+            }
+        }
+
+        async function loadTaskTaxonomy() {
+            try {
+                const result = await apiCall('/taxonomy/task');
+                
+                if (result.success && result.data) {
+                    taxonomyData.task = result.data;
+                } else {
+                    throw new Error('No task taxonomy data received');
+                }
+            } catch (error) {
+                console.error('Failed to load task taxonomy:', error);
+                showStatus('Error loading task taxonomy', 'error');
+            }
+        }
+
+        async function loadNodePapers(nodeId) {
+            try {
+                const result = await apiCall(`/node/${nodeId}/papers?type=${currentTaxonomy}`);
+                
+                if (result.success && result.data) {
+                    return result.data;
+                }
+                return [];
+            } catch (error) {
+                console.error('Failed to load papers:', error);
+                return [];
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('connectionStatus');
+            statusDiv.className = `connection-status ${type}`;
+            statusDiv.textContent = message;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5001);
+            } else {
+                statusDiv.style.display = 'block';
+            }
+        }
+
+        function switchTaxonomy(type) {
+            currentTaxonomy = type;
+            
+            // Update toggle buttons
+            document.getElementById('methodBtn').classList.toggle('active', type === 'method');
+            document.getElementById('taskBtn').classList.toggle('active', type === 'task');
+            
+            // Clear selection
+            selectedNode = null;
+            
+            // Render new tree
+            renderTree();
+            
+            // Update details panel
+            document.getElementById('detailsPanel').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📁</div>
+                    <h3>No Node Selected</h3>
+                    <p>Select a node from the tree to view details and child distribution</p>
+                </div>
+            `;
+        }
+
+        function renderTree() {
+            const treePanel = document.getElementById('treePanel');
+            const data = taxonomyData[currentTaxonomy];
+            
+            if (!data) {
+                treePanel.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading taxonomy data...</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            treePanel.innerHTML = '';
+            renderTreeNode(data, treePanel, 0);
+        }
+
+        function renderTreeNode(node, container, level) {
+            if (!node) return;
+            
+            const nodeElement = document.createElement('div');
+            nodeElement.className = 'tree-node';
+            nodeElement.dataset.nodeId = node.node_id;
+            nodeElement.dataset.level = level;
+            
+            const contentElement = document.createElement('div');
+            contentElement.className = 'tree-node-content';
+            if (selectedNode === node.node_id) {
+                contentElement.classList.add('selected');
+            }
+            
+            // Toggle button
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'tree-toggle';
+            if (!node.children || node.children.length === 0) {
+                toggleBtn.classList.add('no-children');
+            }
+            toggleBtn.innerHTML = '▶';
+            toggleBtn.onclick = (e) => {
+                e.stopPropagation();
+                toggleNode(node.node_id);
+            };
+            
+            // Node label
+            const label = document.createElement('span');
+            label.className = 'tree-label';
+            label.textContent = node.name || 'Unnamed Node';
+            
+            // Paper count
+            const count = document.createElement('span');
+            count.className = 'paper-count';
+            const paperCount = node.total_papers || node.paper_count || 0;
+            count.textContent = paperCount;
+            
+            contentElement.appendChild(toggleBtn);
+            contentElement.appendChild(label);
+            contentElement.appendChild(count);
+            
+            contentElement.onclick = () => selectNode(node);
+            
+            nodeElement.appendChild(contentElement);
+            
+            // Children container
+            if (node.children && node.children.length > 0) {
+                const childrenContainer = document.createElement('div');
+                childrenContainer.className = 'tree-children';
+                childrenContainer.id = `children-${node.node_id}`;
+                
+                // Sort children by paper count
+                const sortedChildren = [...node.children].sort((a, b) => 
+                    (b.total_papers || b.paper_count || 0) - (a.total_papers || a.paper_count || 0)
+                );
+                
+                sortedChildren.forEach(child => {
+                    renderTreeNode(child, childrenContainer, level + 1);
+                });
+                
+                nodeElement.appendChild(childrenContainer);
+            }
+            
+            container.appendChild(nodeElement);
+        }
+
+        function toggleNode(nodeId) {
+            const childrenContainer = document.getElementById(`children-${nodeId}`);
+            const toggleBtn = document.querySelector(`[data-node-id="${nodeId}"] .tree-toggle`);
+            
+            if (childrenContainer) {
+                childrenContainer.classList.toggle('expanded');
+                toggleBtn.classList.toggle('expanded');
+            }
+        }
+
+        async function selectNode(node) {
+            if (!node) return;
+            
+            // Update selected state
+            document.querySelectorAll('.tree-node-content').forEach(el => {
+                el.classList.remove('selected');
+            });
+            const nodeElement = document.querySelector(`[data-node-id="${node.node_id}"] .tree-node-content`);
+            if (nodeElement) {
+                nodeElement.classList.add('selected');
+            }
+            
+            selectedNode = node.node_id;
+            
+            // Update details panel
+            await updateDetailsPanel(node);
+        }
+
+        async function updateDetailsPanel(node) {
+            const detailsPanel = document.getElementById('detailsPanel');
+            
+            // Load papers for this node
+            const papers = await loadNodePapers(node.node_id);
+            
+            let detailsHTML = `
+                <div class="details-header">
+                    <h2>${node.name || 'Unnamed Node'}</h2>
+                    <p class="details-description">${node.description || 'No description available'}</p>
+                    <div class="details-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Direct Papers:</span>
+                            <span class="stat-value">${node.paper_count || 0}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Total Papers:</span>
+                            <span class="stat-value">${node.total_papers || node.paper_count || 0}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Child Nodes:</span>
+                            <span class="stat-value">${node.children ? node.children.length : 0}</span>
+                        </div>
+            `;
+            
+            if (currentTaxonomy === 'task' && (node.input_class || node.output_class)) {
+                if (node.input_class) {
+                    detailsHTML += `
+                        <div class="stat-item">
+                            <span class="stat-label">Input:</span>
+                            <span style="color: #6c757d; font-weight: 500;">${node.input_class}</span>
+                        </div>
+                    `;
+                }
+                if (node.output_class) {
+                    detailsHTML += `
+                        <div class="stat-item">
+                            <span class="stat-label">Output:</span>
+                            <span style="color: #6c757d; font-weight: 500;">${node.output_class}</span>
+                        </div>
+                    `;
+                }
+            }
+            
+            detailsHTML += `
+                    </div>
+                </div>
+            `;
+            
+            // Show child nodes if any
+            if (node.children && node.children.length > 0) {
+                detailsHTML += `
+                    <h3 style="margin: 20px 0 10px; color: #495057;">Child Node Distribution</h3>
+                    <div class="children-grid">
+                `;
+                
+                // Sort children by paper count
+                const sortedChildren = [...node.children].sort((a, b) => 
+                    (b.total_papers || b.paper_count || 0) - (a.total_papers || a.paper_count || 0)
+                );
+                
+                sortedChildren.forEach(child => {
+                    const childPaperCount = child.total_papers || child.paper_count || 0;
+                    detailsHTML += `
+                        <div class="child-card" onclick="selectNodeById('${child.node_id}')">
+                            <h3>${child.name || 'Unnamed Node'}</h3>
+                            <p>${child.description || 'No description available'}</p>
+                            <div class="child-papers">
+                                <span class="child-papers-label">Papers</span>
+                                <span class="child-papers-count">${childPaperCount}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                detailsHTML += '</div>';
+            }
+            
+            // Show papers if any
+            if (papers && papers.length > 0) {
+                detailsHTML += `
+                    <h3 style="margin: 30px 0 15px; color: #495057;">📄 Sample Papers (Top ${Math.min(papers.length, 5)})</h3>
+                    <div class="papers-list">
+                `;
+                
+                papers.slice(0, 5).forEach(paper => {
+                    detailsHTML += `
+                        <div class="paper-item">
+                            <div class="paper-title">${paper.title || 'Untitled'}</div>
+                            <div class="paper-meta">
+                                ${paper.authors ? `Authors: ${paper.authors} | ` : ''}
+                                ${paper.year ? `Year: ${paper.year} | ` : ''}
+                                ${paper.venue ? `Venue: ${paper.venue} | ` : ''}
+                                ${paper.citations !== null ? `Citations: ${paper.citations}` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                detailsHTML += '</div>';
+            }
+            
+            if (!node.children || node.children.length === 0) {
+                if (!papers || papers.length === 0) {
+                    detailsHTML += `
+                        <div class="empty-state" style="margin-top: 40px;">
+                            <div class="empty-state-icon">🍃</div>
+                            <h3>Leaf Node</h3>
+                            <p>This node has no children or associated papers</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            detailsPanel.innerHTML = detailsHTML;
+        }
+
+        function selectNodeById(nodeId) {
+            const node = findNodeById(taxonomyData[currentTaxonomy], nodeId);
+            if (node) {
+                // Expand parent nodes
+                expandToNode(nodeId);
+                selectNode(node);
+                
+                // Scroll to node
+                const nodeElement = document.querySelector(`[data-node-id="${nodeId}"]`);
+                if (nodeElement) {
+                    nodeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        function findNodeById(node, nodeId) {
+            if (!node) return null;
+            if (node.node_id === nodeId) {
+                return node;
+            }
+            if (node.children) {
+                for (let child of node.children) {
+                    const found = findNodeById(child, nodeId);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+
+        function expandToNode(nodeId) {
+            const path = findPathToNode(taxonomyData[currentTaxonomy], nodeId, []);
+            if (path) {
+                path.forEach(id => {
+                    const childrenContainer = document.getElementById(`children-${id}`);
+                    const toggleBtn = document.querySelector(`[data-node-id="${id}"] .tree-toggle`);
+                    if (childrenContainer && !childrenContainer.classList.contains('expanded')) {
+                        childrenContainer.classList.add('expanded');
+                        if (toggleBtn) toggleBtn.classList.add('expanded');
+                    }
+                });
+            }
+        }
+
+        function findPathToNode(node, targetId, currentPath) {
+            if (!node) return null;
+            if (node.node_id === targetId) {
+                return currentPath;
+            }
+            if (node.children) {
+                for (let child of node.children) {
+                    const path = findPathToNode(child, targetId, [...currentPath, node.node_id]);
+                    if (path) return path;
+                }
+            }
+            return null;
+        }
+
+        async function searchNodes() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const allNodes = document.querySelectorAll('.tree-node');
+            
+            if (searchTerm.length > 2) {
+                // Also search via API for better results
+                try {
+                    const result = await apiCall(`/search?q=${encodeURIComponent(searchTerm)}&type=${currentTaxonomy}`);
+                    console.log('Search results:', result.data);
+                } catch (error) {
+                    console.error('Search failed:', error);
+                }
+            }
+            
+            // Local highlighting
+            allNodes.forEach(node => {
+                const label = node.querySelector('.tree-label');
+                if (!label) return;
+                
+                const labelText = label.textContent.toLowerCase();
+                const nodeContent = node.querySelector('.tree-node-content');
+                
+                if (searchTerm === '') {
+                    nodeContent.classList.remove('highlight');
+                } else if (labelText.includes(searchTerm)) {
+                    nodeContent.classList.add('highlight');
+                    expandToNode(node.dataset.nodeId);
+                } else {
+                    nodeContent.classList.remove('highlight');
+                }
+            });
+        }
+
+        // Check backend health on load
+        window.addEventListener('load', async () => {
+            try {
+                const result = await apiCall('/health');
+                console.log('Backend health:', result);
+            } catch (error) {
+                showStatus('Backend not reachable. Please ensure the Flask server is running.', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

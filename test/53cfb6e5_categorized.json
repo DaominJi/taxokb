@@ -1,69 +1,44 @@
 {
   "Abstract": [],
   "Introduction": [
-    "I. INTRODUCTION"
+    "# Cost-Effective In-Context Learning for Entity Resolution_ A Design Space Exploration",
+    "## I. INTRODUCTION"
   ],
   "Problem Definition": [
-    "II. Batch Prompting for Entity Resolution_ A Design Space Exploration",
-    "A. Entity Resolution",
-    "B. In-Context Learning"
+    "## II. Batch Prompting for Entity Resolution_ A Design Space Exploration",
+    "## A. Entity Resolution",
+    "## B. In-Context Learning"
   ],
   "Methodology": [
-    "A. Batching Strategies",
-    "B. Feature Extractor",
-    "IV. DEMONSTRATION SELECTION",
-    "A. Fixed Demonstration Selection",
-    "B. Topk-batch Demonstration Selection",
-    "IV-C Topk-question Demonstration Selection",
-    "IV-D Covering-based Demonstration Selection",
-    "V. Covering-based Demonstration Selection",
-    "A. Demonstration Set Generation",
-    "B. Batch Covering",
-    "### V-C Exploring Design Space of Batch Prompting for ER",
-    "### V-E Comparing with Manual Prompting for ER",
-    "### V-D Comparing with PLM-based Approaches to ER",
-    "## II. Batch Prompting for Entity Resolution_ A Design Space Exploration",
-    "## A. Experimental Setup",
-    "### IV-C Topk-question Demonstration Selection",
-    "## A. Entity Resolution",
-    "### IV-D Covering-based Demonstration Selection",
-    "## VIII. CONCLUSION",
-    "### V-G Evaluation on Different Feature Extractors",
-    "# Cost-Effective In-Context Learning for Entity Resolution_ A Design Space Exploration",
-    "## I. INTRODUCTION",
-    "## B. In-Context Learning",
-    "### A. Fixed Demonstration Selection",
     "### A. Batching Strategies",
-    "## VII. Related Work",
-    "## VI. EXPERIMENTS",
     "### B. Feature Extractor",
-    "### B. Topk-batch Demonstration Selection",
-    "## B. Comparing Batch Prompting with Standard Prompting",
     "## IV. DEMONSTRATION SELECTION",
-    "## REFERENCES",
+    "### A. Fixed Demonstration Selection",
+    "### B. Topk-batch Demonstration Selection",
+    "### IV-C Topk-question Demonstration Selection",
+    "### IV-D Covering-based Demonstration Selection",
+    "## V. Covering-based Demonstration Selection",
     "### A. Demonstration Set Generation",
-    "### V-F Evaluation on Different Underlying LLMs",
-    "## B. Batch Covering",
-    "## V. Covering-based Demonstration Selection"
+    "## B. Batch Covering"
   ],
   "Related Work": [
-    "VII. Related Work"
+    "## VII. Related Work"
   ],
   "Experiment": [
-    "VI. EXPERIMENTS",
-    "A. Experimental Setup",
-    "B. Comparing Batch Prompting with Standard Prompting",
-    "V-C Exploring Design Space of Batch Prompting for ER",
-    "V-D Comparing with PLM-based Approaches to ER",
-    "V-E Comparing with Manual Prompting for ER",
-    "V-F Evaluation on Different Underlying LLMs",
-    "V-G Evaluation on Different Feature Extractors"
+    "## VI. EXPERIMENTS",
+    "## A. Experimental Setup",
+    "## B. Comparing Batch Prompting with Standard Prompting",
+    "### V-C Exploring Design Space of Batch Prompting for ER",
+    "### V-D Comparing with PLM-based Approaches to ER",
+    "### V-E Comparing with Manual Prompting for ER",
+    "### V-F Evaluation on Different Underlying LLMs",
+    "### V-G Evaluation on Different Feature Extractors"
   ],
   "Conclusion": [
-    "VIII. CONCLUSION"
+    "## VIII. CONCLUSION"
   ],
   "References": [
-    "REFERENCES"
+    "## REFERENCES"
   ],
   "Acknowledgement": [],
   "Appendix": []
