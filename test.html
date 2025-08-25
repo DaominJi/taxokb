@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entity Resolution Taxonomy Viewer</title>
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -135,7 +137,7 @@
         }
 
         .tree-panel {
-            flex: 1;
+            width: 30%;
             padding: 20px;
             overflow-y: auto;
             background: white;
@@ -144,11 +146,171 @@
         }
 
         .details-panel {
-            flex: 1;
+            width: 35%;
             padding: 20px;
             overflow-y: auto;
             background: #f8f9fa;
             max-height: 600px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .analysis-panel {
+            width: 35%;
+            padding: 20px;
+            overflow-y: auto;
+            background: white;
+            max-height: 600px;
+        }
+
+        .analysis-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .analysis-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .analysis-tab:hover {
+            color: #495057;
+        }
+
+        .analysis-tab.active {
+            color: #667eea;
+        }
+
+        .analysis-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        #trendChart {
+            width: 100%;
+            height: 300px;
+        }
+
+        .experiment-section {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .experiment-section h4 {
+            color: #495057;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .experiment-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 3px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .experiment-item.recommended {
+            border-left-color: #667eea;
+            background: linear-gradient(to right, rgba(102, 126, 234, 0.05), transparent);
+        }
+
+        .experiment-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .experiment-item-name {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .experiment-item-desc {
+            font-size: 13px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .usage-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .recommended-badge {
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
         }
 
         .tree-node {
@@ -573,6 +735,33 @@
                     <p>Select a node from the tree to view details and child distribution</p>
                 </div>
             </div>
+
+            <div class="analysis-panel" id="analysisPanel">
+                <div class="analysis-tabs">
+                    <button class="analysis-tab active" onclick="switchAnalysisTab('trends')">
+                        📈 Research Trends
+                    </button>
+                    <button class="analysis-tab" onclick="switchAnalysisTab('experiments')">
+                        🧪 Experiment Settings
+                    </button>
+                </div>
+                
+                <div id="trendsContent" class="analysis-content">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <h3>No Data Available</h3>
+                        <p>Select a node to view research trends</p>
+                    </div>
+                </div>
+                
+                <div id="experimentsContent" class="analysis-content" style="display: none;">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔬</div>
+                        <h3>No Data Available</h3>
+                        <p>Select a node to view experiment recommendations</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -585,6 +774,8 @@
         };
         let selectedNode = null;
         let backendUrl = 'http://localhost:5001';
+        let currentAnalysisTab = 'trends';
+        let trendChart = null;
 
         // API Helper functions
         async function apiCall(endpoint, options = {}) {
@@ -733,7 +924,7 @@
             if (type === 'success') {
                 setTimeout(() => {
                     statusDiv.style.display = 'none';
-                }, 5001);
+                }, 5000);
             } else {
                 statusDiv.style.display = 'block';
             }
@@ -870,8 +1061,337 @@
             
             selectedNode = node.node_id;
             
-            // Update details panel
-            await updateDetailsPanel(node);
+            // Update all panels
+            await Promise.all([
+                updateDetailsPanel(node),
+                updateAnalysisPanel(node)
+            ]);
+        }
+
+        async function updateAnalysisPanel(node) {
+            if (currentAnalysisTab === 'trends') {
+                await loadTrendsData(node);
+            } else {
+                await loadExperimentSettings(node);
+            }
+        }
+
+        async function loadTrendsData(node) {
+            const trendsContent = document.getElementById('trendsContent');
+            
+            // Show loading
+            trendsContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading research trends...</p>
+                </div>
+            `;
+            
+            try {
+                const result = await apiCall(`/node/${node.node_id}/trends?type=${currentTaxonomy}`);
+                
+                if (result.success && result.data) {
+                    displayTrendsChart(result.data, node);
+                } else {
+                    trendsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <h3>No Trend Data</h3>
+                            <p>No research trend data available for this node</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Failed to load trends:', error);
+                trendsContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Error Loading Trends</h3>
+                        <p>Failed to load research trend data</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayTrendsChart(data, node) {
+            const trendsContent = document.getElementById('trendsContent');
+            
+            if (!data.series || data.series.length === 0) {
+                trendsContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <h3>No Data</h3>
+                        <p>No trend data available</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            trendsContent.innerHTML = `
+                <div class="chart-container">
+                    <div class="chart-title">📈 Research Trends: ${node.name}</div>
+                    <canvas id="trendChart"></canvas>
+                    <div class="legend" id="chartLegend"></div>
+                </div>
+            `;
+            
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            
+            // Destroy existing chart if any
+            if (trendChart) {
+                trendChart.destroy();
+            }
+            
+            // Prepare data for stacked area chart
+            const colors = [
+                'rgba(102, 126, 234, 0.8)',
+                'rgba(118, 75, 162, 0.8)',
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(54, 162, 235, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(153, 102, 255, 0.8)',
+                'rgba(255, 159, 64, 0.8)'
+            ];
+            
+            const datasets = data.series.map((series, index) => ({
+                label: series.name,
+                data: series.values,
+                backgroundColor: colors[index % colors.length],
+                borderColor: colors[index % colors.length].replace('0.8', '1'),
+                borderWidth: 2,
+                fill: 'stack',
+                tension: 0.3
+            }));
+            
+            // Calculate percentages for normalized stacked area
+            const totals = data.years.map((_, i) => 
+                data.series.reduce((sum, series) => sum + (series.values[i] || 0), 0)
+            );
+            
+            const normalizedDatasets = datasets.map(dataset => ({
+                ...dataset,
+                data: dataset.data.map((value, i) => 
+                    totals[i] > 0 ? (value / totals[i]) * 100 : 0
+                )
+            }));
+            
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.years,
+                    datasets: normalizedDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: false
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y.toFixed(1);
+                                    const originalValue = data.series[context.datasetIndex].values[context.dataIndex];
+                                    return `${label}: ${value}% (${originalValue} papers)`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+            
+            // Create custom legend
+            const legendContainer = document.getElementById('chartLegend');
+            legendContainer.innerHTML = data.series.map((series, index) => `
+                <div class="legend-item">
+                    <div class="legend-color" style="background: ${colors[index % colors.length]}"></div>
+                    <span>${series.name}</span>
+                </div>
+            `).join('');
+        }
+
+        async function loadExperimentSettings(node) {
+            const experimentsContent = document.getElementById('experimentsContent');
+            
+            // Show loading
+            experimentsContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading experiment recommendations...</p>
+                </div>
+            `;
+            
+            try {
+                const result = await apiCall(`/node/${node.node_id}/experiment-settings?type=${currentTaxonomy}`);
+                
+                if (result.success && result.data) {
+                    displayExperimentSettings(result.data, node);
+                } else {
+                    experimentsContent.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔬</div>
+                            <h3>No Experiment Data</h3>
+                            <p>No experiment settings available for this node</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Failed to load experiment settings:', error);
+                experimentsContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Error Loading Settings</h3>
+                        <p>Failed to load experiment recommendations</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayExperimentSettings(settings, node) {
+            const experimentsContent = document.getElementById('experimentsContent');
+            
+            let html = `<h3 style="margin: 0 0 20px; color: #495057;">🧪 Recommended Settings: ${node.name}</h3>`;
+            
+            // Datasets section
+            if (settings.datasets && settings.datasets.length > 0) {
+                html += `
+                    <div class="experiment-section">
+                        <h4>💾 Datasets</h4>
+                `;
+                
+                settings.datasets.forEach(dataset => {
+                    html += `
+                        <div class="experiment-item ${dataset.recommended ? 'recommended' : ''}">
+                            <div class="experiment-item-name">
+                                <span>${dataset.name}</span>
+                                <div>
+                                    <span class="usage-badge">${dataset.usage_count} papers</span>
+                                    ${dataset.recommended ? '<span class="recommended-badge">✓ Recommended</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="experiment-item-desc">${dataset.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            }
+            
+            // Metrics section
+            if (settings.metrics && settings.metrics.length > 0) {
+                html += `
+                    <div class="experiment-section">
+                        <h4>📊 Evaluation Metrics</h4>
+                `;
+                
+                settings.metrics.forEach(metric => {
+                    html += `
+                        <div class="experiment-item ${metric.recommended ? 'recommended' : ''}">
+                            <div class="experiment-item-name">
+                                <span>${metric.name}</span>
+                                <div>
+                                    <span class="usage-badge">${metric.usage_count} papers</span>
+                                    ${metric.recommended ? '<span class="recommended-badge">✓ Recommended</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="experiment-item-desc">${metric.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            }
+            
+            // Baselines section
+            if (settings.baselines && settings.baselines.length > 0) {
+                html += `
+                    <div class="experiment-section">
+                        <h4>🎯 Baseline Methods</h4>
+                `;
+                
+                settings.baselines.forEach(baseline => {
+                    html += `
+                        <div class="experiment-item ${baseline.recommended ? 'recommended' : ''}">
+                            <div class="experiment-item-name">
+                                <span>${baseline.name}</span>
+                                <div>
+                                    <span class="usage-badge">${baseline.usage_count} papers</span>
+                                    ${baseline.recommended ? '<span class="recommended-badge">✓ Recommended</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="experiment-item-desc">${baseline.description}</div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+            }
+            
+            if (!settings.datasets?.length && !settings.metrics?.length && !settings.baselines?.length) {
+                html = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔬</div>
+                        <h3>No Recommendations</h3>
+                        <p>No experiment settings available for this node</p>
+                    </div>
+                `;
+            }
+            
+            experimentsContent.innerHTML = html;
+        }
+
+        function switchAnalysisTab(tab) {
+            currentAnalysisTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.analysis-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide content
+            if (tab === 'trends') {
+                document.getElementById('trendsContent').style.display = 'block';
+                document.getElementById('experimentsContent').style.display = 'none';
+            } else {
+                document.getElementById('trendsContent').style.display = 'none';
+                document.getElementById('experimentsContent').style.display = 'block';
+            }
+            
+            // Load data for selected node if any
+            if (selectedNode) {
+                const node = findNodeById(taxonomyData[currentTaxonomy], selectedNode);
+                if (node) {
+                    updateAnalysisPanel(node);
+                }
+            }
         }
 
         async function updateDetailsPanel(node) {

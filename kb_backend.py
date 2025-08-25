@@ -423,6 +423,387 @@ def get_statistics():
             'error': str(e)
         }), 500
 
+@app.route('/api/node/<node_id>/trends', methods=['GET'])
+def get_node_trends(node_id: str):
+    """Get research trends for a node and its children over time"""
+    try:
+        taxonomy_type = request.args.get('type', 'method')
+        
+        # Get the node and its children
+        if taxonomy_type == 'method':
+            node = build_method_tree(node_id)
+        else:
+            # For task taxonomy, we need to get the specific node
+            query = """
+            MATCH (t:TaskTaxonomy {node_id: $nodeId})
+            OPTIONAL MATCH (t)-[:HAS_SUBTASK]->(child:TaskTaxonomy)
+            RETURN t.name as name, 
+                   collect(DISTINCT {
+                       node_id: child.node_id, 
+                       name: child.name
+                   }) as children
+            """
+            result = neo4j_conn.execute_query(query, {"nodeId": node_id})
+            if not result:
+                return jsonify({'success': False, 'error': 'Node not found'}), 404
+            
+            node = {
+                'node_id': node_id,
+                'name': result[0]['name'],
+                'children': [c for c in result[0]['children'] if c['node_id']]
+            }
+        
+        # Generate trend data (with some real data if available, synthetic otherwise)
+        trends = generate_trend_data(node, taxonomy_type)
+        
+        return jsonify({
+            'success': True,
+            'data': trends
+        })
+    
+    except Exception as e:
+        logger.error(f"Error getting trends for node {node_id}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/node/<node_id>/experiment-settings', methods=['GET'])
+def get_experiment_settings(node_id: str):
+    """Get recommended experiment settings for a node"""
+    try:
+        taxonomy_type = request.args.get('type', 'method')
+        
+        # Try to get real experiment settings from the database
+        settings = get_real_experiment_settings(node_id, taxonomy_type)
+        
+        # If no real data, generate synthetic recommendations
+        if not settings or all(not settings[key] for key in ['datasets', 'metrics', 'baselines']):
+            settings = generate_synthetic_experiment_settings(node_id, taxonomy_type)
+        
+        return jsonify({
+            'success': True,
+            'data': settings
+        })
+    
+    except Exception as e:
+        logger.error(f"Error getting experiment settings for node {node_id}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+def generate_trend_data(node: Dict, taxonomy_type: str) -> Dict:
+    """Generate trend data for a node and its children"""
+    import random
+    from datetime import datetime, timedelta
+    
+    # Try to get real data first
+    try:
+        if node.get('children'):
+            # Query for real paper years
+            child_ids = [c['node_id'] for c in node['children']]
+            
+            if taxonomy_type == 'method':
+                query = """
+                MATCH (m:MethodTaxonomy)
+                WHERE m.node_id IN $childIds
+                OPTIONAL MATCH (p:Paper)-[:USES_METHOD]->(m)
+                WHERE p.publish_year IS NOT NULL
+                RETURN m.node_id as node_id,
+                       m.name as name,
+                       collect(DISTINCT p.publish_year) as years
+                """
+            else:
+                query = """
+                MATCH (t:TaskTaxonomy)
+                WHERE t.node_id IN $childIds
+                OPTIONAL MATCH (p:Paper)-[:ADDRESSES_TASK]->(t)
+                WHERE p.publish_year IS NOT NULL
+                RETURN t.node_id as node_id,
+                       t.name as name,
+                       collect(DISTINCT p.publish_year) as years
+                """
+            
+            results = neo4j_conn.execute_query(query, {"childIds": child_ids})
+            
+            # Process real data if available
+            if results and any(r.get('years') for r in results):
+                return process_real_trend_data(results)
+    except:
+        pass
+    
+    # Generate synthetic data for demonstration
+    current_year = datetime.now().year
+    years = list(range(2015, current_year + 1))
+    
+    trend_data = {
+        'years': years,
+        'series': []
+    }
+    
+    if node.get('children'):
+        for i, child in enumerate(node['children']):
+            # Generate synthetic trend with some randomness
+            base_trend = random.choice(['growing', 'stable', 'declining', 'cyclic'])
+            values = generate_synthetic_trend(len(years), base_trend, i)
+            
+            trend_data['series'].append({
+                'name': child.get('name', f'Child {i+1}'),
+                'node_id': child.get('node_id', f'child_{i}'),
+                'values': values,
+                'trend_type': base_trend
+            })
+    else:
+        # Single node trend
+        values = generate_synthetic_trend(len(years), 'growing', 0)
+        trend_data['series'].append({
+            'name': node.get('name', 'Current Node'),
+            'node_id': node.get('node_id', 'current'),
+            'values': values,
+            'trend_type': 'growing'
+        })
+    
+    return trend_data
+
+def generate_synthetic_trend(length: int, trend_type: str, seed: int) -> List[int]:
+    """Generate synthetic trend values"""
+    import random
+    random.seed(seed)
+    
+    values = []
+    base = random.randint(5, 20)
+    
+    for i in range(length):
+        if trend_type == 'growing':
+            value = base + i * random.randint(2, 5) + random.randint(-2, 5)
+        elif trend_type == 'declining':
+            value = base + 30 - i * random.randint(1, 3) + random.randint(-2, 2)
+        elif trend_type == 'cyclic':
+            import math
+            value = base + 10 + int(10 * math.sin(i * 0.8)) + random.randint(-2, 2)
+        else:  # stable
+            value = base + random.randint(-3, 3)
+        
+        values.append(max(1, value))
+    
+    return values
+
+def process_real_trend_data(results: List[Dict]) -> Dict:
+    """Process real trend data from database results"""
+    from collections import defaultdict
+    
+    # Find year range
+    all_years = set()
+    for r in results:
+        if r.get('years'):
+            all_years.update(int(y) for y in r['years'] if y)
+    
+    if not all_years:
+        # No real data, return empty
+        return {'years': [], 'series': []}
+    
+    min_year = min(all_years)
+    max_year = max(all_years)
+    years = list(range(min_year, max_year + 1))
+    
+    series = []
+    for r in results:
+        year_counts = defaultdict(int)
+        if r.get('years'):
+            for year in r['years']:
+                if year:
+                    year_counts[int(year)] += 1
+        
+        values = [year_counts.get(y, 0) for y in years]
+        series.append({
+            'name': r['name'],
+            'node_id': r['node_id'],
+            'values': values
+        })
+    
+    return {'years': years, 'series': series}
+
+def get_real_experiment_settings(node_id: str, taxonomy_type: str) -> Dict:
+    """Get real experiment settings from database"""
+    try:
+        settings = {
+            'datasets': [],
+            'metrics': [],
+            'baselines': []
+        }
+        
+        # Get papers for this node
+        if taxonomy_type == 'method':
+            paper_query = """
+            MATCH (m:MethodTaxonomy {node_id: $nodeId})
+            OPTIONAL MATCH (p:Paper)-[:USES_METHOD]->(m)
+            RETURN collect(DISTINCT p.paper_id) as paper_ids
+            """
+        else:
+            paper_query = """
+            MATCH (t:TaskTaxonomy {node_id: $nodeId})
+            OPTIONAL MATCH (p:Paper)-[:ADDRESSES_TASK]->(t)
+            RETURN collect(DISTINCT p.paper_id) as paper_ids
+            """
+        
+        paper_result = neo4j_conn.execute_query(paper_query, {"nodeId": node_id})
+        
+        if paper_result and paper_result[0].get('paper_ids'):
+            paper_ids = paper_result[0]['paper_ids']
+            
+            # Get datasets
+            dataset_query = """
+            MATCH (p:Paper)-[:EVALUATED_ON]->(d:Dataset)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT d.dataset_name as name,
+                   d.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            dataset_results = neo4j_conn.execute_query(dataset_query, {"paperIds": paper_ids})
+            settings['datasets'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(dataset_results)
+            ]
+            
+            # Get metrics
+            metric_query = """
+            MATCH (p:Paper)-[:EVALUATED_BY]->(m:Metric)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT m.metric_name as name,
+                   m.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            metric_results = neo4j_conn.execute_query(metric_query, {"paperIds": paper_ids})
+            settings['metrics'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(metric_results)
+            ]
+            
+            # Get baselines
+            baseline_query = """
+            MATCH (p:Paper)-[:COMPARED_AGAINST]->(b:Baseline)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT b.baseline_name as name,
+                   b.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            baseline_results = neo4j_conn.execute_query(baseline_query, {"paperIds": paper_ids})
+            settings['baselines'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(baseline_results)
+            ]
+        
+        return settings
+    
+    except Exception as e:
+        logger.error(f"Error getting real experiment settings: {str(e)}")
+        return {'datasets': [], 'metrics': [], 'baselines': []}
+
+def generate_synthetic_experiment_settings(node_id: str, taxonomy_type: str) -> Dict:
+    """Generate synthetic experiment settings for demonstration"""
+    import random
+    
+    # Synthetic datasets
+    dataset_pool = [
+        ('DBLP-ACM', 'Citation matching dataset from DBLP and ACM digital libraries'),
+        ('DBLP-Scholar', 'Cross-platform academic paper matching dataset'),
+        ('Amazon-Google Products', 'Product matching between Amazon and Google Shopping'),
+        ('Walmart-Amazon', 'E-commerce product entity resolution dataset'),
+        ('Restaurant', 'Restaurant entity matching from multiple review platforms'),
+        ('Beer', 'Beer product matching across different databases'),
+        ('iTunes-Amazon', 'Music and media matching dataset'),
+        ('Fodors-Zagat', 'Restaurant matching between Fodors and Zagat guides'),
+        ('Abt-Buy', 'Electronic product matching dataset'),
+        ('Company', 'Corporate entity resolution dataset')
+    ]
+    
+    # Synthetic metrics  
+    metric_pool = [
+        ('Precision', 'Ratio of correct matches to total predicted matches'),
+        ('Recall', 'Ratio of correct matches to total true matches'),
+        ('F1-Score', 'Harmonic mean of precision and recall'),
+        ('AUC-ROC', 'Area under the receiver operating characteristic curve'),
+        ('MRR', 'Mean reciprocal rank for ranking quality'),
+        ('MAP', 'Mean average precision across queries'),
+        ('Accuracy', 'Overall correctness of predictions'),
+        ('Jaccard Similarity', 'Intersection over union of matched sets'),
+        ('Edit Distance', 'String similarity metric'),
+        ('Cosine Similarity', 'Vector space similarity measure')
+    ]
+    
+    # Synthetic baselines
+    baseline_pool = [
+        ('DeepMatcher', 'Deep learning based entity matching system'),
+        ('Magellan', 'ML-based entity matching toolkit'),
+        ('DITTO', 'Pre-trained language model for entity matching'),
+        ('ZeroER', 'Zero-shot entity resolution using generative models'),
+        ('Random Forest', 'Traditional ML ensemble method'),
+        ('SVM', 'Support vector machine classifier'),
+        ('Logistic Regression', 'Statistical classification baseline'),
+        ('Rule-based', 'Hand-crafted matching rules'),
+        ('TF-IDF', 'Term frequency based similarity matching'),
+        ('Word2Vec', 'Word embedding based matching')
+    ]
+    
+    # Select random subsets
+    random.seed(hash(node_id))
+    
+    selected_datasets = random.sample(dataset_pool, min(5, len(dataset_pool)))
+    selected_metrics = random.sample(metric_pool, min(5, len(metric_pool)))
+    selected_baselines = random.sample(baseline_pool, min(5, len(baseline_pool)))
+    
+    return {
+        'datasets': [
+            {
+                'name': name,
+                'description': desc,
+                'usage_count': random.randint(10, 100),
+                'recommended': i < 3
+            }
+            for i, (name, desc) in enumerate(selected_datasets)
+        ],
+        'metrics': [
+            {
+                'name': name,
+                'description': desc,
+                'usage_count': random.randint(20, 150),
+                'recommended': i < 3
+            }
+            for i, (name, desc) in enumerate(selected_metrics)
+        ],
+        'baselines': [
+            {
+                'name': name,
+                'description': desc,
+                'usage_count': random.randint(5, 80),
+                'recommended': i < 3
+            }
+            for i, (name, desc) in enumerate(selected_baselines)
+        ]
+    }
+
 @app.route('/api/search', methods=['GET'])
 def search_nodes():
     """Search for nodes by name"""
@@ -505,7 +886,8 @@ if __name__ == '__main__':
     atexit.register(cleanup)
     
     # Configuration from environment variables or defaults
-    port = int(os.environ.get('PORT', 5001))
+    port = int(os.environ.get('PORT', 5001))  # Changed to 5001
     debug = os.environ.get('DEBUG', 'True').lower() == 'true'
     
+    print(f"Starting Flask server on http://localhost:{port}")
     app.run(host='0.0.0.0', port=port, debug=debug)
