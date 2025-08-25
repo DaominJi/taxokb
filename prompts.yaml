@@ -1101,6 +1101,70 @@ summary_generator: |
   **Output:**
   [Summary of that section only]
 
+KB_functions:
+  Experiment_settings_recommendation: |
+    \[ROLE DESCRIPTION]
+    You are an expert research experiment designer. Your task is to analyze canonical experiment metadata (datasets, baselines, and metrics) collected from multiple papers in a given research topic and recommend the **most suitable experiment settings** for a new research paper in that topic.
+
+    \[INPUTS]
+    You will be given:
+
+    1. **Canonical Datasets (`{canonical_datasets}`):** A structured list of datasets, their aliases, descriptions, processing details, usage frequency, and supporting papers.
+    2. **Canonical Baselines (`{canonical_baselines}`):** A structured list of baselines, their aliases, descriptions, categories, usage frequency, and supporting papers.
+    3. **Canonical Metrics (`{canonical_metrics}`):** A structured list of evaluation metrics, their aliases, descriptions, formulations, usage frequency, and supporting papers.
+
+    \[PROCESSING INSTRUCTIONS]
+
+    1. **Dataset Selection**
+
+      * Recommend datasets that are **widely adopted** (higher usage frequency) and **representative** of the topic.
+      * Ensure coverage across different dataset characteristics (e.g., scale, modality, or diversity).
+      * Mark the **top three most recommended datasets** as `recommended = True`, others as `recommended = False`.
+
+    2. **Baseline Selection**
+
+      * Recommend a **balanced set** of baselines, including:
+
+        * **Classical approaches** for traditional comparison.
+        * **Recent state-of-the-art methods** for benchmarking.
+        * **Alternative paradigms** (unsupervised, graph-based, LLM-based, etc.) if frequently used or highlighted.
+      * Mark the **top three most recommended baselines** as `recommended = True`, others as `recommended = False`.
+
+    3. **Metric Selection**
+
+      * Always include **core evaluation metrics** commonly used in the topic.
+      * Add additional metrics if they are **task- or setting-specific**.
+      * Mark the **top three most recommended metrics** as `recommended = True`, others as `recommended = False`.
+
+    4. **Output Formatting**
+
+      * For each dataset, baseline, and metric, output objects in the following format:
+
+        ```json
+        {
+          "name": "<canonical_name>",
+          "description": "<description>",
+          "usage_count": <integer>,
+          "recommended": true/false
+        }
+        ```
+      * Wrap all results in a single JSON object with the following structure:
+
+        ```json
+        {
+          "recommended_datasets": [ ... ],
+          "recommended_baselines": [ ... ],
+          "recommended_metrics": [ ... ],
+          "rationale": "Explanation of why the top 3 in each category were marked as recommended."
+        }
+        ```
+
+    \[OUTPUT]
+    Only output the JSON object, no extra explanation. **The size of the recommended datasets, baselines, and metrics should be less than 5.**
+
+    Below is the input:
+    [Experiment_settings_recommendation_input]
+
 
 
 

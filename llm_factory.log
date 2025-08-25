@@ -2209,3 +2209,156 @@ message: "Generative Language API has not been used in project 280614450122 befo
 2025-08-25 15:59:39,339 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
 2025-08-25 15:59:42,242 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4o-2024-08-06
 2025-08-25 15:59:45,577 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:20:12,545 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:20:12,545 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:20:12,546 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:20:12,546 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:20:13,459 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:20:13,459 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:20:13,459 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:20:13,459 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:21:36,272 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:21:36,273 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:21:36,273 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:21:36,273 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:22:23,071 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:22:23,071 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:22:23,071 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:22:23,071 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:22:23,956 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:22:23,956 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:22:23,956 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:22:23,956 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:24:41,488 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:24:41,488 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:24:41,488 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:24:41,488 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:24:42,373 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:24:42,373 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:24:42,373 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:24:42,373 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:26:19,285 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:26:19,285 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:26:19,285 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:26:19,285 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:26:21,509 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:26:21,509 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:26:21,509 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:26:21,510 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:26:28,649 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:26:28,649 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:26:28,650 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:26:28,650 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:26:36,015 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:26:36,015 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:26:36,015 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:26:36,015 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:26:37,040 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:26:37,040 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:26:37,040 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:26:37,040 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:28:25,216 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:28:25,216 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:28:25,216 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:28:25,216 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:28:26,105 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:28:26,105 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:28:26,105 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:28:26,105 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:34:47,499 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:34:47,499 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:34:47,499 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:34:47,499 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:34:52,557 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:34:52,557 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:34:52,557 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:34:52,557 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:34:58,734 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:34:58,734 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:34:58,734 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:34:58,734 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:34:59,613 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:34:59,613 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:34:59,613 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:34:59,613 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:35:40,026 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:35:40,026 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:35:40,026 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:35:40,026 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:36:43,138 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:36:43,138 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:36:43,138 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:36:43,138 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:36:45,655 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:36:45,655 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:36:45,655 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:36:45,655 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:36:49,521 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:36:49,521 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:36:49,521 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:36:49,521 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:36:50,520 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:36:50,520 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:36:50,520 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:36:50,520 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:36:54,647 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:38:15,217 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:38:16,475 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:38:16,475 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:38:16,475 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:38:16,475 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:39:04,981 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:39:04,981 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:39:04,981 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:39:04,981 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:39:24,258 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:39:24,258 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:39:24,258 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:39:24,258 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:39:36,227 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:39:36,227 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:39:36,228 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:39:36,228 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:39:37,114 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:39:37,114 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:39:37,114 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:39:37,114 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:40:18,522 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:40:18,522 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:40:18,522 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:40:18,522 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:40:22,376 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:40:22,376 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:40:22,376 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:40:22,376 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:40:23,256 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:40:23,257 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:40:23,257 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:40:23,257 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:40:29,499 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:46:54,804 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:46:54,804 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:46:54,804 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:46:54,804 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:46:57,800 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:46:57,800 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:46:57,800 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:46:57,800 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:46:58,762 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:46:58,762 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:46:58,762 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:46:58,762 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:47:09,959 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:49:40,569 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:49:40,569 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:49:40,569 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:49:40,569 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:49:41,465 - LLMFactory - INFO - Initialized openai provider
+2025-08-26 09:49:41,465 - LLMFactory - INFO - Initialized google provider
+2025-08-26 09:49:41,465 - LLMFactory - ERROR - Failed to initialize anthropic: Environment variable ANTHROPIC_API_KEY not found
+2025-08-26 09:49:41,465 - LLMFactory - ERROR - Failed to initialize grok: Environment variable GROK_API_KEY not found
+2025-08-26 09:49:47,893 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:50:22,990 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:50:47,910 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:54:35,186 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1
+2025-08-26 09:54:46,441 - LLMFactory - INFO - Calling LLMProvider.OPENAI with model gpt-4.1

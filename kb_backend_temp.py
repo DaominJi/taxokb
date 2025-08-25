@@ -9,15 +9,10 @@ from neo4j import GraphDatabase
 import os
 from typing import Dict, List, Any, Optional
 import logging
-from llm_factory import LLMFactory
-import yaml
-import json
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-llm_factory = LLMFactory()
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -480,7 +475,6 @@ def get_experiment_settings(node_id: str):
         taxonomy_type = request.args.get('type', 'method')
         
         # Try to get real experiment settings from the database
-        print (node_id)
         settings = get_real_experiment_settings(node_id, taxonomy_type)
         
         # If no real data, generate synthetic recommendations
@@ -670,73 +664,87 @@ def get_real_experiment_settings(node_id: str, taxonomy_type: str) -> Dict:
         }
         
         # Get papers for this node
-        if taxonomy_type == 'task':
-            query = """
-                MATCH (t:TaskTaxonomy {node_id: $node_id})
-                MATCH (p:Paper)-[:ADDRESSES_TASK]->(t)
-                OPTIONAL MATCH (p)-[:EVALUATED_ON]->(d:Dataset)
-                OPTIONAL MATCH (p)-[:EVALUATED_BY]->(metric:Metric)
-                OPTIONAL MATCH (p)-[:COMPARED_AGAINST]->(b:Baseline)
-                WITH t,
-                    COLLECT(DISTINCT d) AS datasets,
-                    COLLECT(DISTINCT metric) AS metrics,
-                    COLLECT(DISTINCT b) AS baselines
-                RETURN t.name AS taxonomy_node,
-                    datasets,
-                    metrics,
-                    baselines
+        if taxonomy_type == 'method':
+            paper_query = """
+            MATCH (m:MethodTaxonomy {node_id: $nodeId})
+            OPTIONAL MATCH (p:Paper)-[:USES_METHOD]->(m)
+            RETURN collect(DISTINCT p.paper_id) as paper_ids
             """
         else:
-            query = """
-                MATCH (m:MethodTaxonomy {node_id: $node_id})
-                MATCH (p:Paper)-[:USES_METHOD]->(m)
-                OPTIONAL MATCH (p)-[:EVALUATED_ON]->(d:Dataset)
-                OPTIONAL MATCH (p)-[:EVALUATED_BY]->(metric:Metric)
-                OPTIONAL MATCH (p)-[:COMPARED_AGAINST]->(b:Baseline)
-                WITH m, 
-                    COLLECT(DISTINCT d) AS datasets,
-                    COLLECT(DISTINCT metric) AS metrics,
-                    COLLECT(DISTINCT b) AS baselines
-                RETURN m.name AS taxonomy_node,
-                    datasets,
-                    metrics,
-                    baselines
+            paper_query = """
+            MATCH (t:TaskTaxonomy {node_id: $nodeId})
+            OPTIONAL MATCH (p:Paper)-[:ADDRESSES_TASK]->(t)
+            RETURN collect(DISTINCT p.paper_id) as paper_ids
             """
-        # query = """
-        # MATCH (p:Paper)
-        # RETURN p
-        # """
         
-        records = neo4j_conn.execute_query(query, {"node_id": node_id})
-        print (len(records))
-        print ("\n")
-        record = records[0]
-        input_settings = {}
-        input_settings['canonical_datasets'] = record['datasets']
-        input_settings['canonical_metrics'] = record['metrics']
-        input_settings['canonical_baselines'] = record['baselines']
-
-        with open('input_settings.json', 'w') as f:
-            json.dump(input_settings, f)
+        paper_result = neo4j_conn.execute_query(paper_query, {"nodeId": node_id})
         
-        with open('prompts.yaml', 'r') as f:
-            prompts = yaml.safe_load(f)
-        prompt = prompts['KB_functions']['Experiment_settings_recommendation']
-        prompt = prompt.replace('[Experiment_settings_recommendation_input]', str(input_settings))
-        response = llm_factory.generate(
-            prompt,
-            model='gpt-4.1',
-            max_tokens=30000,
-            temperature=0.7
-        ).content
-        #print(response)
-        response = response.replace('```json', '').replace('```', '')
-        response = json.loads(response)
-        settings['datasets'] = response['recommended_datasets']
-        settings['metrics'] = response['recommended_metrics']
-        settings['baselines'] = response['recommended_baselines']
-        with open('output_settings.json', 'w') as f:
-            json.dump(settings, f)
+        if paper_result and paper_result[0].get('paper_ids'):
+            paper_ids = paper_result[0]['paper_ids']
+            
+            # Get datasets
+            dataset_query = """
+            MATCH (p:Paper)-[:EVALUATED_ON]->(d:Dataset)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT d.dataset_name as name,
+                   d.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            dataset_results = neo4j_conn.execute_query(dataset_query, {"paperIds": paper_ids})
+            settings['datasets'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(dataset_results)
+            ]
+            
+            # Get metrics
+            metric_query = """
+            MATCH (p:Paper)-[:EVALUATED_BY]->(m:Metric)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT m.metric_name as name,
+                   m.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            metric_results = neo4j_conn.execute_query(metric_query, {"paperIds": paper_ids})
+            settings['metrics'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(metric_results)
+            ]
+            
+            # Get baselines
+            baseline_query = """
+            MATCH (p:Paper)-[:COMPARED_AGAINST]->(b:Baseline)
+            WHERE p.paper_id IN $paperIds
+            RETURN DISTINCT b.baseline_name as name,
+                   b.description as description,
+                   COUNT(DISTINCT p) as usage_count
+            ORDER BY usage_count DESC
+            LIMIT 5
+            """
+            baseline_results = neo4j_conn.execute_query(baseline_query, {"paperIds": paper_ids})
+            settings['baselines'] = [
+                {
+                    'name': r['name'],
+                    'description': r.get('description', ''),
+                    'usage_count': int(r['usage_count']),
+                    'recommended': True if i < 3 else False
+                }
+                for i, r in enumerate(baseline_results)
+            ]
+        
         return settings
     
     except Exception as e:
