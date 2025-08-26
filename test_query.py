@@ -64,5 +64,5 @@ def quick_query(question):
         return f"Error: {e}"
 
 # Use it
-answer = quick_query("Which papers adopted the deep learning method?")
+answer = quick_query("What are the challenges of entity resolution?")
 print(answer)
