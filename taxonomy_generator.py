@@ -11,7 +11,7 @@ from typing import Dict, List, Any, Optional, Tuple
 import logging
 from chunker import PaperChunker
 from pdf_to_md_converter import extract_title_from_md
-# Set up logging
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -262,9 +262,7 @@ class MethodTaxonomyGenerator:
             
             # Get prompt and generate method summary
             prompt = self.prompts['taxonomy_generator']['method_taxonomy']['extract_method_summary']
-            prompt = prompt.replace('[Paper Content]', section_text)
-            prompt = prompt.replace('[Paper ID]', id)
-            prompt = prompt.replace('[Paper Title]', title)
+            prompt = prompt.replace('{{method_section_text}}', section_text)
             
             logger.info(f"Extracting method summary from {Path(paper_path).stem}")
             response = self.llm_factory.generate(
@@ -294,7 +292,7 @@ class MethodTaxonomyGenerator:
             methods_text = json.dumps(method_summaries, indent=2)
             
             prompt = self.prompts['taxonomy_generator']['method_taxonomy']['extract_pros_and_cons']
-            prompt = prompt.replace('{method_summaries}', methods_text)
+            prompt = prompt.replace('{{method_summaries}}', methods_text)
             
             logger.info("Extracting pros and cons from methods...")
             response = self.llm_factory.generate(
@@ -310,58 +308,8 @@ class MethodTaxonomyGenerator:
             logger.error(f"Error extracting pros and cons: {e}")
             return None
     
-    def extract_introductions(self, papers_dir: str) -> Dict[str, str]:
-        """Extract introduction sections from all papers."""
-        introductions = {}
-        papers_path = Path(papers_dir)
-        
-        for md_file in papers_path.glob("*.md"):
-            try:
-                section_dict, categorization = self.chunker.process_paper(str(md_file))
-                
-                intro_content = []
-                if 'Introduction' in categorization:
-                    for section_title in categorization['Introduction']:
-                        if section_title in section_dict:
-                            intro_content.append(section_dict[section_title])
-                
-                if intro_content:
-                    paper_name = md_file.stem
-                    introductions[f"{paper_name}.md"] = '\n\n'.join(intro_content)
-                    
-            except Exception as e:
-                logger.warning(f"Could not extract introduction from {md_file}: {e}")
-        
-        return introductions
-    
-    def extract_related_works(self, papers_dir: str) -> Dict[str, str]:
-        """Extract related work sections from all papers."""
-        related_works = {}
-        papers_path = Path(papers_dir)
-        
-        for md_file in papers_path.glob("*.md"):
-            try:
-                section_dict, categorization = self.chunker.process_paper(str(md_file))
-                
-                related_content = []
-                if 'Related Work' in categorization:
-                    for section_title in categorization['Related Work']:
-                        if section_title in section_dict:
-                            related_content.append(section_dict[section_title])
-                
-                if related_content:
-                    paper_name = md_file.stem
-                    related_works[f"{paper_name}.md"] = '\n\n'.join(related_content)
-                    
-            except Exception as e:
-                logger.warning(f"Could not extract related work from {md_file}: {e}")
-        
-        return related_works
-    
     def generate_method_taxonomy(self, method_summaries: Dict[str, Any], 
-                                pros_cons_summary: str,
-                                introductions: Dict[str, str],
-                                related_works: Dict[str, str]) -> Dict[str, Any]:
+                                pros_cons_summary: str):
         """Generate hierarchical taxonomy of methods."""
         try:
             # Format inputs for prompt
@@ -370,8 +318,6 @@ class MethodTaxonomyGenerator:
             # Replace placeholders in prompt
             prompt = prompt.replace('{method_summaries}', json.dumps(method_summaries, indent=2))
             prompt = prompt.replace('{pros_cons_summary}', pros_cons_summary)
-            prompt = prompt.replace('{introductions}', json.dumps(introductions, indent=2))
-            prompt = prompt.replace('{related_works}', json.dumps(related_works, indent=2))
             
             logger.info("Generating method taxonomy...")
             response = self.llm_factory.generate(
@@ -422,26 +368,16 @@ class MethodTaxonomyGenerator:
         
         logger.info(f"Extracted {len(method_summaries)} method summaries")
         
-        # Step 2: Extract pros and cons
         pros_cons_summary = self.extract_pros_and_cons(method_summaries)
         if not pros_cons_summary:
             logger.warning("Failed to extract pros and cons")
             pros_cons_summary = ""
         
-        # Step 3: Extract introductions (optional)
-        logger.info("Extracting introductions...")
-        introductions = self.extract_introductions(papers_dir)
-        
-        # Step 4: Extract related works (optional)
-        logger.info("Extracting related works...")
-        related_works = self.extract_related_works(papers_dir)
         
         # Step 5: Generate taxonomy
         taxonomy = self.generate_method_taxonomy(
             method_summaries,
-            pros_cons_summary,
-            introductions,
-            related_works
+            pros_cons_summary
         )
         
         if not taxonomy:

@@ -34,6 +34,249 @@ chunker:
 
     **Output:**
 
+reference_taxonomy_builder: 
+  method_taxonomy:
+    [ROLE]
+    You are an expert research taxonomist. Your task is to generate a **hierarchical taxonomy** of methodologies for a given topic. Each node should include a **name**, a **short description**, and a balanced view of **pros and cons**.
+
+    [TASK]
+    * Given a topic, generate a **hierarchical taxonomy of methodologies** in JSON format.
+    * Organize methodologies into **broad categories at the top level**, with **subcategories and specific approaches** as children.
+    * Each node must contain:
+      - "name": the category/method name.
+      - "description": a concise explanation of that category/method.
+      - "pros": a short list of key advantages.
+      - "cons": a short list of key limitations.
+    * Ensure the taxonomy covers both **established approaches** and **emerging ones** where applicable.
+    * Output must be **valid JSON only** (no commentary, no markdown).  
+    * The JSON must represent a **taxonomy of methodologies**, not of tasks, datasets, or other concepts.
+
+    [OUTPUT FORMAT]
+    {
+      "name": "{{topic}} Methodologies",
+      "description": "A taxonomy of methodologies applied to {{topic}}, organized hierarchically from broad categories to specific techniques.",
+      "pros": ["Provides structured overview", "Captures established and emerging approaches"],
+      "cons": ["May oversimplify relationships", "Requires refinement to ensure accuracy"],
+      "children": [
+        {
+          "name": "Category 1",
+          "description": "Brief explanation of what Category 1 covers in the context of {{topic}}.",
+          "pros": ["Widely applied", "Broadly adaptable"],
+          "cons": ["May be rigid", "Limited scalability"],
+          "children": [
+            {
+              "name": "Subcategory A",
+              "description": "Explanation of Subcategory A.",
+              "pros": ["Focused scope", "Strong theoretical basis"],
+              "cons": ["May lack flexibility", "Dependent on assumptions"],
+              "children": [
+                {
+                  "name": "Approach X",
+                  "description": "Explanation of Approach X.",
+                  "pros": ["Efficient in small-scale cases", "Interpretability"],
+                  "cons": ["Struggles with large-scale problems", "Limited generalization"]
+                },
+                {
+                  "name": "Approach Y",
+                  "description": "Explanation of Approach Y.",
+                  "pros": ["Handles diverse inputs", "Robust outcomes"],
+                  "cons": ["Complex implementation", "Resource-intensive"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Category 2",
+          "description": "Brief explanation of what Category 2 covers.",
+          "pros": ["Flexible approaches", "High adaptability"],
+          "cons": ["Less validated", "May lack benchmarks"],
+          "children": [
+            {
+              "name": "Subcategory B",
+              "description": "Explanation of Subcategory B.",
+              "pros": ["Innovative techniques", "Promising direction"],
+              "cons": ["Unstable performance", "Limited interpretability"]
+            }
+          ]
+        }
+      ]
+    }
+
+    [INSTRUCTIONS]
+    1. Each "description" should be 2–3 sentences, concise but informative.
+    2. Each "pros" and "cons" list should have 2–3 items, short and precise.
+    3. Maintain 3–4 hierarchical levels if meaningful.
+    4. Use clear and academically standard terminology.
+    5. Return only JSON (no extra text, no markdown).
+    6. Ensure the JSON explicitly represents a **taxonomy of methodologies**.
+
+    [INPUT PLACEHOLDER]
+    Below is the input topic:
+    {{topic}}
+  
+  task_taxonomy:
+    [ROLE]
+    You are an expert research taxonomist. Your task is to generate a **hierarchical taxonomy of tasks** for a given topic. Each node must include a **name**, a **short description**, and detailed **input** and **output** specifications.
+
+    [TASK]
+    * Generate a **hierarchical taxonomy of tasks** in JSON format for the provided topic.
+    * Organize tasks into **broad categories at the top level**, with **subcategories and specific tasks** as children.
+    * Each node must contain:
+      - "name": the category/subcategory/task name.
+      - "description": a concise 2–3 sentence explanation of that node.
+      - "input": an object describing expected data **formats** and additional **properties**/**constraints**.
+      - "output": an object describing produced data **formats** and additional **properties**/**constraints**.
+    * Use general, domain‑neutral terminology. Avoid tool/library/dataset names.
+    * Output must be **valid JSON only** (no commentary, no markdown).
+    * The JSON must represent a **taxonomy of tasks** (not methodologies, datasets, metrics, or systems).
+
+    [INPUT/OUTPUT FIELD CONVENTIONS]
+    * Each "input" and "output" object MUST include:
+      - "data_formats": an array of **generic labels** only (no domain qualifiers, no parentheses), chosen from a neutral vocabulary such as:
+        ["text", "structured table", "key–value JSON", "graphs", "images", "audio", "video", "time series", "spatial data", "multimodal bundle"].
+      - **One or both** of the following arrays (at least one must be non‑empty):
+        - "properties": concise **descriptive qualities** of the data (e.g., "consistent encoding", "schema present", "low noise", "traceable lineage").
+        - "constraints": concise **requirements** the data must meet (e.g., "deduplicated", "balanced classes", "time‑synchronized", "privacy‑compliant").
+    * If both "properties" and "constraints" are present, **do not duplicate items** across them:
+      - Put prescriptive/mandatory items under "constraints".
+      - Put descriptive/preferable qualities under "properties".
+    * Non‑leaf nodes: summarize **typical** inputs/outputs by selecting the most frequent 3–6 formats/items across descendants (deduplicated; ordered by frequency). Do not leave these arrays empty.
+    * Leaf nodes: specify **task‑specific** formats (1–3) and items (3–6).
+    * Keep wording general and reusable across topics.
+
+    [CONSTRUCTION RULES]
+    * Root Node:
+      - "name": "{{topic}} Task Taxonomy".
+      - "description": 2–3 sentences summarizing the task space for the topic.
+      - Include "input" and "output" summarizing common formats and items across the entire tree (per the conventions above).
+    * Hierarchy:
+      - Create 3–4 levels when meaningful. Children must be strict semantic subsets of their parent.
+      - Use concise, non‑overlapping labels for categories and subcategories.
+      - Sort each node’s "children" **alphabetically by "name"**.
+    * Completeness & Consistency:
+      - Every node includes: "name", "description", "input", "output", and "children" (leaves use `"children": []`).
+      - Deduplicate entries within each "data_formats", "properties", and "constraints" array.
+      - The taxonomy must remain **task‑focused**.
+
+    [OUTPUT REQUIREMENTS]
+    * Output must be **valid JSON only** (no commentary, no markdown).
+    * Ensure all strings are plain text.
+
+    [OUTPUT FORMAT]  (example includes both "properties" and "constraints")
+    {
+      "name": "{{topic}} Task Taxonomy",
+      "description": "A hierarchical taxonomy of tasks related to {{topic}}, organized from broad categories to specific tasks. Each node specifies inputs and outputs with formats plus descriptive properties and requirements.",
+      "input": {
+        "data_formats": ["text", "structured table"],
+        "properties": ["consistent encoding", "schema present"],
+        "constraints": ["deduplicated"]
+      },
+      "output": {
+        "data_formats": ["structured table", "key–value JSON"],
+        "properties": ["machine‑readable", "traceable lineage"],
+        "constraints": ["evaluation‑ready"]
+      },
+      "children": [
+        {
+          "name": "Category A",
+          "description": "What this category of tasks covers and how it is distinguished at a high level within {{topic}}.",
+          "input": {
+            "data_formats": ["text", "structured table"],
+            "properties": ["standardized units", "low noise"],
+            "constraints": ["minimal missingness"]
+          },
+          "output": {
+            "data_formats": ["structured table", "key–value JSON"],
+            "properties": ["schema‑aligned", "reproducible derivations"],
+            "constraints": ["alignment with input IDs"]
+          },
+          "children": [
+            {
+              "name": "Subcategory A1",
+              "description": "How these tasks differ from others in Category A and typical workflow characteristics.",
+              "input": {
+                "data_formats": ["structured table"],
+                "properties": ["clearly typed fields"],
+                "constraints": ["representative sampling"]
+              },
+              "output": {
+                "data_formats": ["structured table"],
+                "properties": ["validated fields"],
+                "constraints": ["deterministic schema"]
+              },
+              "children": [
+                {
+                  "name": "Task X",
+                  "description": "Concise summary of the task objective, expected operations, and scope boundaries.",
+                  "input": {
+                    "data_formats": ["structured table"],
+                    "properties": ["normalized units"],
+                    "constraints": ["unique identifiers present", "no duplicates"]
+                  },
+                  "output": {
+                    "data_formats": ["structured table", "key–value JSON"],
+                    "properties": ["well‑defined schema"],
+                    "constraints": ["confidence/score where applicable", "consistent ordering rules"]
+                  },
+                  "children": []
+                },
+                {
+                  "name": "Task Y",
+                  "description": "Concise summary of the task objective, expected operations, and scope boundaries.",
+                  "input": {
+                    "data_formats": ["text"],
+                    "properties": ["language specified", "clean tokenization"],
+                    "constraints": ["sufficient context length"]
+                  },
+                  "output": {
+                    "data_formats": ["text", "key–value JSON"],
+                    "properties": ["faithful to source", "concise"],
+                    "constraints": ["machine‑parseable when structured"]
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Category B",
+          "description": "What this category of tasks covers and how it complements Category A.",
+          "input": {
+            "data_formats": ["multimodal bundle", "time series"],
+            "properties": ["clear metadata"],
+            "constraints": ["synchronized modalities", "time‑aligned sequences"]
+          },
+          "output": {
+            "data_formats": ["structured table", "graphs"],
+            "properties": ["traceable to inputs"],
+            "constraints": ["explicit scoring criteria", "evaluation‑ready"]
+          },
+          "children": [
+            {
+              "name": "Subcategory B1",
+              "description": "Characteristic task patterns within this subcategory.",
+              "input": {
+                "data_formats": ["graphs", "structured table"],
+                "properties": ["unique identifiers"],
+                "constraints": ["well‑defined nodes/edges", "consistent relation semantics"]
+              },
+              "output": {
+                "data_formats": ["graphs", "key–value JSON"],
+                "properties": ["documented assumptions"],
+                "constraints": ["validated connectivity", "no orphan nodes"]
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+
+    [INPUT PLACEHOLDER]
+    Below is the input topic:
+    {{topic}}
 
 taxonomy_generator:
   task_taxonomy:
@@ -375,197 +618,328 @@ taxonomy_generator:
   method_taxonomy:
     extract_method_summary: |
       [ROLE]
-      You are an AI research methodology analyst specializing in decomposing scientific methods. You interpret textual descriptions and HTML table data associated with figures.
+      You are an AI research methodology analyst. Your job is to extract a precise, structured summary of a paper’s method from the method section text of the paper. You may parse free text and simple Markdown tables. You must be faithful to the source.
 
-      [TASK]
-      Analyze `{section_text}` (Paper ID: `{paper_id}`, Paper Title: `{paper_title}`) containing methodology descriptions and potential HTML tables. Generate an integrated Markdown summary using this workflow:
-
-      1. **Method Decomposition**  
-      - Extract core components, workflow sequence, and objectives
-      - Represent components in a Markdown table with columns:  
-          `Component | Function | Inputs | Outputs`
-      - Map workflow steps in a numbered list showing transitions
-
-      2. **Figure Analysis**  
-      - Identify referenced figures (e.g., "Figure 1 shows...")
-      - For each figure:  
-          • Locate descriptive text  
-          • Parse associated HTML tables if present  
-          • Create analysis table with columns:  
-          `Figure Ref | Element Type | Key Relationships | Data Insights`
-
-      3. **Integration**  
-      - Cross-reference figures with method components using bold tags (e.g., **ComponentX**)
-      - Embed figure insights directly in workflow steps
-      - Fuse objectives with supporting evidence from tables
-
-      [OUTPUT RULES]
-      ```markdown
-      ### Core Components
-      | Component | Function | Inputs | Outputs |
-      |-----------|----------|--------|---------|
-      | ...       | ...      | ...    | ...     |
-
-      ### Workflow Sequence
-      1. [Step 1] → **(Figure X)**  
-      - [Action] using [Component]  
-      - *Table insight: [Value] from Table Y*
-
-      ### Objectives
-      - [Goal 1] achieved through [Component/Step]  
-      *(Supported by Figure Z: [Observation])*
-
-      ### Figure Analysis
-      | Fig Ref | Element Type | Key Relationships | Data Insights |
-      |---------|--------------|-------------------|---------------|
-      | Fig 1   | [Type]       | [Connection]      | [Table Data]  |
-      ```
-      **Critical Constraints**  
-      - Use ONLY standard Markdown (no LaTeX, HTML, or images)  
-      - Represent mathematical concepts verbally (e.g., "loss minimization")  
-      - Maximum 2 sentences per table cell  
-      - Omit redundant explanations already covered in tables  
-      - Bold method elements when linked to figures (**ComponentA**)  
-      - Prioritize table representations over paragraphs
-      - Use the paper ID to denote the paper in the summary
-
-    extract_pros_and_cons: |
-      [ROLE DESCRIPTION]
-      You are an expert research analyst specializing in cross-study methodology comparison. You excel at synthesizing structured data to identify shared patterns and distinctive features across research papers.
-
-      [TASK DESCRIPTION]
-      Analyze methodology analyses from multiple research papers. Identify common/unique advantages and limitations, then synthesize findings into a structured Markdown comparison table. Prioritize visual clarity and information density.
+      [PRINCIPLES]
+      - Grounded only in the method section text of the paper. No speculation or outside knowledge.
+      - If a required value is missing, use [] or null (never "N/A").
+      - Keep names consistent, concise, and unambiguous.
+      - Prefer clarity over verbosity; avoid redundancy.
 
       [INPUT]
-      - **Methodology Data (MD Format):** Contains one or more methodology analyses in flexible markdown format.  
-      **Each analysis corresponds to a single paper's methodology**.
-      input: `{method_summaries}`
+      The method section text of the paper may include method descriptions, equations, citations, figure/table mentions, and Markdown tables.
 
-      [PROCESSING INSTRUCTIONS]
-      1. **Data Extraction:**
-        - Extract JSON from Markdown code blocks (prioritize ```json tagged blocks)
-        - Parse into array of paper objects: `papers = [{{paper_id, methodology: {{name, description, pros, cons}}}}, ...]`
+      [GOAL]
+      Return ONE valid JSON object (no prose, no markdown) with five top-level keys:
+      - "description"
+      - "core_components"
+      - "workflow_sequence"
+      - "objectives"
+      - "technical_keywords"
 
-      2. **Cross-Analysis:**
-        ```python
-        # Aggregate metrics
-        all_pros = flatten(paper.methodology.pros for paper in papers)
-        all_cons = flatten(paper.methodology.cons for paper in papers)
+      [DEFINITIONS]
+      - Description: a concise summary of the method as presented in the text. Capture the central idea, not evaluation results.
+      - Component: a stable building block of the method (e.g., a module, optimizer, evaluator, sampler). NOT a step.
+      - Step: an ordered action in the overall procedure (e.g., initialize → transform → aggregate → evaluate).
+      - Objective: an intended outcome (e.g., accuracy, efficiency, robustness, interpretability).
+      - Technical keyword: a compact technique/algorithm/training scheme/framework term (unigram/bigram), not generic words like “model” or “data”.
+
+      [WHAT TO INCLUDE / EXCLUDE]
+      - Include only method-related content from the method section text of the paper.
+      - Include md-table-derived insights if they inform design choices (ablations, parameters, variants). Ignore purely results tables unless they justify a method choice.
+      - Do not include datasets, benchmarks, or results unless explicitly used to justify a component or step.
+      - Remove citations, equation numbers, and footnotes; keep symbols as plain text if needed.
+
+      [NORMALIZATION RULES]
+      - Component names: Title Case (e.g., "Preprocessing Module", "Scoring Function"). Be consistent.
+      - Step references: write exactly "Step X" (e.g., "Step 2") when referenced in `supported_by`.
+      - `technical_keywords`: lowercase; max 10; deduplicate; avoid stopwords/generic terms; use unigrams/bigrams only.
+      - `inputs` and `outputs`: lists of short noun phrases, no sentences.
+
+      [DISAMBIGUATION & DEDUP]
+      - If multiple names describe the same component, choose one canonical name (prefer the paper’s primary term) and use it everywhere.
+      - Merge duplicate components; aggregate their roles in a single `function` if needed.
+      - If the sequence is implied but not explicit, infer the most plausible order; mark concurrency with “in parallel” or iteration with “repeat until convergence”.
+
+      [MARKDOWN TABLE GUIDANCE]
+      - If a Markdown table clarifies the method (e.g., variants, hyperparameters, component comparisons), summarize ONE key takeaway in `insights` for the relevant step.
+      - When possible, include the table label text (e.g., "Table 2") as part of `insights`. If no label is available, omit it.
+      - Do not copy entire tables; extract only what explains the method.
+
+      [FIELD-BY-FIELD SPECIFICATION]
+      1) description (string)
+      - Provide a concise summary of the overall method.  
+      - Capture the main design idea and what distinguishes it.  
+      - Avoid discussion of results, datasets, or evaluation metrics.
+
+      2) core_components (array of objects)
+      - "component": short canonical name (Title Case).
+      - "function": one-sentence purpose/role.
+      - "inputs": array<string> of key inputs (short phrases).
+      - "outputs": array<string> of key outputs (short phrases).
+
+      3) workflow_sequence (array of objects)
+      - "step_number": integer starting at 1, strictly increasing.
+      - "action": concise description of what is done.
+      - "components_used": array<string> whose entries EXACTLY match names in "core_components".
+      - "insights": one short sentence summarizing method-relevant evidence from figures/tables OR null.
+
+      4) objectives (array of objects)
+      - "goal": specific aim of the method.
+      - "supported_by": array<string> referencing component names and/or "Step X".
+
+      5) technical_keywords (array<string>)
+      - Up to 10 lowercased, domain-neutral method terms; no duplicates; avoid dataset names or generic words.
+
+      [VALIDATION CHECKLIST]
+      - All five top-level keys exist: "description", "core_components", "workflow_sequence", "objectives", "technical_keywords".
+      - Every name in "components_used" appears in "core_components".
+      - All strings use double quotes; no trailing commas; valid JSON.
+      - No extra keys beyond the schema.
+      - Use [] for empty lists, null where applicable.
+
+      [OUTPUT ONLY]
+      Return ONLY the JSON object. No explanations, no markdown, no schema.
+
+      [OUTPUT FORMAT EXAMPLE (ILLUSTRATIVE—DO NOT COPY VERBATIM)]
+      {
+      "paper_id": <paper_id>,
+      "paper_title": <paper_title>,
+      "description": "This method introduces a modular framework that preprocesses inputs, computes scores, and applies decision rules to generate outputs.",
+      "core_components": [
+          {
+          "component": "Preprocessing Module",
+          "function": "standardizes and validates raw inputs",
+          "inputs": ["raw inputs"],
+          "outputs": ["processed inputs"]
+          },
+          {
+          "component": "Scoring Function",
+          "function": "computes a score used for decision-making",
+          "inputs": ["processed inputs", "parameters"],
+          "outputs": ["scores"]
+          }
+      ],
+      "workflow_sequence": [
+          {
+          "step_number": 1,
+          "action": "prepare inputs using the Preprocessing Module",
+          "components_used": ["Preprocessing Module"],
+          "insights": "Table 1 indicates preprocessing improves stability."
+          },
+          {
+          "step_number": 2,
+          "action": "compute scores and apply selection",
+          "components_used": ["Scoring Function"],
+          "insights": null
+          }
+      ],
+      "objectives": [
+          {
+          "goal": "improve reliability of decision-making",
+          "supported_by": ["Preprocessing Module", "Step 1"]
+          }
+      ],
+      "technical_keywords": ["preprocessing", "scoring", "thresholding", "parameter tuning"]
+      }
+
+      [INPUT PLACEHOLDER]
+      Below is the input of section text:
+      {{method_section_text}}
+
+    extract_pros_and_cons: |
+      [ROLE DESCRIPTION]  
+      You are an expert research analyst specializing in cross-study methodology comparison. You excel at synthesizing structured data to identify commonalities and distinctions across research papers, and at inferring high-level abstract topics that unify them.
+
+      [INPUT FORMAT]  
+      Input will be strictly in JSON format, containing one or more methodology analyses.  
+      - Each analysis corresponds to a single paper.  
+      - Each analysis follows the structure:  
+        {
+          "paper_id": "...",
+          "methodology": {
+            "name": "...",
+            "description": "...",
+            "pros": ["..."],
+            "cons": ["..."]
+          }
+        }
+
+      [TASK DESCRIPTION]  
+      Analyze the set of methodology analyses.  
+      1. Identify **common advantages/limitations** (across ≥2 papers).  
+      2. Identify **unique advantages/limitations** (per paper).  
+      3. Infer a **high-level, abstract research topic** that best captures the overall theme of the input papers.  
+      Then synthesize everything into a **single JSON object** following the schema defined below.
+
+      [PROCESSING INSTRUCTIONS]  
+      1. Collect all `pros` and `cons` across papers.  
+      2. Identify **common pros/cons**: appear in ≥2 different papers.  
+      3. Identify **unique pros/cons**: appear in only one paper.  
+      4. For each paper, attach its unique pros/cons separately.  
+      5. From all papers’ methods, infer a concise, general, and expressive topic label that unifies them.  
+
+      [OUTPUT CONSTRUCTION]  
+      Produce a **single JSON object** with the following structure:  
+        {
+          "inferred_topic": "...",
+          "key_commonalities": {
+            "pros": ["..."],
+            "cons": ["..."]
+          },
+          "paper_level_analysis": [
+            {
+              "paper_id": "...",
+              "method_name": "...",
+              "description": "...",
+              "common_pros": ["..."],
+              "unique_pros": ["..."],
+              "common_cons": ["..."],
+              "unique_cons": ["..."]
+            }
+          ],
+          "notes": "Unique aspects highlight methodological distinctions"
+        }
+
+      [OUTPUT RULES]
+      * Always output **valid JSON only** (no Markdown).  
+      * If a list is empty, return an empty array `[]`.  
+      * Sort `paper_level_analysis` entries alphabetically by `method_name`.  
+      * If only one paper is given, set `"key_commonalities": { "pros": [], "cons": [] }`.  
+      * Preserve exact wording of `pros`/`cons` from input. Do not paraphrase.  
+      * Escape special characters to ensure valid JSON.  
+      * `"inferred_topic"` must be concise, general, and expressive, avoiding dataset names, benchmarks, or overly specific jargon.  
+
+      [SCHEMA SUMMARY]
+      * `inferred_topic`: high-level abstract research topic inferred from the set of papers.  
+      * `key_commonalities`: shared pros/cons across ≥2 papers.  
+      * `paper_level_analysis`: per-paper breakdown with common and unique aspects.  
+      * `notes`: static footer string highlighting the meaning of unique aspects.  
+
+      [INPUT PLACEHOLDER]  
+      Below is the input JSON of methodology summaries:  
+      {{method_summaries}}
+
+    taxonomy_generation: |
+      [ROLE DESCRIPTION]
+      You are an expert research methodology taxonomist. Your task is to synthesize information from multiple sources about a set of research papers and generate a single, hierarchical classification tree in a strict JSON format. You should use a reference taxonomy as a soft guide for structure and naming but must not override clear evidence from the input data.
+
+      [REFERENCE TAXONOMY USAGE]
+      Treat the reference taxonomy as a baseline guide (a soft reference). Align with existing categories when they clearly apply. Extend, merge, or refine categories if the evidence requires it. Introduce new paradigms when none of the reference categories fit. Do not force a method into an ill-fitting category just to preserve reference alignment.
+
+      [TASK DESCRIPTION]
+      Analyze the provided data blocks to build a multi-layered taxonomy of research methodologies. Use the detailed methodology summaries and the pros/cons report as the primarya basis for classification. The final output must be a valid JSON object representing the classification tree.
+
+      [INPUT FORMAT]
+      You will be provided with the following data blocks. Some blocks may be optional and may be empty.
+
+      1. **Methodology Summaries:**  
+        A JSON object mapping paper filenames to their detailed, structured methodology summaries.
+
+      2. **Pros & Cons Report:**  
+        A JSON object containing a comparative analysis of advantages and limitations found across the methods.
+
+      3. **Reference Taxonomy:**  
+        A JSON object representing an existing taxonomy. Treat this as a soft reference: align with it where possible, but extend, refine, or reorganize categories when the evidence requires.
+
+      [CORE INSTRUCTIONS FOR TAXONOMY GENERATION]
+
+      1. Identify Papers:
+        - Use the `paper_id` field (a string) as the unique identifier for each paper across all inputs.
+        - If any input block uses filenames or other keys in addition to `paper_id`, prefer the explicit `paper_id`.
+        - In the final taxonomy, all node `index` arrays MUST list these `paper_id` strings. Each leaf node MUST correspond to exactly one `paper_id`.
+
+      2. Build Taxonomy Tree (Hierarchical Classification):
+        - Soft Guidance from Reference Taxonomy:
+          - Throughout the classification, consult the Reference Taxonomy as a **soft guide** for candidate groupings and labels. Adopt its categories when they clearly fit; extend, merge, or refine them when the input evidence requires. **Do not force** a method into an ill-fitting category.
         
-        # Identify common elements (appearing in ≥2 papers)
-        common_pros = [p for p in set(all_pros) if count_occurrences(p) >= 2]
-        common_cons = [c for c in set(all_cons) if count_occurrences(c) >= 2]
-        
-        # Map unique elements per paper
-        for paper in papers:
-            paper["unique_pros"] = [p for p in paper.methodology.pros if p not in common_pros]
-            paper["unique_cons"] = [c for c in paper.methodology.cons if c not in common_cons]
-        ```
+        - Root Node (Inferred Topic):
+          - Name the root with a concise, general, expressive topic inferred from the collection (e.g., from recurring terms in method names/descriptions). Avoid dataset names, benchmarks, or overly specific jargon.
+          - The root `index` must include **all** `paper_id`s.
 
-      3. **Output Structure:**
-        ```markdown
-        # Methodology Comparison Report
+        - Partitioning Strategy (Ordered Dimensions):
+          1) **Primary Aim**: First, partition papers by their main objective or function (the purpose the approach primarily serves).
+          2) **Core Technique Family**: Within each aim, group by the principal methodological family (e.g., rule-based, optimization-driven, learning-based, search/planning, hybrid). Keep labels short and general.
+          3) **Operational Regime / Strategy**: Further refine by salient operational choices (e.g., data regime, supervision style, pipeline design, single- vs multi-stage, online vs offline decision flow).
+          4) **Distinctive Features & Trade‑offs**: Use evidence from {{pros_cons_summary}} and method descriptions to introduce splits that capture meaningful differences (e.g., scalability, robustness, interpretability, efficiency, adaptability). Only add layers when they introduce a clear, distinguishing dimension.
 
-        ## Key Commonalities
-        | Aspect       | Shared Findings                          |
-        |--------------|------------------------------------------|
-        | **Pros** | {{bullet_list(common_pros)}}               |
-        | **Cons** | {{bullet_list(common_cons)}}               |
-        *Note: Appear in ≥2 papers*
+        - Assignment & Exclusivity:
+          • Assignment & Multi-Branch Handling
+            - A paper may be relevant to multiple branches. In such cases, attach the paper as a leaf under **each applicable branch** using the same `paper_id`.
+            - To avoid unnecessary duplication at very fine granularity, if a paper spans several sibling sub-branches within a parent, **attach it directly to the nearest higher-level node** (the lowest ancestor that faithfully covers all relevant sub-branches) instead of repeating it across grandchildren.
+            - Parent node `index` arrays MUST include all `paper_id`s for leaves directly attached anywhere in their subtree.
+            - Children must be strict semantic subsets of their parent. Multi-branch attachment is allowed for leaves only and does not violate subset semantics.
 
-        ## Paper-Level Analysis
-        | Paper ID | Method Name     | Description | Common Pros | Unique Pros | Common Cons | Unique Cons |
-        |----------|-----------------|-------------|-------------|-------------|-------------|-------------|
-        {{generate_table_rows}}
-        ```
+          • Validation Adjustments
+            - Completeness: Every `paper_id` MUST appear as a leaf at least once.
+            - Non-exclusivity for leaves: A `paper_id` MAY appear under multiple branches when justified by evidence.
+            - No circular references: A leaf must not be an ancestor of itself. 
+            - Depth economy: Prefer attaching to the **nearest** higher-level node that accurately reflects membership when a paper spans multiple fine-grained branches.
 
-      4. **Table Generation Rules:**
-        - **Header:** Use exact column names above
-        - **Cell Formatting:**
-          - `Description`: First 50 words + "..." if truncated
-          - Pros/Cons columns: Bullet lists with line breaks (`<br>• `)
-          - Empty cells: "—" when no items
-        - **Sorting:** Order papers by method name alphabetically
-        - **Special Cases:**
-          - Single paper input: Omit "Key Commonalities" section
-          - Empty lists: Display "—" in table cells
 
-      [OUTPUT REQUIREMENTS]
-      1. Strict Markdown format within ```markdown code fence
-      2. Table must contain all papers from input
-      3. Preserve original text annotations in all pros/cons
-      4. Escape Markdown special characters in source text
-      5. Include footer note: "*Unique aspects highlight methodological distinctions*"
-    taxonomy_generation: "[ROLE DESCRIPTION]\nYou are an expert research methodology
-      taxonomist. Your task is to synthesize information from multiple sources about
-      a set of research papers and generate a single, hierarchical classification
-      tree in a strict JSON format.\n\n[TASK DESCRIPTION]\nAnalyze the provided data
-      blocks to build a multi-layered taxonomy of research methodologies. Use the
-      detailed methodology summaries and the pros/cons report as the primary basis
-      for fine-grained technical classification. Use the introductions and related
-      work sections (if provided) for broader, high-level contextual grouping. The
-      final output must be a valid JSON object representing the classification tree.\n
-      \n[INPUTS]\nYou will be provided with the following data blocks. Some blocks
-      (like introductions and related works) are optional and may be empty.\n\n1.\
-      \  **Methodology Summaries (`{method_summaries}`):** A JSON object mapping paper
-      filenames to their detailed, structured methodology summaries. This is your
-      primary source for technical details.\n2.  **Pros & Cons Report (`{pros_cons_summary}`):**
-      A Markdown report containing a comparative analysis of the advantages and limitations
-      found across the methods. Use this to identify key trade-offs and distinguishing
-      features.\n3.  **Introductions (`{introductions}`):** (Optional) A JSON object
-      mapping paper filenames to their introduction sections. Use this to understand
-      the core problem, motivation, and high-level claims of each paper, which can
-      help in forming top-level categories.\n4.  **Related Works (`{related_works}`):**
-      (Optional) A JSON object mapping paper filenames to their related work sections.
-      Use this to understand how each paper positions itself against others, which
-      aids in determining its methodological paradigm.\n\n[CORE INSTRUCTIONS FOR TAXONOMY
-      GENERATION]\n\n1.  **Identify Papers:** The paper filenames (e.g., \"paper1.md\"\
-      ) are the keys in the `{method_summaries}` and other JSON objects. Use these
-      filenames as the unique identifiers for each paper. For the `index` field in
-      the output, convert these filenames to a \"P\" format (e.g., extract the number
-      from \"paperX.md\" to create \"PX\").\n\n2.  **Build Taxonomy Tree (Hierarchical
-      Classification):**\n    * **Root Node:** The top-level node must be named \"\
-      Methodology Taxonomy\" and contain all papers in its index.\n    * **Layer 1
-      (Fundamental Paradigm):** First, partition all papers into **mutually exclusive**
-      high-level categories based on their fundamental research goal or paradigm.
-      Examples of such high-level categories include **\"Predictive Modeling\", \"\
-      Causal Inference\", \"Generative Methods\", \"System Architecture & Design\"\
-      , or \"Theoretical Analysis\"**.\n    * **Layer 2 (Core Technique Family):**
-      Subdivide each high-level group based on the core family of techniques employed.
-      Examples: **\"Neural Network Architectures\", \"Statistical & Probabilistic
-      Methods\", \"Optimization Algorithms\", \"Novel System Components\"**.\n   \
-      \ * **Layer 3+ (Distinctive Features):** If necessary, create deeper layers
-      to refine the classification based on unique characteristics. Examples: **\"\
-      Supervised vs. Unsupervised Learning\", \"Adaptive Components\", \"Scalability
-      Enhancements\"**. The `{pros_cons_summary}` is very useful here.\n    * **Leaf
-      Nodes:** The final nodes of the tree must be the individual papers.\n\n3.  **Node
-      Schema Requirements:**\n    * **Intermediate Nodes (Categories):**\n       \
-      \ ```json\n        {{\n          \"name\": \"<Classification Label>\",\n   \
-      \       \"content\": \"1) Grouping feature: [Explicit shared characteristic]<br>2)
-      Child differences: [Distinguishing aspects between subgroups]\",\n         \
-      \ \"index\": [\"P1\", \"P4\"],\n          \"children\": [ ...subnodes... ]\n\
-      \        }}\n        ```\n    * **Leaf Nodes (Papers):**\n        ```json\n\
-      \        {{\n          \"name\": \"<Exact Paper Filename>\",\n          \"content\"\
-      : \"<Provide a 2-3 sentence, concise summary of the paper's specific methodology,
-      derived from the input summaries.>\",\n          \"index\": \"<PaperID>\",\n          \"children\": []\n        }}\n        ```\n\n[VALIDATION
-      RULES & CONSTRAINTS]\n* **Completeness:** Every paper from the input must appear
-      as a leaf node exactly once.\n* **Strict Partitioning:** A paper cannot appear
-      in more than one branch of the tree. The classification must be **mutually exclusive
-      at all levels.**\n* **Hierarchy:** Children must be strict semantic subsets
-      of their parents.\n* **Specificity:** Each new layer must introduce a more specific,
-      distinguishing dimension.\n* **Fidelity:** Preserve original technical terms.
-      Do not generalize or rename concepts.\n* **No Generic Bins:** Do not create
-      vague categories like \"Other\", \"Miscellaneous\", or \"General Approaches\"\
-      . Every group must have a clear, defining characteristic.\n* **Node Collapsing:**
-      If an intermediate node has only one child, it must be merged to prevent redundant
-      layers. **Create a new, semantically meaningful name for the merged node that
-      accurately represents the more specific category.** For example, if a **'Learning-based
-      Approaches'** node has only one child **'Supervised Methods'**, the new merged
-      node could be named **'Supervised Learning Approaches'**. The new node adopts
-      the children of the original child.\n\n[OUTPUT REQUIREMENTS]\n- Provide ONLY
-      the final JSON object enclosed in a ```json code fence.\n- Do not include any
-      additional text, notes, or explanations before or after the JSON block.\n- Ensure
-      the output is a single, syntactically valid JSON object."
+        - Node Payloads (All Levels):
+          - `name`: Provide an expressive, accurate label.
+          - `description`: One–two simple sentences describing the methods grouped at this node.
+          - `pros` / `cons`: For intermediate nodes, include **deduplicated** items that characterize the group (i.e., appear across multiple member papers). For leaves, use the paper‑specific items.
+          - `index`: List of `paper_id` strings belonging to the node.
+          - `children`: Subnodes (empty array for leaves).
+
+        - Depth Control & Merging:
+          - Add deeper layers **only** if they introduce meaningful, evidence‑backed distinctions.
+          - If an intermediate node would have only one child, **merge** the node with that child and assign a single, more specific, semantically accurate name.
+
+
+        3. **Node Schema Requirements:**
+          * **Intermediate Nodes (Categories):**
+            ```json
+            {
+              "name": "<Category Label>",
+              "description": "<Simple description of the methods grouped here>",
+              "pros": ["..."],
+              "cons": ["..."],
+              "index": [<Paper ID 1>, <Paper ID 2>, ...],
+              "children": [ ...subnodes... ]
+            }
+            ```
+          * **Leaf Nodes (Papers):**
+            ```json
+            {
+              "name": "<Exact Paper Filename>",
+              "description": "<Concise summary of the paper's specific methodology>",
+              "pros": ["..."],
+              "cons": ["..."],
+              "index": [<Paper ID>],
+              "children": []
+            }
+            ```
+
+        [VALIDATION RULES & CONSTRAINTS]
+        * Every paper from the input must appear as a leaf node exactly once.
+        * A paper cannot appear in more than one branch of the tree. The classification must be mutually exclusive at all levels.
+        * Children must be strict semantic subsets of their parents.
+        * Each new layer must introduce a more specific, distinguishing dimension.
+        * Preserve original technical terms. Do not generalize or rename concepts without evidence.
+        * Do not create vague categories like "Other" or "Miscellaneous". Every group must have a clear, defining characteristic.
+        * If an intermediate node has only one child, merge them into a single, semantically meaningful node.
+
+        [OUTPUT REQUIREMENTS]
+        - Provide ONLY the final JSON object enclosed in a ```json code fence.
+        - Do not include any additional text, notes, or explanations before or after the JSON block.
+        - Ensure the output is a single, syntactically valid JSON object.
+
+      [INPUT PLACEHOLDER]
+
+      --- BEGIN METHOD SUMMARIES ---
+      {{method_summaries}}
+      --- END METHOD SUMMARIES ---
+
+      --- BEGIN PROS & CONS SUMMARY ---
+      {{pros_cons_summary}}
+      --- END PROS & CONS SUMMARY ---
+
+      --- BEGIN REFERENCE TAXONOMY ---
+      {{reference_taxonomy}}
+      --- END REFERENCE TAXONOMY ---
 
 experiment_setting_extractor:
   extract_experiment_summary: |
