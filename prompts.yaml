@@ -35,7 +35,7 @@ chunker:
     **Output:**
 
 reference_taxonomy_builder: 
-  method_taxonomy:
+  method_taxonomy: |
     [ROLE]
     You are an expert research taxonomist. Your task is to generate a **hierarchical taxonomy** of methodologies for a given topic. Each node should include a **name**, a **short description**, and a balanced view of **pros and cons**.
 
@@ -53,7 +53,7 @@ reference_taxonomy_builder:
 
     [OUTPUT FORMAT]
     {
-      "name": "{{topic}} Methodologies",
+      "name": "{{topic}}",
       "description": "A taxonomy of methodologies applied to {{topic}}, organized hierarchically from broad categories to specific techniques.",
       "pros": ["Provides structured overview", "Captures established and emerging approaches"],
       "cons": ["May oversimplify relationships", "Requires refinement to ensure accuracy"],
@@ -115,7 +115,7 @@ reference_taxonomy_builder:
     Below is the input topic:
     {{topic}}
   
-  task_taxonomy:
+  task_taxonomy: |
     [ROLE]
     You are an expert research taxonomist. Your task is to generate a **hierarchical taxonomy of tasks** for a given topic. Each node must include a **name**, a **short description**, and detailed **input** and **output** specifications.
 
@@ -125,57 +125,45 @@ reference_taxonomy_builder:
     * Each node must contain:
       - "name": the category/subcategory/task name.
       - "description": a concise 2–3 sentence explanation of that node.
-      - "input": an object describing expected data **formats** and additional **properties**/**constraints**.
-      - "output": an object describing produced data **formats** and additional **properties**/**constraints**.
-    * Use general, domain‑neutral terminology. Avoid tool/library/dataset names.
+      - "input": an object describing expected data **formats** and their **characteristics**.
+      - "output": an object describing produced data **formats** and their **characteristics**.
+    * Use general, domain-neutral terminology. Avoid tool/library/dataset names.
     * Output must be **valid JSON only** (no commentary, no markdown).
     * The JSON must represent a **taxonomy of tasks** (not methodologies, datasets, metrics, or systems).
 
     [INPUT/OUTPUT FIELD CONVENTIONS]
     * Each "input" and "output" object MUST include:
-      - "data_formats": an array of **generic labels** only (no domain qualifiers, no parentheses), chosen from a neutral vocabulary such as:
-        ["text", "structured table", "key–value JSON", "graphs", "images", "audio", "video", "time series", "spatial data", "multimodal bundle"].
-      - **One or both** of the following arrays (at least one must be non‑empty):
-        - "properties": concise **descriptive qualities** of the data (e.g., "consistent encoding", "schema present", "low noise", "traceable lineage").
-        - "constraints": concise **requirements** the data must meet (e.g., "deduplicated", "balanced classes", "time‑synchronized", "privacy‑compliant").
-    * If both "properties" and "constraints" are present, **do not duplicate items** across them:
-      - Put prescriptive/mandatory items under "constraints".
-      - Put descriptive/preferable qualities under "properties".
-    * Non‑leaf nodes: summarize **typical** inputs/outputs by selecting the most frequent 3–6 formats/items across descendants (deduplicated; ordered by frequency). Do not leave these arrays empty.
-    * Leaf nodes: specify **task‑specific** formats (1–3) and items (3–6).
-    * Keep wording general and reusable across topics.
+      - "data_formats": an array of **generic labels** only (e.g., ["text", "structured table", "graph", "image", "time series", "multimodal bundle"]).
+      - "characteristics": a single array combining both descriptive properties and prescriptive constraints.  
+        Examples: ["consistent encoding", "schema present", "low noise", "deduplicated", "balanced classes", "time-synchronized", "traceable lineage"].
+    * Non-leaf nodes: summarize **typical** formats and characteristics from their children (3–6 items).
+    * Leaf nodes: provide task-specific formats (1–3) and characteristics (3–6).
+    * Deduplicate entries and keep them concise, general, and reusable across topics.
 
     [CONSTRUCTION RULES]
     * Root Node:
-      - "name": "{{topic}} Task Taxonomy".
+      - "name": "{{topic}}".
       - "description": 2–3 sentences summarizing the task space for the topic.
-      - Include "input" and "output" summarizing common formats and items across the entire tree (per the conventions above).
+      - Include "input" and "output" summarizing common formats/characteristics across the tree.
     * Hierarchy:
       - Create 3–4 levels when meaningful. Children must be strict semantic subsets of their parent.
-      - Use concise, non‑overlapping labels for categories and subcategories.
-      - Sort each node’s "children" **alphabetically by "name"**.
+      - Use concise, non-overlapping labels for categories and subcategories.
+      - Sort each node’s "children" alphabetically by "name".
     * Completeness & Consistency:
       - Every node includes: "name", "description", "input", "output", and "children" (leaves use `"children": []`).
-      - Deduplicate entries within each "data_formats", "properties", and "constraints" array.
-      - The taxonomy must remain **task‑focused**.
+      - The taxonomy must remain **task-focused**.
 
-    [OUTPUT REQUIREMENTS]
-    * Output must be **valid JSON only** (no commentary, no markdown).
-    * Ensure all strings are plain text.
-
-    [OUTPUT FORMAT]  (example includes both "properties" and "constraints")
+    [OUTPUT FORMAT]
     {
-      "name": "{{topic}} Task Taxonomy",
-      "description": "A hierarchical taxonomy of tasks related to {{topic}}, organized from broad categories to specific tasks. Each node specifies inputs and outputs with formats plus descriptive properties and requirements.",
+      "name": "{{topic}}",
+      "description": "A hierarchical taxonomy of tasks related to {{topic}}, organized from broad categories to specific tasks. Each node specifies inputs and outputs with formats and characteristics.",
       "input": {
         "data_formats": ["text", "structured table"],
-        "properties": ["consistent encoding", "schema present"],
-        "constraints": ["deduplicated"]
+        "characteristics": ["consistent encoding", "schema present", "deduplicated"]
       },
       "output": {
         "data_formats": ["structured table", "key–value JSON"],
-        "properties": ["machine‑readable", "traceable lineage"],
-        "constraints": ["evaluation‑ready"]
+        "characteristics": ["machine-readable", "traceable lineage", "evaluation-ready"]
       },
       "children": [
         {
@@ -183,27 +171,23 @@ reference_taxonomy_builder:
           "description": "What this category of tasks covers and how it is distinguished at a high level within {{topic}}.",
           "input": {
             "data_formats": ["text", "structured table"],
-            "properties": ["standardized units", "low noise"],
-            "constraints": ["minimal missingness"]
+            "characteristics": ["standardized units", "low noise", "minimal missingness"]
           },
           "output": {
             "data_formats": ["structured table", "key–value JSON"],
-            "properties": ["schema‑aligned", "reproducible derivations"],
-            "constraints": ["alignment with input IDs"]
+            "characteristics": ["schema-aligned", "reproducible derivations", "alignment with input IDs"]
           },
           "children": [
             {
               "name": "Subcategory A1",
-              "description": "How these tasks differ from others in Category A and typical workflow characteristics.",
+              "description": "How these tasks differ from others in Category A and their typical workflow characteristics.",
               "input": {
                 "data_formats": ["structured table"],
-                "properties": ["clearly typed fields"],
-                "constraints": ["representative sampling"]
+                "characteristics": ["clearly typed fields", "representative sampling"]
               },
               "output": {
                 "data_formats": ["structured table"],
-                "properties": ["validated fields"],
-                "constraints": ["deterministic schema"]
+                "characteristics": ["validated fields", "deterministic schema"]
               },
               "children": [
                 {
@@ -211,13 +195,11 @@ reference_taxonomy_builder:
                   "description": "Concise summary of the task objective, expected operations, and scope boundaries.",
                   "input": {
                     "data_formats": ["structured table"],
-                    "properties": ["normalized units"],
-                    "constraints": ["unique identifiers present", "no duplicates"]
+                    "characteristics": ["unique identifiers present", "normalized units", "no duplicates"]
                   },
                   "output": {
                     "data_formats": ["structured table", "key–value JSON"],
-                    "properties": ["well‑defined schema"],
-                    "constraints": ["confidence/score where applicable", "consistent ordering rules"]
+                    "characteristics": ["well-defined schema", "confidence/score where applicable", "consistent ordering rules"]
                   },
                   "children": []
                 },
@@ -226,48 +208,15 @@ reference_taxonomy_builder:
                   "description": "Concise summary of the task objective, expected operations, and scope boundaries.",
                   "input": {
                     "data_formats": ["text"],
-                    "properties": ["language specified", "clean tokenization"],
-                    "constraints": ["sufficient context length"]
+                    "characteristics": ["language specified", "sufficient context length", "clean tokenization"]
                   },
                   "output": {
                     "data_formats": ["text", "key–value JSON"],
-                    "properties": ["faithful to source", "concise"],
-                    "constraints": ["machine‑parseable when structured"]
+                    "characteristics": ["faithful to source", "concise", "machine-parseable when structured"]
                   },
                   "children": []
                 }
               ]
-            }
-          ]
-        },
-        {
-          "name": "Category B",
-          "description": "What this category of tasks covers and how it complements Category A.",
-          "input": {
-            "data_formats": ["multimodal bundle", "time series"],
-            "properties": ["clear metadata"],
-            "constraints": ["synchronized modalities", "time‑aligned sequences"]
-          },
-          "output": {
-            "data_formats": ["structured table", "graphs"],
-            "properties": ["traceable to inputs"],
-            "constraints": ["explicit scoring criteria", "evaluation‑ready"]
-          },
-          "children": [
-            {
-              "name": "Subcategory B1",
-              "description": "Characteristic task patterns within this subcategory.",
-              "input": {
-                "data_formats": ["graphs", "structured table"],
-                "properties": ["unique identifiers"],
-                "constraints": ["well‑defined nodes/edges", "consistent relation semantics"]
-              },
-              "output": {
-                "data_formats": ["graphs", "key–value JSON"],
-                "properties": ["documented assumptions"],
-                "constraints": ["validated connectivity", "no orphan nodes"]
-              },
-              "children": []
             }
           ]
         }
@@ -277,6 +226,7 @@ reference_taxonomy_builder:
     [INPUT PLACEHOLDER]
     Below is the input topic:
     {{topic}}
+
 
 taxonomy_generator:
   task_taxonomy:
@@ -366,9 +316,9 @@ taxonomy_generator:
       | **No clear problem statement**                     | Use context from preliminaries, task descriptions, or dataset definitions to infer a possible formulation. If still ambiguous, return `"None"` as needed.  |
 
       Below is the paper information:
-      Paper ID: [Paper ID]
-      Paper Title: [Paper Title]
-      Paper Content:[Paper Content]
+      Paper ID: {{paper_id}}
+      Paper Title: {{paper_title}}
+      Paper Content:{{paper_content}}
 
     aspect_classification: |
       You are given a list of problem definitions extracted from a collection of computer science research papers. Each definition includes structured aspects such as:
@@ -486,135 +436,142 @@ taxonomy_generator:
       }
       ```
       Below is the problem definition list:
-      [Problem Definitions]
+      {{problem_definitions}}
 
     taxonomy_generation: |
-      You are an expert research taxonomist. You are given one **JSON object**, containing the classification result of the problem aspects:
+      [ROLE DESCRIPTION]
+      You are an expert research task taxonomist. Your task is to synthesize information from multiple sources about a set of research papers and generate a single, hierarchical classification tree of **tasks** in a strict JSON format. You should use a reference taxonomy as a soft guide for structure and naming but must not override clear evidence from the input data.
 
-      * **Input**: The nature or structure of data the research problem takes as input
-      * **Output**: The expected result, format, or structure produced by the method.
+      [REFERENCE TAXONOMY USAGE]
+      Treat the reference taxonomy as a baseline guide (a soft reference). Align with existing categories when they clearly apply. Extend, merge, or refine categories if the evidence requires it. Introduce new task paradigms when none of the reference categories fit. Do not force a task into an ill-fitting category just to preserve reference alignment.
 
-      ---
+      [TASK DESCRIPTION]
+      Analyze the provided data blocks to build a multi-layered taxonomy of **research tasks**. Use the input and output class definitions (and their supporting papers) as the primary basis for constructing task nodes via input–output pairing. The final output must be a valid JSON object representing the classification tree.
 
-      ### 📥 Input Format
+      [INPUT FORMAT]
+      You will be provided with the following data blocks. Some blocks may be optional and may be empty.
 
-      Each JSON object contains an array of class entries. Each entry has the following fields:
-
-      ```json
-      {
-        "class_name": "string",
-        "class_description": "string",
-        "supporting_papers": ["PaperA", "PaperB", ...]
-      }
-      ```
-
-      Below is the classification result:
-      [Classification Result]
-
-      ---
-
-      ## ✅ Goal
-
-      Construct a **single hierarchical taxonomy of meaningful research tasks**, where each task is defined by a combination of **Input** and **Output** classes.
-
-      Each node in the taxonomy must represent a **specific, expressive, and well-scoped research task**, not just a data structure or format.
-
-      ---
-
-      ### 🔥 Step 1: Normalize and Refine Class Labels
-
-      1. **Normalize Class Names:** Use standard academic terminology where possible. Resolve informal, ambiguous, or overly generic names using their class descriptions and example papers.
-      2. **Merge Equivalent or Contained Classes:** If two classes are synonyms or exhibit strict containment (e.g., “user-item matrix” ⊆ “interaction matrix”), merge them.
-      3. **Drop or Collapse Weak Classes:** Drop classes with too few or overly vague supporting papers unless they can be merged into broader categories.
-
-      **Output:** Refined JSON list of input and output classes.
-
-      ---
-
-      ### 🔥 Step 2: Form Meaningful Task Nodes by Input–Output Pairing
-
-      1. **Pair Input and Output Classes:** For every (Input, Output) pair, check if it defines a **coherent, meaningful research task**.
-      2. **Keep only valid task nodes** that meet all three criteria:
-
-        * The pair appears in at least **2 different papers**
-        * The pairing reflects a **common and recognizable research objective**
-        * The task name can be made **expressive** (not just “Matrix → Vector”).
-      3. **Name Each Task:**
-        Use the format:
-
-        ```
-        TASK:L{level}:{CANONICAL_NAME}
-        ```
-
-      ---
-
-      ### 🔥 Step 3: Build a Hierarchy over the Tasks
-
-      1. **Group Similar Tasks:**
-
-        * Parent-child relationships based on task granularity and generalization.
-        * Example:
-
-          * Parent: `KNOWLEDGE_GRAPH_TASKS`
-
-            * Child: `KNOWLEDGE_GRAPH_EMBEDDING`
-            * Child: `KNOWLEDGE_GRAPH_COMPLETION`
-
-      2. **Hierarchy Rules:**
-
-        * Use only **IS-A** relationships.
-        * Construct a **tree** (no DAGs or cycles).
-        * Root node: `ROOT`.
-
-      ---
-
-      ## 📋 Output Format (JSON Only)
-
-      Return the taxonomy strictly as **valid JSON**. Each node must have:
-
-      * `task_id`: Unique ID in the format `TASK:L{level}:{CANONICAL_NAME}`
-      * `task_name`: Expressive descriptive name
-      * `input_class`: Input class name
-      * `output_class`: Output class name
-      * `explanation`: 1–2 sentence explanation of the task
-      * `papers`: List of supporting papers
-      * `children`: Array of child task nodes
-
-      Example:
-
-      ```json
-      {
-        "taxonomy": {
-          "task_id": "ROOT",
-          "task_name": "ROOT",
-          "children": [
-            {
-              "task_id": "TASK:L1:KNOWLEDGE_GRAPH_COMPLETION",
-              "task_name": "Knowledge Graph Completion",
-              "input_class": "Knowledge Graph",
-              "output_class": "Completed Triples",
-              "explanation": "Predict missing edges in a relational graph based on observed triples.",
-              "papers": ["PaperA", "PaperD"],
-              "children": []
-            },
-            {
-              "task_id": "TASK:L1:HASH_CODE_GENERATION_FOR_RETRIEVAL",
-              "task_name": "Hash Code Generation for Retrieval",
-              "input_class": "User-Item Interaction Matrix",
-              "output_class": "Hash Codes",
-              "explanation": "Generate compact binary representations for fast retrieval in recommendation settings.",
-              "papers": ["PaperB", "PaperF"],
-              "children": []
-            }
-          ]
+      1. **Classification Result (Problem Aspects):**  
+        A JSON object containing input and output class entries with their names, descriptions, and supporting papers. Each class entry has:
+        {
+          "class_name": "string",
+          "class_description": "string",
+          "supporting_papers": ["PaperA", "PaperB", ...]
         }
+
+      2. **Reference Taxonomy:**  
+        A JSON object representing an existing taxonomy of tasks. Treat this as a soft reference: align with it where possible, but extend, refine, or reorganize categories when the evidence requires.
+
+      [CORE INSTRUCTIONS FOR TAXONOMY GENERATION]
+
+      1) Normalize Classes and Papers
+        - Normalize class names using academically standard, unambiguous terminology; merge synonyms and strict containments; drop overly vague classes or fold them into broader ones.
+        - Use the string identifiers provided in `supporting_papers` as paper IDs. Normalize minor variations, but preserve distinct papers as distinct IDs.
+
+      2) Form Candidate Tasks by Input–Output Pairing
+        - Pair refined **Input** and **Output** classes to propose candidate tasks.
+        - Keep a candidate only if:
+          • It appears in ≥2 distinct supporting papers,  
+          • It reflects a recognizable research objective, and  
+          • It can be named expressively (not just “X → Y”).
+        - Prefer task names that align with the reference taxonomy where suitable; otherwise coin concise, general, expressive names.
+
+      3) Build Taxonomy Tree (Hierarchical Classification)
+        - **Soft Guidance from Reference Taxonomy:** Consult the reference taxonomy for candidate groupings and labels. Adopt its categories when they clearly fit; extend, merge, or refine when input evidence requires. **Do not force** alignment.
+        - **Root Node (Inferred Topic):** Name the root with a concise, general, expressive topic inferred from the collection (avoid benchmarks or overly specific jargon). Root `papers` should aggregate all papers present in the tree.
+        - **Partitioning Strategy (Ordered Dimensions):**
+          1. **Task Objective** (what transformation is achieved from input to output),
+          2. **Input/Output Structure** (group tasks sharing similar input or output classes),
+          3. **Regime/Granularity Variants** (e.g., instance- vs group-level; supervised vs unsupervised),  
+          4. **Distinctive Features** (only when they create clear, stable distinctions).
+        - **Specialization Discipline (Input vs Output):**
+          - At any internal split, specialize **one** dimension only—either **input** or **output** (not both at the same level).
+            • **Input specialization:** each child’s **input** is a stricter specification of the parent’s input; the **output** must remain **identical** to the parent’s output.  
+              – Formalization: child.input.data_formats ⊆ parent.input.data_formats;  
+                child.input.characteristics ⊇ parent.input.characteristics;  
+                child.output == parent.output.  
+            • **Output specialization:** each child’s **output** is a stricter specification of the parent’s output; the **input** must remain **identical** to the parent’s input.  
+              – Formalization: child.output.data_formats ⊆ parent.output.data_formats;  
+                child.output.characteristics ⊇ parent.output.characteristics;  
+                child.input == parent.input.  
+          - Mixed specializations are allowed **across levels** (e.g., input at one level, output at the next), but **not within the same split level**.
+        - **Assignment of Papers & Multi-Branch Handling:**
+          - A paper may support multiple tasks; include it under every applicable task node’s `papers`.
+          - For internal nodes, `papers` should be the **union** of papers across all descendants.
+          - Children must be strict semantic subsets of their parent under the chosen specialization dimension.
+
+      4) Node Payloads (All Levels)
+        - `name`: expressive, accurate task or category label.
+        - `description`: 1–2 sentences explaining the task scope (what changes from input to output).
+        - `input`: object with  
+          • `"data_formats"`: array of generic labels (e.g., "text", "structured table", "graph", "image", "time series", "multimodal bundle"),  
+          • `"characteristics"`: array combining descriptive properties and prescriptive constraints (e.g., "consistent encoding", "schema present", "deduplicated", "balanced classes", "time-synchronized").
+        - `output`: object with the same two fields (`data_formats`, `characteristics`), defined analogously.
+        - `papers`: array of supporting paper IDs (strings).
+        - `children`: array of child nodes (empty array for leaves).
+
+      5) Depth Control & Merging
+        - Add deeper layers only when they introduce meaningful, evidence-backed distinctions.
+        - If an internal node would have only one child, merge them and assign a single, more specific, semantically accurate name.
+
+      [VALIDATION RULES & CONSTRAINTS]
+      * Each **leaf task** must be supported by ≥2 papers.  
+      * The tree uses only **IS-A** (specialization) relationships; no DAGs or cycles.  
+      * For any internal split, exactly **one** dimension is specialized:
+        - Input-specialized children: child.input is a specification of parent.input; child.output equals parent.output.
+        - Output-specialized children: child.output is a specification of parent.output; child.input equals parent.input.
+      * Children must be strict semantic subsets of their parents under the chosen dimension.  
+      * Use clear, general terminology; avoid tool/library/dataset names.  
+      * No vague categories like “Other” or “Miscellaneous”.
+
+      [OUTPUT REQUIREMENTS]
+      - Provide ONLY the final JSON object enclosed in a ```json code fence.
+      - Do not include any additional text before or after the JSON block.
+      - Ensure the JSON is a single, syntactically valid object.
+
+      [NODE SCHEMA EXAMPLES]
+      Intermediate node (category):
+      {
+        "name": "<Category Label>",
+        "description": "<Simple description of the tasks grouped here>",
+        "input": {
+          "data_formats": ["text", "structured table"],
+          "characteristics": ["consistent encoding", "schema present"]
+        },
+        "output": {
+          "data_formats": ["structured table"],
+          "characteristics": ["machine-readable", "traceable lineage"]
+        },
+        "papers": ["PaperA", "PaperB", "PaperC"],
+        "children": [ ...subnodes... ]
       }
-      ```
 
-      * Ensure the JSON is **syntactically valid**.
-      * Do not output Markdown, tables, or text outside the JSON block.
+      Leaf node (task):
+      {
+        "name": "<Expressive Task Name>",
+        "description": "<Concise summary of the research task (1–2 sentences)>",
+        "input": {
+          "data_formats": ["graph"],
+          "characteristics": ["unique identifiers", "well-defined relations"]
+        },
+        "output": {
+          "data_formats": ["key–value JSON"],
+          "characteristics": ["schema-aligned", "evaluation-ready"]
+        },
+        "papers": ["PaperD", "PaperE"],
+        "children": []
+      }
 
-      ---
+      [INPUT PLACEHOLDER]
+
+      --- BEGIN CLASSIFICATION RESULT ---
+      {{classification_result}}
+      --- END CLASSIFICATION RESULT ---
+
+      --- BEGIN REFERENCE TAXONOMY ---
+      {{reference_taxonomy}}
+      --- END REFERENCE TAXONOMY ---
+
   method_taxonomy:
     extract_method_summary: |
       [ROLE]

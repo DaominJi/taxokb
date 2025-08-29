@@ -1,0 +1,279 @@
+{
+  "topic": "entity resolution",
+  "type": "task_taxonomy",
+  "taxonomy": {
+    "name": "entity resolution Task Taxonomy",
+    "description": "A hierarchical taxonomy of tasks related to entity resolution, organized from broad categories to specific tasks. Each node specifies inputs and outputs with formats and characteristics.",
+    "input": {
+      "data_formats": [
+        "text",
+        "structured table"
+      ],
+      "characteristics": [
+        "consistent encoding",
+        "schema present",
+        "deduplicated"
+      ]
+    },
+    "output": {
+      "data_formats": [
+        "structured table",
+        "key–value JSON"
+      ],
+      "characteristics": [
+        "machine-readable",
+        "traceable lineage",
+        "evaluation-ready"
+      ]
+    },
+    "children": [
+      {
+        "name": "Data Preprocessing",
+        "description": "Tasks involved in preparing data for entity resolution, ensuring data quality and consistency for effective processing.",
+        "input": {
+          "data_formats": [
+            "text",
+            "structured table"
+          ],
+          "characteristics": [
+            "standardized units",
+            "low noise",
+            "minimal missingness"
+          ]
+        },
+        "output": {
+          "data_formats": [
+            "structured table",
+            "key–value JSON"
+          ],
+          "characteristics": [
+            "schema-aligned",
+            "reproducible derivations",
+            "alignment with input IDs"
+          ]
+        },
+        "children": [
+          {
+            "name": "Data Cleaning",
+            "description": "Involves removing errors and inconsistencies from data to improve its quality and reliability for entity resolution.",
+            "input": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "clearly typed fields",
+                "representative sampling"
+              ]
+            },
+            "output": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "validated fields",
+                "deterministic schema"
+              ]
+            },
+            "children": [
+              {
+                "name": "Duplicate Detection",
+                "description": "Identifying and removing duplicate records to ensure each entity is uniquely represented in the dataset.",
+                "input": {
+                  "data_formats": [
+                    "structured table"
+                  ],
+                  "characteristics": [
+                    "unique identifiers present",
+                    "normalized units",
+                    "no duplicates"
+                  ]
+                },
+                "output": {
+                  "data_formats": [
+                    "structured table",
+                    "key–value JSON"
+                  ],
+                  "characteristics": [
+                    "well-defined schema",
+                    "confidence/score where applicable",
+                    "consistent ordering rules"
+                  ]
+                },
+                "children": []
+              },
+              {
+                "name": "Text Normalization",
+                "description": "Standardizing text data to ensure consistency in attributes like case, punctuation, and format across the dataset.",
+                "input": {
+                  "data_formats": [
+                    "text"
+                  ],
+                  "characteristics": [
+                    "language specified",
+                    "sufficient context length",
+                    "clean tokenization"
+                  ]
+                },
+                "output": {
+                  "data_formats": [
+                    "text",
+                    "key–value JSON"
+                  ],
+                  "characteristics": [
+                    "faithful to source",
+                    "concise",
+                    "machine-parseable when structured"
+                  ]
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Entity Matching",
+        "description": "Tasks focused on identifying whether different records refer to the same entity by analyzing their attributes and relationships.",
+        "input": {
+          "data_formats": [
+            "structured table"
+          ],
+          "characteristics": [
+            "standardized format",
+            "comprehensive attributes",
+            "deduplicated"
+          ]
+        },
+        "output": {
+          "data_formats": [
+            "structured table",
+            "key–value JSON"
+          ],
+          "characteristics": [
+            "matched entities",
+            "confidence levels",
+            "reproducible outcomes"
+          ]
+        },
+        "children": [
+          {
+            "name": "Attribute Comparison",
+            "description": "Evaluating and comparing specific attributes of entities to determine potential matches based on similarity.",
+            "input": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "consistent attribute types",
+                "normalized values"
+              ]
+            },
+            "output": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "match scores",
+                "detailed comparison results"
+              ]
+            },
+            "children": []
+          },
+          {
+            "name": "Record Linkage",
+            "description": "Connecting records across different datasets that refer to the same entity using predefined keys or similarity measures.",
+            "input": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "unique identifiers",
+                "cross-referenced schemas"
+              ]
+            },
+            "output": {
+              "data_formats": [
+                "key–value JSON"
+              ],
+              "characteristics": [
+                "linked records",
+                "relationship mappings"
+              ]
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "Entity Consolidation",
+        "description": "Tasks dealing with merging and consolidating data from matched entities into a single coherent representation.",
+        "input": {
+          "data_formats": [
+            "structured table"
+          ],
+          "characteristics": [
+            "matched records",
+            "comprehensive attributes"
+          ]
+        },
+        "output": {
+          "data_formats": [
+            "structured table"
+          ],
+          "characteristics": [
+            "integrated entity profiles",
+            "resolved conflicts"
+          ]
+        },
+        "children": [
+          {
+            "name": "Data Merging",
+            "description": "Combining data from matched entities into a unified record, resolving discrepancies and conflicts in values.",
+            "input": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "duplicate entities",
+                "overlapping attributes"
+              ]
+            },
+            "output": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "consolidated data",
+                "conflict-free records"
+              ]
+            },
+            "children": []
+          },
+          {
+            "name": "Conflict Resolution",
+            "description": "Addressing and resolving conflicting information between matched entities to ensure data accuracy and consistency.",
+            "input": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "conflicting attributes",
+                "multiple data sources"
+              ]
+            },
+            "output": {
+              "data_formats": [
+                "structured table"
+              ],
+              "characteristics": [
+                "resolved conflicts",
+                "harmonized data"
+              ]
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}
